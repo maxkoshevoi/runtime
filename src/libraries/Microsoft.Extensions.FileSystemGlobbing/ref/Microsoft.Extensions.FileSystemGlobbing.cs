@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing
         public readonly string Path { get { throw null; } }
         public readonly string Stem { get { throw null; } }
         public bool Equals(Microsoft.Extensions.FileSystemGlobbing.FilePatternMatch other) { throw null; }
-        public override bool Equals(object obj) { throw null; }
+        public override bool Equals(object? obj) { throw null; }
         public override int GetHashCode() { throw null; }
     }
     public partial class InMemoryDirectoryInfo : Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase
@@ -150,7 +150,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments
         public LiteralPathSegment(string value, System.StringComparison comparisonType) { }
         public bool CanProduceStem { get { throw null; } }
         public string Value { get { throw null; } }
-        public override bool Equals(object obj) { throw null; }
+        public override bool Equals(object? obj) { throw null; }
         public override int GetHashCode() { throw null; }
         public bool Match(string value) { throw null; }
     }

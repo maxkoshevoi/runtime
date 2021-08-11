@@ -55,7 +55,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
             return new PatternMatchingResult(_files, _files.Count > 0);
         }
 
-        private void Match(DirectoryInfoBase directory, string parentRelativePath)
+        private void Match(DirectoryInfoBase directory, string? parentRelativePath)
         {
             // Request all the including and excluding patterns to push current directory onto their status stack.
             PushDirectory(directory);
@@ -163,7 +163,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
             }
         }
 
-        internal static string CombinePath(string left, string right)
+        internal static string CombinePath(string? left, string right)
         {
             if (string.IsNullOrEmpty(left))
             {
