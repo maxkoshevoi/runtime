@@ -65,7 +65,7 @@ namespace Microsoft.Extensions.Configuration
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns>The original path minus the last individual segment found in it. Null if the original path corresponds to a top level node.</returns>
-        public static string GetParentPath(string path)
+        public static string? GetParentPath(string path)
         {
             if (string.IsNullOrEmpty(path))
             {

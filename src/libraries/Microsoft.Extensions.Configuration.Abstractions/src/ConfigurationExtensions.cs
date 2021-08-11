@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Microsoft.Extensions.Configuration
@@ -18,10 +19,10 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="builder">The <see cref="IConfigurationBuilder"/> to add to.</param>
         /// <param name="configureSource">Configures the source secrets.</param>
         /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
-        public static IConfigurationBuilder Add<TSource>(this IConfigurationBuilder builder, Action<TSource> configureSource) where TSource : IConfigurationSource, new()
+        public static IConfigurationBuilder Add<TSource>(this IConfigurationBuilder builder, Action<TSource>? configureSource) where TSource : IConfigurationSource, new()
         {
             var source = new TSource();
-            configureSource?.Invoke(source);
+            configureSource.Invoke(source);
             return builder.Add(source);
         }
 
@@ -31,9 +32,9 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="configuration">The configuration.</param>
         /// <param name="name">The connection string key.</param>
         /// <returns>The connection string.</returns>
-        public static string GetConnectionString(this IConfiguration configuration, string name)
+        public static string? GetConnectionString(this IConfiguration configuration, string name)
         {
-            return configuration?.GetSection("ConnectionStrings")?[name];
+            return configuration?.GetSection("ConnectionStrings")[name];
         }
 
         /// <summary>
@@ -53,8 +54,7 @@ namespace Microsoft.Extensions.Configuration
         {
             var stack = new Stack<IConfiguration>();
             stack.Push(configuration);
-            var rootSection = configuration as IConfigurationSection;
-            int prefixLength = (makePathsRelative && rootSection != null) ? rootSection.Path.Length + 1 : 0;
+            int prefixLength = (makePathsRelative && configuration is IConfigurationSection rootSection) ? rootSection.Path.Length + 1 : 0;
             while (stack.Count > 0)
             {
                 IConfiguration config = stack.Pop();
@@ -73,7 +73,7 @@ namespace Microsoft.Extensions.Configuration
         /// <summary>
         /// Determines whether the section has a <see cref="IConfigurationSection.Value"/> or has children
         /// </summary>
-        public static bool Exists(this IConfigurationSection section)
+        public static bool Exists([NotNullWhen(true)] this IConfigurationSection? section)
         {
             if (section == null)
             {

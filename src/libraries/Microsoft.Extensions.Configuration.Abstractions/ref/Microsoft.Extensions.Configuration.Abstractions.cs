@@ -12,8 +12,8 @@ namespace Microsoft.Extensions.Configuration
         public static System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>> AsEnumerable(this Microsoft.Extensions.Configuration.IConfiguration configuration) { throw null; }
         public static System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string>> AsEnumerable(this Microsoft.Extensions.Configuration.IConfiguration configuration, bool makePathsRelative) { throw null; }
         public static bool Exists(this Microsoft.Extensions.Configuration.IConfigurationSection section) { throw null; }
-        public static string GetConnectionString(this Microsoft.Extensions.Configuration.IConfiguration configuration, string name) { throw null; }
-        public static Microsoft.Extensions.Configuration.IConfigurationSection GetRequiredSection(this Microsoft.Extensions.Configuration.IConfiguration configuration, string key) { throw null; }
+        public static string? GetConnectionString(this Microsoft.Extensions.Configuration.IConfiguration configuration, string name) { throw null; }
+        public static Microsoft.Extensions.Configuration.IConfigurationSection? GetRequiredSection(this Microsoft.Extensions.Configuration.IConfiguration configuration, string key) { throw null; }
     }
     [System.AttributeUsageAttribute(System.AttributeTargets.Property)]
     public sealed partial class ConfigurationKeyNameAttribute : System.Attribute
@@ -35,10 +35,10 @@ namespace Microsoft.Extensions.Configuration
     }
     public partial interface IConfiguration
     {
-        string this[string key] { get; set; }
+        string? this[string key] { get; set; }
         System.Collections.Generic.IEnumerable<Microsoft.Extensions.Configuration.IConfigurationSection> GetChildren();
         Microsoft.Extensions.Primitives.IChangeToken GetReloadToken();
-        Microsoft.Extensions.Configuration.IConfigurationSection GetSection(string key);
+        Microsoft.Extensions.Configuration.IConfigurationSection? GetSection(string key);
     }
     public partial interface IConfigurationBuilder
     {

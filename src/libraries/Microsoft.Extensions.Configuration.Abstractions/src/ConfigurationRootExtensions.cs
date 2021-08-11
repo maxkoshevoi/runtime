@@ -57,7 +57,7 @@ namespace Microsoft.Extensions.Configuration
             return builder.ToString();
         }
 
-        private static (string Value, IConfigurationProvider Provider) GetValueAndProvider(
+        private static (string? Value, IConfigurationProvider? Provider) GetValueAndProvider(
             IConfigurationRoot root,
             string key)
         {
