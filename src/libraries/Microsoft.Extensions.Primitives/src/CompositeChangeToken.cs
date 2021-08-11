@@ -15,11 +15,12 @@ namespace Microsoft.Extensions.Primitives
     public class CompositeChangeToken : IChangeToken
     {
         private static readonly Action<object?> _onChangeDelegate = OnChange;
-        private readonly object _callbackLock = new object();
+        private readonly object _callbackLock = new();
         private CancellationTokenSource? _cancellationTokenSource;
         private List<IDisposable>? _disposables;
 
-        [MemberNotNullWhen(true, nameof(_cancellationTokenSource), nameof(_disposables))]
+        [MemberNotNullWhen(true, nameof(_cancellationTokenSource))]
+        [MemberNotNullWhen(true, nameof(_disposables))]
         private bool _registeredCallbackProxy { get; set; }
 
         /// <summary>
@@ -77,7 +78,8 @@ namespace Microsoft.Extensions.Primitives
         /// <inheritdoc />
         public bool ActiveChangeCallbacks { get; }
 
-        [MemberNotNull(nameof(_cancellationTokenSource), nameof(_disposables))]
+        [MemberNotNull(nameof(_cancellationTokenSource))]
+        [MemberNotNull(nameof(_disposables))]
         private void EnsureCallbacksInitialized()
         {
             if (_registeredCallbackProxy)

@@ -109,10 +109,7 @@ namespace Microsoft.Extensions.Primitives
             }
         }
 
-        bool ICollection<string>.IsReadOnly
-        {
-            get { return true; }
-        }
+        bool ICollection<string>.IsReadOnly => true;
 
         /// <summary>
         /// Gets the <see cref="string"/> at index.
@@ -122,8 +119,8 @@ namespace Microsoft.Extensions.Primitives
         /// <exception cref="NotSupportedException">Set operations are not supported on readonly <see cref="StringValues"/>.</exception>
         string IList<string>.this[int index]
         {
-            get { return this[index]; }
-            set { throw new NotSupportedException(); }
+            get => this[index];
+            set => throw new NotSupportedException();
         }
 
         /// <summary>
@@ -193,12 +190,12 @@ namespace Microsoft.Extensions.Primitives
                 Debug.Assert(value is string[]);
                 // value is not null or string, array, can only be string[]
                 string[] values = Unsafe.As<string[]>(value);
-                switch (values.Length)
+                return values.Length switch
                 {
-                    case 0: return null;
-                    case 1: return values[0];
-                    default: return GetJoinedStringValueFromArray(values);
-                }
+                    0 => null,
+                    1 => values[0],
+                    _ => GetJoinedStringValueFromArray(values),
+                };
             }
 
             static string GetJoinedStringValueFromArray(string[] values)
@@ -429,12 +426,12 @@ namespace Microsoft.Extensions.Primitives
             }
             if (data is string[] values)
             {
-                switch (values.Length)
+                return values.Length switch
                 {
-                    case 0: return true;
-                    case 1: return string.IsNullOrEmpty(values[0]);
-                    default: return false;
-                }
+                    0 => true,
+                    1 => string.IsNullOrEmpty(values[0]),
+                    _ => false,
+                };
             }
             else
             {
@@ -712,19 +709,19 @@ namespace Microsoft.Extensions.Primitives
                 return Equals(this, StringValues.Empty);
             }
 
-            if (obj is string)
+            if (obj is string str)
             {
-                return Equals(this, (string)obj);
+                return Equals(this, str);
             }
 
-            if (obj is string[])
+            if (obj is string[] array)
             {
-                return Equals(this, (string[])obj);
+                return Equals(this, array);
             }
 
-            if (obj is StringValues)
+            if (obj is StringValues stringValues)
             {
-                return Equals(this, (StringValues)obj);
+                return Equals(this, stringValues);
             }
 
             return false;
