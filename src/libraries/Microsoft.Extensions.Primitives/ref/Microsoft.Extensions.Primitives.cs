@@ -58,8 +58,8 @@ namespace Microsoft.Extensions.Primitives
         public bool Equals(Microsoft.Extensions.Primitives.StringSegment other) { throw null; }
         public static bool Equals(Microsoft.Extensions.Primitives.StringSegment a, Microsoft.Extensions.Primitives.StringSegment b, System.StringComparison comparisonType) { throw null; }
         public bool Equals(Microsoft.Extensions.Primitives.StringSegment other, System.StringComparison comparisonType) { throw null; }
-        public override bool Equals(object obj) { throw null; }
-        public bool Equals(string text) { throw null; }
+        public override bool Equals(object? obj) { throw null; }
+        public bool Equals(string? text) { throw null; }
         public bool Equals(string text, System.StringComparison comparisonType) { throw null; }
         public override int GetHashCode() { throw null; }
         public int IndexOf(char c) { throw null; }
@@ -134,10 +134,10 @@ namespace Microsoft.Extensions.Primitives
         public static bool Equals(Microsoft.Extensions.Primitives.StringValues left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
         public static bool Equals(Microsoft.Extensions.Primitives.StringValues left, string right) { throw null; }
         public static bool Equals(Microsoft.Extensions.Primitives.StringValues left, string[] right) { throw null; }
-        public override bool Equals(object obj) { throw null; }
-        public bool Equals(string other) { throw null; }
+        public override bool Equals(object? obj) { throw null; }
+        public bool Equals(string? other) { throw null; }
         public static bool Equals(string left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public bool Equals(string[] other) { throw null; }
+        public bool Equals(string[]? other) { throw null; }
         public static bool Equals(string[] left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
         public Microsoft.Extensions.Primitives.StringValues.Enumerator GetEnumerator() { throw null; }
         public override int GetHashCode() { throw null; }

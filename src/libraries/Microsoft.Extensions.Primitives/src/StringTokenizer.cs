@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,7 +9,7 @@ namespace Microsoft.Extensions.Primitives
     /// <summary>
     /// Tokenizes a <see cref="string"/> into <see cref="StringSegment"/>s.
     /// </summary>
-    public readonly struct StringTokenizer :  IEnumerable<StringSegment>
+    public readonly struct StringTokenizer : IEnumerable<StringSegment>
     {
         private readonly StringSegment _value;
         private readonly char[] _separators;
