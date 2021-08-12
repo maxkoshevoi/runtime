@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="builder">The <see cref="IConfigurationBuilder"/> to add to.</param>
         /// <param name="configureSource">Configures the source secrets.</param>
         /// <returns>The <see cref="IConfigurationBuilder"/>.</returns>
-        public static IConfigurationBuilder Add<TSource>(this IConfigurationBuilder builder, Action<TSource>? configureSource) where TSource : IConfigurationSource, new()
+        public static IConfigurationBuilder Add<TSource>(this IConfigurationBuilder builder, Action<TSource> configureSource) where TSource : IConfigurationSource, new()
         {
             var source = new TSource();
             configureSource.Invoke(source);
@@ -34,7 +34,7 @@ namespace Microsoft.Extensions.Configuration
         /// <returns>The connection string.</returns>
         public static string? GetConnectionString(this IConfiguration configuration, string name)
         {
-            return configuration?.GetSection("ConnectionStrings")[name];
+            return configuration?.GetSection("ConnectionStrings")?[name];
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            IConfigurationSection section = configuration.GetSection(key);
+            IConfigurationSection? section = configuration.GetSection(key);
             if (section.Exists())
             {
                 return section;

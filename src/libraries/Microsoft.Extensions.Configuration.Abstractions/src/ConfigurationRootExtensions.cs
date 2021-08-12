@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 foreach (IConfigurationSection child in children)
                 {
-                    (string Value, IConfigurationProvider Provider) valueAndProvider = GetValueAndProvider(root, child.Path);
+                    (string? Value, IConfigurationProvider? Provider) valueAndProvider = GetValueAndProvider(root, child.Path);
 
                     if (valueAndProvider.Provider != null)
                     {
@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.Configuration
         {
             foreach (IConfigurationProvider provider in root.Providers.Reverse())
             {
-                if (provider.TryGet(key, out string value))
+                if (provider.TryGet(key, out string? value))
                 {
                     return (value, provider);
                 }
