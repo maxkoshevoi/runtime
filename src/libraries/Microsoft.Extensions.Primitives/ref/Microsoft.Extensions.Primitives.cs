@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.Primitives
         public CancellationChangeToken(System.Threading.CancellationToken cancellationToken) { }
         public bool ActiveChangeCallbacks { get { throw null; } }
         public bool HasChanged { get { throw null; } }
-        public System.IDisposable RegisterChangeCallback(System.Action<object> callback, object state) { throw null; }
+        public System.IDisposable? RegisterChangeCallback(System.Action<object> callback, object state) { throw null; }
     }
     public static partial class ChangeToken
     {
@@ -26,7 +26,7 @@ namespace Microsoft.Extensions.Primitives
         public bool ActiveChangeCallbacks { get { throw null; } }
         public System.Collections.Generic.IReadOnlyList<Microsoft.Extensions.Primitives.IChangeToken> ChangeTokens { get { throw null; } }
         public bool HasChanged { get { throw null; } }
-        public System.IDisposable RegisterChangeCallback(System.Action<object> callback, object state) { throw null; }
+        public System.IDisposable? RegisterChangeCallback(System.Action<object> callback, object state) { throw null; }
     }
     public static partial class Extensions
     {
@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.Primitives
     {
         bool ActiveChangeCallbacks { get; }
         bool HasChanged { get; }
-        System.IDisposable RegisterChangeCallback(System.Action<object> callback, object state);
+        System.IDisposable? RegisterChangeCallback(System.Action<object> callback, object state);
     }
     public readonly partial struct StringSegment : System.IEquatable<Microsoft.Extensions.Primitives.StringSegment>, System.IEquatable<string>
     {

@@ -159,11 +159,11 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts
                 return false;
             }
 
-            FileSystemInfoBase scan = value;
+            FileSystemInfoBase? scan = value;
             for (int index = 0; index != groupLength; ++index)
             {
                 IPathSegment segment = Frame.SegmentGroup[groupLength - index - 1];
-                if (!segment.Match(scan.Name))
+                if (scan == null || !segment.Match(scan.Name))
                 {
                     return false;
                 }

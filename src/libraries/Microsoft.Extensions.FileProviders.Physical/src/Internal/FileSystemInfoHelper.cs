@@ -53,8 +53,8 @@ namespace Microsoft.Extensions.FileProviders.Physical
             {
                 try
                 {
-                    FileSystemInfo targetInfo = fileInfo.ResolveLinkTarget(returnFinalTarget: true);
-                    if (targetInfo.Exists)
+                    FileSystemInfo? targetInfo = fileInfo.ResolveLinkTarget(returnFinalTarget: true);
+                    if (targetInfo != null && targetInfo.Exists)
                     {
                         return targetInfo.LastWriteTimeUtc;
                     }

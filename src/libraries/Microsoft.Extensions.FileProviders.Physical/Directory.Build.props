@@ -3,5 +3,6 @@
   <PropertyGroup>
     <IsAspNetCoreApp>true</IsAspNetCoreApp>
     <IncludePlatformAttributes>true</IncludePlatformAttributes>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

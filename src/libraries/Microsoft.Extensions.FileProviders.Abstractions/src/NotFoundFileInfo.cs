@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.FileProviders
         /// <summary>
         /// Always null.
         /// </summary>
-        public string PhysicalPath => null;
+        public string? PhysicalPath => null;
 
         /// <summary>
         /// Always throws. A stream cannot be created for non-existing file.

@@ -61,7 +61,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
             PushDirectory(directory);
             Declare();
 
-            var entities = new List<FileSystemInfoBase>();
+            var entities = new List<FileSystemInfoBase?>();
             if (_declaredWildcardPathSegment || _declaredLiteralFileSegments.Any())
             {
                 entities.AddRange(directory.EnumerateFileSystemInfos());
@@ -85,7 +85,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
 
             // collect files and sub directories
             var subDirectories = new List<DirectoryInfoBase>();
-            foreach (FileSystemInfoBase entity in entities)
+            foreach (FileSystemInfoBase? entity in entities)
             {
                 if (entity is FileInfoBase fileInfo)
                 {
