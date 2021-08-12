@@ -124,8 +124,8 @@ namespace Microsoft.Extensions.Primitives
         private readonly object _dummy;
         private readonly int _dummyPrimitive;
         public static readonly Microsoft.Extensions.Primitives.StringValues Empty;
-        public StringValues(string value) { throw null; }
-        public StringValues(string[] values) { throw null; }
+        public StringValues(string? value) { throw null; }
+        public StringValues(string[]? values) { throw null; }
         public int Count { get { throw null; } }
         public string this[int index] { get { throw null; } }
         bool System.Collections.Generic.ICollection<System.String>.IsReadOnly { get { throw null; } }
@@ -150,19 +150,19 @@ namespace Microsoft.Extensions.Primitives
         public static bool operator ==(Microsoft.Extensions.Primitives.StringValues left, string right) { throw null; }
         public static bool operator ==(Microsoft.Extensions.Primitives.StringValues left, string[] right) { throw null; }
         public static bool operator ==(object left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public static bool operator ==(string left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public static bool operator ==(string[] left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public static implicit operator string (Microsoft.Extensions.Primitives.StringValues values) { throw null; }
-        public static implicit operator string[] (Microsoft.Extensions.Primitives.StringValues value) { throw null; }
-        public static implicit operator Microsoft.Extensions.Primitives.StringValues (string value) { throw null; }
-        public static implicit operator Microsoft.Extensions.Primitives.StringValues (string[] values) { throw null; }
+        public static bool operator ==(string? left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
+        public static bool operator ==(string[]? left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
+        public static implicit operator string? (Microsoft.Extensions.Primitives.StringValues values) { throw null; }
+        public static implicit operator string[]? (Microsoft.Extensions.Primitives.StringValues value) { throw null; }
+        public static implicit operator Microsoft.Extensions.Primitives.StringValues (string? value) { throw null; }
+        public static implicit operator Microsoft.Extensions.Primitives.StringValues (string[]? values) { throw null; }
         public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
         public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, object right) { throw null; }
-        public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, string right) { throw null; }
-        public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, string[] right) { throw null; }
+        public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, string? right) { throw null; }
+        public static bool operator !=(Microsoft.Extensions.Primitives.StringValues left, string[]? right) { throw null; }
         public static bool operator !=(object left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public static bool operator !=(string left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
-        public static bool operator !=(string[] left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
+        public static bool operator !=(string? left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
+        public static bool operator !=(string[]? left, Microsoft.Extensions.Primitives.StringValues right) { throw null; }
         void System.Collections.Generic.ICollection<System.String>.Add(string item) { }
         void System.Collections.Generic.ICollection<System.String>.Clear() { }
         bool System.Collections.Generic.ICollection<System.String>.Contains(string item) { throw null; }
@@ -175,12 +175,12 @@ namespace Microsoft.Extensions.Primitives
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() { throw null; }
         public string[] ToArray() { throw null; }
         public override string ToString() { throw null; }
-        public partial struct Enumerator : System.Collections.Generic.IEnumerator<string>, System.Collections.IEnumerator, System.IDisposable
+        public partial struct Enumerator : System.Collections.Generic.IEnumerator<string?>, System.Collections.IEnumerator, System.IDisposable
         {
             private object _dummy;
             private int _dummyPrimitive;
             public Enumerator(ref Microsoft.Extensions.Primitives.StringValues values) { throw null; }
-            public string Current { get { throw null; } }
+            public string? Current { get { throw null; } }
             object System.Collections.IEnumerator.Current { get { throw null; } }
             public void Dispose() { }
             public bool MoveNext() { throw null; }
