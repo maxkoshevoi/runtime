@@ -87,8 +87,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
             var subDirectories = new List<DirectoryInfoBase>();
             foreach (FileSystemInfoBase entity in entities)
             {
-                var fileInfo = entity as FileInfoBase;
-                if (fileInfo != null)
+                if (entity is FileInfoBase fileInfo)
                 {
                     PatternTestResult result = MatchPatternContexts(fileInfo, (pattern, file) => pattern.Test(file));
                     if (result.IsSuccessful)
@@ -101,8 +100,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
                     continue;
                 }
 
-                var directoryInfo = entity as DirectoryInfoBase;
-                if (directoryInfo != null)
+                if (entity is DirectoryInfoBase directoryInfo)
                 {
                     if (MatchPatternContexts(directoryInfo, (pattern, dir) => pattern.Test(dir)))
                     {
@@ -140,8 +138,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
 
         private void DeclareInclude(IPathSegment patternSegment, bool isLastSegment)
         {
-            var literalSegment = patternSegment as LiteralPathSegment;
-            if (literalSegment != null)
+            if (patternSegment is LiteralPathSegment literalSegment)
             {
                 if (isLastSegment)
                 {

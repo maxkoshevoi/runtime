@@ -756,7 +756,6 @@ namespace Microsoft.Extensions.Primitives
         public struct Enumerator : IEnumerator<string?>
         {
             private readonly string[]? _values;
-            private string? _current;
             private int _index;
 
             internal Enumerator(object? value)
@@ -764,11 +763,11 @@ namespace Microsoft.Extensions.Primitives
                 if (value is string str)
                 {
                     _values = null;
-                    _current = str;
+                    Current = str;
                 }
                 else
                 {
-                    _current = null;
+                    Current = null;
                     _values = Unsafe.As<string[]>(value);
                 }
                _index = 0;
@@ -791,7 +790,7 @@ namespace Microsoft.Extensions.Primitives
                     if ((uint)index < (uint)values.Length)
                     {
                         _index = index + 1;
-                        _current = values[index];
+                        Current = values[index];
                         return true;
                     }
 
@@ -800,12 +799,12 @@ namespace Microsoft.Extensions.Primitives
                 }
 
                 _index = -1; // sentinel value
-                return _current != null;
+                return Current != null;
             }
 
-            public string? Current => _current;
+            public string? Current { get; private set; }
 
-            object? IEnumerator.Current => _current;
+            object? IEnumerator.Current => Current;
 
             void IEnumerator.Reset()
             {
