@@ -7,15 +7,13 @@ namespace System.Security.Cryptography.Xml
 {
     public class KeyInfoName : KeyInfoClause
     {
-        private string _keyName;
-
         //
         // public constructors
         //
 
         public KeyInfoName() : this(null) { }
 
-        public KeyInfoName(string keyName)
+        public KeyInfoName(string? keyName)
         {
             Value = keyName;
         }
@@ -24,11 +22,7 @@ namespace System.Security.Cryptography.Xml
         // public properties
         //
 
-        public string Value
-        {
-            get { return _keyName; }
-            set { _keyName = value; }
-        }
+        public string? Value { get; set; }
 
         //
         // public methods
@@ -44,7 +38,7 @@ namespace System.Security.Cryptography.Xml
         internal override XmlElement GetXml(XmlDocument xmlDocument)
         {
             XmlElement nameElement = xmlDocument.CreateElement("KeyName", SignedXml.XmlDsigNamespaceUrl);
-            nameElement.AppendChild(xmlDocument.CreateTextNode(_keyName));
+            nameElement.AppendChild(xmlDocument.CreateTextNode(Value));
             return nameElement;
         }
 
@@ -53,7 +47,7 @@ namespace System.Security.Cryptography.Xml
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             XmlElement nameElement = value;
-            _keyName = nameElement.InnerText.Trim();
+            Value = nameElement.InnerText.Trim();
         }
     }
 }

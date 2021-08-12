@@ -206,10 +206,6 @@ namespace System.Security.Cryptography.Xml
         {
             Debug.Assert(key != null, "key != null");
 
-            ICspAsymmetricAlgorithm cspKey = key as ICspAsymmetricAlgorithm;
-            X509Certificate certificate = key as X509Certificate;
-            X509Certificate2 certificate2 = key as X509Certificate2;
-
             //
             // Use the following sources for key names, if available:
             //
@@ -219,18 +215,18 @@ namespace System.Security.Cryptography.Xml
             // * All others       -> hash code
             //
 
-            string keyName = null;
+            string keyName;
 #pragma warning disable CA1416 // This call site is reachable on all platforms. 'CspKeyContainerInfo.KeyContainerName' is supported on: 'windows'.
-            if (cspKey != null && cspKey.CspKeyContainerInfo.KeyContainerName != null)
+            if (key is ICspAsymmetricAlgorithm cspKey && cspKey.CspKeyContainerInfo.KeyContainerName != null)
             {
                 keyName = "\"" + cspKey.CspKeyContainerInfo.KeyContainerName + "\"";
             }
 #pragma warning restore CA1416
-            else if (certificate2 != null)
+            else if (key is X509Certificate2 certificate2)
             {
                 keyName = "\"" + certificate2.GetNameInfo(X509NameType.SimpleName, false) + "\"";
             }
-            else if (certificate != null)
+            else if (key is X509Certificate certificate)
             {
                 keyName = "\"" + certificate.Subject + "\"";
             }
@@ -255,11 +251,11 @@ namespace System.Security.Cryptography.Xml
         /// <summary>
         ///     Map an OID to the friendliest name possible
         /// </summary>
-        private static string GetOidName(Oid oid)
+        private static string? GetOidName(Oid oid)
         {
             Debug.Assert(oid != null, "oid != null");
 
-            string friendlyName = oid.FriendlyName;
+            string? friendlyName = oid.FriendlyName;
             if (string.IsNullOrEmpty(friendlyName))
                 friendlyName = oid.Value;
 
@@ -348,7 +344,7 @@ namespace System.Security.Cryptography.Xml
         /// </summary>
         /// <param name="signedXml">SignedXml object doing the signing</param>
         /// <param name="context">Context of the signature</param>
-        internal static void LogBeginSignatureComputation(SignedXml signedXml, XmlElement context)
+        internal static void LogBeginSignatureComputation(SignedXml signedXml, XmlElement? context)
         {
             Debug.Assert(signedXml != null, "signedXml != null");
 
@@ -378,7 +374,7 @@ namespace System.Security.Cryptography.Xml
         /// </summary>
         /// <param name="signedXml">SignedXml object doing the verification</param>
         /// <param name="context">Context of the verification</param>
-        internal static void LogBeginSignatureVerification(SignedXml signedXml, XmlElement context)
+        internal static void LogBeginSignatureVerification(SignedXml signedXml, XmlElement? context)
         {
             Debug.Assert(signedXml != null, "signedXml != null");
 
@@ -415,7 +411,7 @@ namespace System.Security.Cryptography.Xml
 
             if (VerboseLoggingEnabled)
             {
-                using (StreamReader reader = new StreamReader(canonicalizationTransform.GetOutput(typeof(Stream)) as Stream))
+                using (StreamReader reader = new StreamReader((Stream)canonicalizationTransform.GetOutput(typeof(Stream))))
                 {
                     string logMessage = SR.Format(CultureInfo.InvariantCulture,
                                                       SR.Log_CanonicalizedOutput,
@@ -534,7 +530,7 @@ namespace System.Security.Cryptography.Xml
         /// </summary>
         /// <param name="signedXml">SignedXml doing the signing or verification</param>
         /// <param name="namespaces">namespaces being propagated</param>
-        internal static void LogNamespacePropagation(SignedXml signedXml, XmlNodeList namespaces)
+        internal static void LogNamespacePropagation(SignedXml signedXml, XmlNodeList? namespaces)
         {
             Debug.Assert(signedXml != null, "signedXml != null");
 
@@ -682,7 +678,7 @@ namespace System.Security.Cryptography.Xml
 
             if (VerboseLoggingEnabled)
             {
-                HashAlgorithm hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
+                HashAlgorithm? hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
                 string hashAlgorithmName = hashAlgorithm == null ? "null" : hashAlgorithm.GetType().Name;
                 string logMessage = SR.Format(CultureInfo.InvariantCulture,
                                                   SR.Log_SigningReference,
@@ -817,7 +813,7 @@ namespace System.Security.Cryptography.Xml
 
             if (VerboseLoggingEnabled)
             {
-                HashAlgorithm hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
+                HashAlgorithm? hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
                 string hashAlgorithmName = hashAlgorithm == null ? "null" : hashAlgorithm.GetType().Name;
                 string logMessage = SR.Format(CultureInfo.InvariantCulture,
                                                   SR.Log_ReferenceHash,
@@ -1031,7 +1027,7 @@ namespace System.Security.Cryptography.Xml
 
             if (InformationLoggingEnabled)
             {
-                HashAlgorithm hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
+                HashAlgorithm? hashAlgorithm = CryptoHelpers.CreateFromName<HashAlgorithm>(reference.DigestMethod);
                 string hashAlgorithmName = hashAlgorithm == null ? "null" : hashAlgorithm.GetType().Name;
                 string logMessage = SR.Format(CultureInfo.InvariantCulture,
                                                     SR.Log_SignedXmlRecursionLimit,

@@ -30,12 +30,12 @@ namespace System.Security.Cryptography.Xml
 
             // Key Info
             KeyInfo = new KeyInfo();
-            XmlNode keyInfoNode = value.SelectSingleNode("ds:KeyInfo", nsm);
+            XmlNode? keyInfoNode = value.SelectSingleNode("ds:KeyInfo", nsm);
             if (keyInfoNode != null)
                 KeyInfo.LoadXml(keyInfoNode as XmlElement);
 
             // CipherData
-            XmlNode cipherDataNode = value.SelectSingleNode("enc:CipherData", nsm);
+            XmlNode? cipherDataNode = value.SelectSingleNode("enc:CipherData", nsm);
             if (cipherDataNode == null)
                 throw new CryptographicException(SR.Cryptography_Xml_MissingCipherData);
 
@@ -43,11 +43,11 @@ namespace System.Security.Cryptography.Xml
             CipherData.LoadXml(cipherDataNode as XmlElement);
 
             // EncryptionProperties
-            XmlNode encryptionPropertiesNode = value.SelectSingleNode("enc:EncryptionProperties", nsm);
+            XmlNode? encryptionPropertiesNode = value.SelectSingleNode("enc:EncryptionProperties", nsm);
             if (encryptionPropertiesNode != null)
             {
                 // Select the EncryptionProperty elements inside the EncryptionProperties element
-                XmlNodeList encryptionPropertyNodes = encryptionPropertiesNode.SelectNodes("enc:EncryptionProperty", nsm);
+                XmlNodeList? encryptionPropertyNodes = encryptionPropertiesNode.SelectNodes("enc:EncryptionProperty", nsm);
                 if (encryptionPropertyNodes != null)
                 {
                     foreach (XmlNode node in encryptionPropertyNodes)

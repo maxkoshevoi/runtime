@@ -7,25 +7,17 @@ namespace System.Security.Cryptography.Xml
 {
     public sealed class EncryptionPropertyCollection : IList
     {
-        private readonly ArrayList _props;
-
-        public EncryptionPropertyCollection()
-        {
-            _props = new ArrayList();
-        }
+        private readonly ArrayList _props = new();
 
         public IEnumerator GetEnumerator()
         {
             return _props.GetEnumerator();
         }
 
-        public int Count
-        {
-            get { return _props.Count; }
-        }
+        public int Count => _props.Count;
 
         /// <internalonly/>
-        int IList.Add(object value)
+        int IList.Add(object? value)
         {
             if (!(value is EncryptionProperty))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
@@ -44,7 +36,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        bool IList.Contains(object value)
+        bool IList.Contains(object? value)
         {
             if (!(value is EncryptionProperty))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
@@ -58,7 +50,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        int IList.IndexOf(object value)
+        int IList.IndexOf(object? value)
         {
             if (!(value is EncryptionProperty))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
@@ -72,7 +64,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        void IList.Insert(int index, object value)
+        void IList.Insert(int index, object? value)
         {
             if (!(value is EncryptionProperty))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
@@ -86,7 +78,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        void IList.Remove(object value)
+        void IList.Remove(object? value)
         {
             if (!(value is EncryptionProperty))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
@@ -114,17 +106,17 @@ namespace System.Security.Cryptography.Xml
             get { return _props.IsReadOnly; }
         }
 
-        public EncryptionProperty Item(int index)
+        public EncryptionProperty? Item(int index)
         {
-            return (EncryptionProperty)_props[index];
+            return (EncryptionProperty?)_props[index];
         }
 
         [System.Runtime.CompilerServices.IndexerName("ItemOf")]
-        public EncryptionProperty this[int index]
+        public EncryptionProperty? this[int index]
         {
             get
             {
-                return (EncryptionProperty)((IList)this)[index];
+                return (EncryptionProperty?)((IList)this)[index];
             }
             set
             {
@@ -133,7 +125,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get { return _props[index]; }
             set
@@ -155,14 +147,8 @@ namespace System.Security.Cryptography.Xml
             _props.CopyTo(array, index);
         }
 
-        public object SyncRoot
-        {
-            get { return _props.SyncRoot; }
-        }
+        public object SyncRoot => _props.SyncRoot;
 
-        public bool IsSynchronized
-        {
-            get { return _props.IsSynchronized; }
-        }
+        public bool IsSynchronized => _props.IsSynchronized;
     }
 }

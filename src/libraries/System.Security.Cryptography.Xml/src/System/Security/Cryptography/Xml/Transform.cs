@@ -21,32 +21,15 @@ namespace System.Security.Cryptography.Xml
 {
     public abstract class Transform
     {
-        private string _algorithm;
-        private string _baseUri;
-        internal XmlResolver _xmlResolver;
-        private bool _bResolverSet;
-        private SignedXml _signedXml;
-        private Reference _reference;
-        private Hashtable _propagatedNamespaces;
-        private XmlElement _context;
+        internal XmlResolver? _xmlResolver;
+        private Hashtable? _propagatedNamespaces;
+        private XmlElement? _context;
 
-        internal string BaseURI
-        {
-            get { return _baseUri; }
-            set { _baseUri = value; }
-        }
+        internal string? BaseURI { get; set; }
 
-        internal SignedXml SignedXml
-        {
-            get { return _signedXml; }
-            set { _signedXml = value; }
-        }
+        internal SignedXml? SignedXml { get; set; }
 
-        internal Reference Reference
-        {
-            get { return _reference; }
-            set { _reference = value; }
-        }
+        internal Reference? Reference { get; set; }
 
         //
         // protected constructors
@@ -58,31 +41,24 @@ namespace System.Security.Cryptography.Xml
         // public properties
         //
 
-        public string Algorithm
-        {
-            get { return _algorithm; }
-            set { _algorithm = value; }
-        }
+        public string? Algorithm { get; set; }
 
-        public XmlResolver Resolver
+        public XmlResolver? Resolver
         {
             internal get
             {
                 return _xmlResolver;
             }
             // This property only has a public setter. The rationale for this is that we don't have a good value
-            // to return when it has not been explicitely set, as we are using XmlSecureResolver by default
+            // to return when it has not been explicitly set, as we are using XmlSecureResolver by default
             set
             {
                 _xmlResolver = value;
-                _bResolverSet = true;
+                ResolverSet = true;
             }
         }
 
-        internal bool ResolverSet
-        {
-            get { return _bResolverSet; }
-        }
+        internal bool ResolverSet { get; private set; }
 
         public abstract Type[] InputTypes
         {
@@ -128,7 +104,7 @@ namespace System.Security.Cryptography.Xml
             XmlElement transformElement = document.CreateElement(name, SignedXml.XmlDsigNamespaceUrl);
             if (!string.IsNullOrEmpty(Algorithm))
                 transformElement.SetAttribute("Algorithm", Algorithm);
-            XmlNodeList children = GetInnerXml();
+            XmlNodeList? children = GetInnerXml();
             if (children != null)
             {
                 foreach (XmlNode node in children)
@@ -141,7 +117,7 @@ namespace System.Security.Cryptography.Xml
 
         public abstract void LoadInnerXml(XmlNodeList nodeList);
 
-        protected abstract XmlNodeList GetInnerXml();
+        protected abstract XmlNodeList? GetInnerXml();
 
         public abstract void LoadInput(object obj);
 
@@ -154,7 +130,7 @@ namespace System.Security.Cryptography.Xml
             return hash.ComputeHash((Stream)GetOutput(typeof(Stream)));
         }
 
-        public XmlElement Context
+        public XmlElement? Context
         {
             get
             {
@@ -193,7 +169,7 @@ namespace System.Security.Cryptography.Xml
                     return _propagatedNamespaces;
                 }
 
-                CanonicalXmlNodeList namespaces = null;
+                CanonicalXmlNodeList? namespaces = null;
                 if (reference != null)
                     namespaces = reference._namespaces;
                 else if (signedXml?._context != null)

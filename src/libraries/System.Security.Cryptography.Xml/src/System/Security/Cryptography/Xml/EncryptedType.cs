@@ -1,31 +1,27 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace System.Security.Cryptography.Xml
 {
     public abstract class EncryptedType
     {
-        private string _id;
-        private string _type;
-        private string _mimeType;
-        private string _encoding;
-        private EncryptionMethod _encryptionMethod;
-        private CipherData _cipherData;
-        private EncryptionPropertyCollection _props;
-        private KeyInfo _keyInfo;
-        internal XmlElement _cachedXml;
+        private string? _id;
+        private string? _type;
+        private string? _mimeType;
+        private string? _encoding;
+        private EncryptionMethod? _encryptionMethod;
+        private CipherData? _cipherData;
+        private EncryptionPropertyCollection? _props;
+        private KeyInfo? _keyInfo;
+        internal XmlElement? _cachedXml;
 
-        internal bool CacheValid
-        {
-            get
-            {
-                return (_cachedXml != null);
-            }
-        }
+        [MemberNotNullWhen(true, nameof(_cachedXml))]
+        internal bool CacheValid => _cachedXml != null;
 
-        public virtual string Id
+        public virtual string? Id
         {
             get { return _id; }
             set
@@ -35,7 +31,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public virtual string Type
+        public virtual string? Type
         {
             get { return _type; }
             set
@@ -45,7 +41,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public virtual string MimeType
+        public virtual string? MimeType
         {
             get { return _mimeType; }
             set
@@ -55,7 +51,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public virtual string Encoding
+        public virtual string? Encoding
         {
             get { return _encoding; }
             set
@@ -69,8 +65,7 @@ namespace System.Security.Cryptography.Xml
         {
             get
             {
-                if (_keyInfo == null)
-                    _keyInfo = new KeyInfo();
+                _keyInfo ??= new KeyInfo();
                 return _keyInfo;
             }
             set { _keyInfo = value; }
@@ -90,8 +85,7 @@ namespace System.Security.Cryptography.Xml
         {
             get
             {
-                if (_props == null)
-                    _props = new EncryptionPropertyCollection();
+                _props ??= new EncryptionPropertyCollection();
                 return _props;
             }
         }
@@ -105,9 +99,7 @@ namespace System.Security.Cryptography.Xml
         {
             get
             {
-                if (_cipherData == null)
-                    _cipherData = new CipherData();
-
+                _cipherData ??= new CipherData();
                 return _cipherData;
             }
             set

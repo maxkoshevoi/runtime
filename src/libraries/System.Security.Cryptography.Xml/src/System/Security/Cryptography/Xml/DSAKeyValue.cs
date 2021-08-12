@@ -10,8 +10,6 @@ namespace System.Security.Cryptography.Xml
 {
     public class DSAKeyValue : KeyInfoClause
     {
-        private DSA _key;
-
         //
         // public constructors
         //
@@ -20,23 +18,19 @@ namespace System.Security.Cryptography.Xml
         [UnsupportedOSPlatform("tvos")]
         public DSAKeyValue()
         {
-            _key = DSA.Create();
+            Key = DSA.Create();
         }
 
         public DSAKeyValue(DSA key)
         {
-            _key = key;
+            Key = key;
         }
 
         //
         // public properties
         //
 
-        public DSA Key
-        {
-            get { return _key; }
-            set { _key = value; }
-        }
+        public DSA Key { get; set; }
 
         //
         // public methods
@@ -78,7 +72,7 @@ namespace System.Security.Cryptography.Xml
 
         internal override XmlElement GetXml(XmlDocument xmlDocument)
         {
-            DSAParameters dsaParams = _key.ExportParameters(false);
+            DSAParameters dsaParams = Key.ExportParameters(false);
 
             XmlElement keyValueElement = xmlDocument.CreateElement(KeyValueElementName, SignedXml.XmlDsigNamespaceUrl);
             XmlElement dsaKeyValueElement = xmlDocument.CreateElement(DSAKeyValueElementName, SignedXml.XmlDsigNamespaceUrl);
@@ -160,22 +154,22 @@ namespace System.Security.Cryptography.Xml
                 throw new CryptographicException(SR.Format(SR.MustContainChildElement, KeyValueElementName, DSAKeyValueElementName));
             }
 
-            XmlNode yNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{YElementName}", xmlNamespaceManager);
+            XmlNode? yNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{YElementName}", xmlNamespaceManager);
             if (yNode == null)
                 throw new CryptographicException(SR.Format(SR.ElementMissing, YElementName));
 
-            XmlNode pNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{PElementName}", xmlNamespaceManager);
-            XmlNode qNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{QElementName}", xmlNamespaceManager);
+            XmlNode? pNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{PElementName}", xmlNamespaceManager);
+            XmlNode? qNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{QElementName}", xmlNamespaceManager);
 
             if ((pNode == null && qNode != null) || (pNode != null && qNode == null))
                 throw new CryptographicException(SR.Format(SR.ElementCombinationMissing, PElementName, QElementName));
 
 
-            XmlNode gNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{GElementName}", xmlNamespaceManager);
-            XmlNode jNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{JElementName}", xmlNamespaceManager);
+            XmlNode? gNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{GElementName}", xmlNamespaceManager);
+            XmlNode? jNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{JElementName}", xmlNamespaceManager);
 
-            XmlNode seedNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{SeedElementName}", xmlNamespaceManager);
-            XmlNode pgenCounterNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{PgenCounterElementName}", xmlNamespaceManager);
+            XmlNode? seedNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{SeedElementName}", xmlNamespaceManager);
+            XmlNode? pgenCounterNode = dsaKeyValueElement.SelectSingleNode($"{xmlDsigNamespacePrefix}:{PgenCounterElementName}", xmlNamespaceManager);
             if ((seedNode == null && pgenCounterNode != null) || (seedNode != null && pgenCounterNode == null))
                 throw new CryptographicException(SR.Format(SR.ElementCombinationMissing, SeedElementName, PgenCounterElementName));
 

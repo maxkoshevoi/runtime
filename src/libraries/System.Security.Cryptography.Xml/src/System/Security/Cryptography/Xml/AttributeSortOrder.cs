@@ -11,11 +11,9 @@ namespace System.Security.Cryptography.Xml
     {
         internal AttributeSortOrder() { }
 
-        public int Compare(object a, object b)
+        public int Compare(object? a, object? b)
         {
-            XmlNode nodeA = a as XmlNode;
-            XmlNode nodeB = b as XmlNode;
-            if ((nodeA == null) || (nodeB == null))
+            if ((a is not XmlNode nodeA) || (b is not XmlNode nodeB))
                 throw new ArgumentException();
             int namespaceCompare = string.CompareOrdinal(nodeA.NamespaceURI, nodeB.NamespaceURI);
             if (namespaceCompare != 0) return namespaceCompare;

@@ -12,7 +12,7 @@ namespace System.Security.Cryptography.Xml
         private readonly CanonicalXmlDocument _c14nDoc;
         private readonly ExcAncestralNamespaceContextManager _ancMgr;
 
-        internal ExcCanonicalXml(Stream inputStream, bool includeComments, string inclusiveNamespacesPrefixList, XmlResolver resolver, string strBaseUri)
+        internal ExcCanonicalXml(Stream inputStream, bool includeComments, string? inclusiveNamespacesPrefixList, XmlResolver? resolver, string? strBaseUri)
         {
             if (inputStream == null)
                 throw new ArgumentNullException(nameof(inputStream));
@@ -23,7 +23,7 @@ namespace System.Security.Cryptography.Xml
             _ancMgr = new ExcAncestralNamespaceContextManager(inclusiveNamespacesPrefixList);
         }
 
-        internal ExcCanonicalXml(XmlDocument document, bool includeComments, string inclusiveNamespacesPrefixList, XmlResolver resolver)
+        internal ExcCanonicalXml(XmlDocument document, bool includeComments, string? inclusiveNamespacesPrefixList, XmlResolver? resolver)
         {
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
@@ -34,7 +34,7 @@ namespace System.Security.Cryptography.Xml
             _ancMgr = new ExcAncestralNamespaceContextManager(inclusiveNamespacesPrefixList);
         }
 
-        internal ExcCanonicalXml(XmlNodeList nodeList, bool includeComments, string inclusiveNamespacesPrefixList, XmlResolver resolver)
+        internal ExcCanonicalXml(XmlNodeList nodeList, bool includeComments, string? inclusiveNamespacesPrefixList, XmlResolver? resolver)
         {
             if (nodeList == null)
                 throw new ArgumentNullException(nameof(nodeList));
@@ -79,8 +79,8 @@ namespace System.Security.Cryptography.Xml
 
             do
             {
-                XmlNode currentNode = (XmlNode)elementList[index];
-                XmlNode currentNodeCanonical = (XmlNode)elementListCanonical[index];
+                XmlNode currentNode = (XmlNode)elementList[index]!;
+                XmlNode currentNodeCanonical = (XmlNode)elementListCanonical[index]!;
                 XmlNodeList childNodes = currentNode.ChildNodes;
                 XmlNodeList childNodesCanonical = currentNodeCanonical.ChildNodes;
                 for (int i = 0; i < childNodes.Count; i++)
@@ -111,8 +111,8 @@ namespace System.Security.Cryptography.Xml
 
         private static void MarkNodeAsIncluded(XmlNode node)
         {
-            if (node is ICanonicalizableNode)
-                ((ICanonicalizableNode)node).IsInNodeSet = true;
+            if (node is ICanonicalizableNode canonNode)
+                canonNode.IsInNodeSet = true;
         }
     }
 }

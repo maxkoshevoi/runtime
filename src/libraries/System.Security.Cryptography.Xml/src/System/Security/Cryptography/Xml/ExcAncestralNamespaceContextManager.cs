@@ -12,7 +12,7 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Hashtable _inclusivePrefixSet;
 
-        internal ExcAncestralNamespaceContextManager(string inclusiveNamespacesPrefixList)
+        internal ExcAncestralNamespaceContextManager(string? inclusiveNamespacesPrefixList)
         {
             _inclusivePrefixSet = Utils.TokenizePrefixListString(inclusiveNamespacesPrefixList);
         }

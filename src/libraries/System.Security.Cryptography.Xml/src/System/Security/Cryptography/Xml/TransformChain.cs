@@ -58,7 +58,7 @@ namespace System.Security.Cryptography.Xml
 
         // The goal behind this method is to pump the input stream through the transforms and get back something that
         // can be hashed
-        internal Stream TransformToOctetStream(object inputObject, Type inputType, XmlResolver resolver, string baseUri)
+        internal Stream TransformToOctetStream(object? inputObject, Type inputType, XmlResolver? resolver, string? baseUri)
         {
             object currentInput = inputObject;
             foreach (Transform transform in _transforms)
@@ -75,11 +75,10 @@ namespace System.Security.Cryptography.Xml
                 {
                     // We need translation
                     // For now, we just know about Stream->{XmlNodeList,XmlDocument} and {XmlNodeList,XmlDocument}->Stream
-                    if (currentInput is Stream)
+                    if (currentInput is Stream currentInputStream)
                     {
                         if (transform.AcceptsType(typeof(XmlDocument)))
                         {
-                            Stream currentInputStream = currentInput as Stream;
                             XmlDocument doc = new XmlDocument();
                             doc.PreserveWhitespace = true;
                             XmlReader valReader = Utils.PreProcessStreamInput(currentInputStream, resolver, baseUri);
@@ -131,31 +130,31 @@ namespace System.Security.Cryptography.Xml
             }
 
             // Final processing, either we already have a stream or have to canonicalize
-            if (currentInput is Stream)
+            if (currentInput is Stream stream)
             {
-                return currentInput as Stream;
+                return stream;
             }
-            if (currentInput is XmlNodeList)
+            if (currentInput is XmlNodeList list)
             {
-                CanonicalXml c14n = new CanonicalXml((XmlNodeList)currentInput, resolver, false);
+                CanonicalXml c14n = new CanonicalXml(list, resolver, false);
                 MemoryStream ms = new MemoryStream(c14n.GetBytes());
                 return ms;
             }
-            if (currentInput is XmlDocument)
+            if (currentInput is XmlDocument document)
             {
-                CanonicalXml c14n = new CanonicalXml((XmlDocument)currentInput, resolver);
+                CanonicalXml c14n = new CanonicalXml(document, resolver);
                 MemoryStream ms = new MemoryStream(c14n.GetBytes());
                 return ms;
             }
             throw new CryptographicException(SR.Cryptography_Xml_TransformIncorrectInputType);
         }
 
-        internal Stream TransformToOctetStream(Stream input, XmlResolver resolver, string baseUri)
+        internal Stream TransformToOctetStream(Stream? input, XmlResolver? resolver, string? baseUri)
         {
             return TransformToOctetStream(input, typeof(Stream), resolver, baseUri);
         }
 
-        internal Stream TransformToOctetStream(XmlDocument document, XmlResolver resolver, string baseUri)
+        internal Stream TransformToOctetStream(XmlDocument? document, XmlResolver? resolver, string? baseUri)
         {
             return TransformToOctetStream(document, typeof(XmlDocument), resolver, baseUri);
         }
@@ -184,15 +183,15 @@ namespace System.Security.Cryptography.Xml
             XmlNamespaceManager nsm = new XmlNamespaceManager(value.OwnerDocument.NameTable);
             nsm.AddNamespace("ds", SignedXml.XmlDsigNamespaceUrl);
 
-            XmlNodeList transformNodes = value.SelectNodes("ds:Transform", nsm);
+            XmlNodeList? transformNodes = value.SelectNodes("ds:Transform", nsm);
             if (transformNodes.Count == 0)
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Transforms");
 
             _transforms.Clear();
             for (int i = 0; i < transformNodes.Count; ++i)
             {
-                XmlElement transformElement = (XmlElement)transformNodes.Item(i);
-                string algorithm = Utils.GetAttribute(transformElement, "Algorithm", SignedXml.XmlDsigNamespaceUrl);
+                XmlElement? transformElement = (XmlElement?)transformNodes.Item(i);
+                string? algorithm = Utils.GetAttribute(transformElement, "Algorithm", SignedXml.XmlDsigNamespaceUrl);
                 Transform transform = CryptoHelpers.CreateFromName<Transform>(algorithm);
                 if (transform == null)
                     throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);

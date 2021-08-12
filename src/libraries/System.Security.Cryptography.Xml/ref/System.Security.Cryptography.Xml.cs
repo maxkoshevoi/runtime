@@ -173,7 +173,7 @@ namespace System.Security.Cryptography.Xml
         [System.Runtime.CompilerServices.IndexerName("ItemOf")]
         public System.Security.Cryptography.Xml.EncryptionProperty this[int index] { get { throw null; } set { } }
         public object SyncRoot { get { throw null; } }
-        object System.Collections.IList.this[int index] { get { throw null; } set { } }
+        object? System.Collections.IList.this[int index] { get { throw null; } set { } }
         public int Add(System.Security.Cryptography.Xml.EncryptionProperty value) { throw null; }
         public void Clear() { }
         public bool Contains(System.Security.Cryptography.Xml.EncryptionProperty value) { throw null; }
@@ -185,11 +185,11 @@ namespace System.Security.Cryptography.Xml
         public System.Security.Cryptography.Xml.EncryptionProperty Item(int index) { throw null; }
         public void Remove(System.Security.Cryptography.Xml.EncryptionProperty value) { }
         public void RemoveAt(int index) { }
-        int System.Collections.IList.Add(object value) { throw null; }
-        bool System.Collections.IList.Contains(object value) { throw null; }
-        int System.Collections.IList.IndexOf(object value) { throw null; }
-        void System.Collections.IList.Insert(int index, object value) { }
-        void System.Collections.IList.Remove(object value) { }
+        int System.Collections.IList.Add(object? value) { throw null; }
+        bool System.Collections.IList.Contains(object? value) { throw null; }
+        int System.Collections.IList.IndexOf(object? value) { throw null; }
+        void System.Collections.IList.Insert(int index, object? value) { }
+        void System.Collections.IList.Remove(object? value) { }
     }
     public partial interface IRelDecryptor
     {
@@ -296,16 +296,16 @@ namespace System.Security.Cryptography.Xml
         public object SyncRoot { get { throw null; } }
         bool System.Collections.IList.IsFixedSize { get { throw null; } }
         bool System.Collections.IList.IsReadOnly { get { throw null; } }
-        object System.Collections.IList.this[int index] { get { throw null; } set { } }
-        public int Add(object value) { throw null; }
+        object? System.Collections.IList.this[int index] { get { throw null; } set { } }
+        public int Add(object? value) { throw null; }
         public void Clear() { }
-        public bool Contains(object value) { throw null; }
+        public bool Contains(object? value) { throw null; }
         public void CopyTo(System.Array array, int index) { }
         public System.Collections.IEnumerator GetEnumerator() { throw null; }
-        public int IndexOf(object value) { throw null; }
-        public void Insert(int index, object value) { }
+        public int IndexOf(object? value) { throw null; }
+        public void Insert(int index, object? value) { }
         public System.Security.Cryptography.Xml.EncryptedReference Item(int index) { throw null; }
-        public void Remove(object value) { }
+        public void Remove(object? value) { }
         public void RemoveAt(int index) { }
     }
     public partial class RSAKeyValue : System.Security.Cryptography.Xml.KeyInfoClause

@@ -3,6 +3,7 @@
 
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -23,7 +24,7 @@ namespace System.Security.Cryptography.Xml
         // Keeping this number low will preserve some stack space
         internal const int XmlDsigSearchDepth = 20;
 
-        private static bool HasNamespace(XmlElement element, string prefix, string value)
+        private static bool HasNamespace(XmlElement element, string prefix, string? value)
         {
             if (IsCommittedNamespace(element, prefix, value)) return true;
             if (element.Prefix == prefix && element.NamespaceURI == value) return true;
@@ -31,7 +32,7 @@ namespace System.Security.Cryptography.Xml
         }
 
         // A helper function that determines if a namespace node is a committed attribute
-        internal static bool IsCommittedNamespace(XmlElement element, string prefix, string value)
+        internal static bool IsCommittedNamespace(XmlElement element, string prefix, string? value)
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
@@ -41,16 +42,15 @@ namespace System.Security.Cryptography.Xml
             return false;
         }
 
-        internal static bool IsRedundantNamespace(XmlElement element, string prefix, string value)
+        internal static bool IsRedundantNamespace(XmlElement element, string prefix, string? value)
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            XmlNode ancestorNode = ((XmlNode)element).ParentNode;
+            XmlNode? ancestorNode = ((XmlNode)element).ParentNode;
             while (ancestorNode != null)
             {
-                XmlElement ancestorElement = ancestorNode as XmlElement;
-                if (ancestorElement != null)
+                if (ancestorNode is XmlElement ancestorElement)
                     if (HasNamespace(ancestorElement, prefix, value)) return true;
                 ancestorNode = ancestorNode.ParentNode;
             }
@@ -58,25 +58,25 @@ namespace System.Security.Cryptography.Xml
             return false;
         }
 
-        internal static string GetAttribute(XmlElement element, string localName, string namespaceURI)
+        internal static string? GetAttribute(XmlElement element, string localName, string? namespaceURI)
         {
-            string s = (element.HasAttribute(localName) ? element.GetAttribute(localName) : null);
+            string? s = (element.HasAttribute(localName) ? element.GetAttribute(localName) : null);
             if (s == null && element.HasAttribute(localName, namespaceURI))
                 s = element.GetAttribute(localName, namespaceURI);
             return s;
         }
 
-        internal static bool HasAttribute(XmlElement element, string localName, string namespaceURI)
+        internal static bool HasAttribute(XmlElement element, string localName, string? namespaceURI)
         {
             return element.HasAttribute(localName) || element.HasAttribute(localName, namespaceURI);
         }
 
-        internal static bool VerifyAttributes(XmlElement element, string expectedAttrName)
+        internal static bool VerifyAttributes(XmlElement element, string? expectedAttrName)
         {
             return VerifyAttributes(element, expectedAttrName == null ? null : new string[] { expectedAttrName });
         }
 
-        internal static bool VerifyAttributes(XmlElement element, string[] expectedAttrNames)
+        internal static bool VerifyAttributes(XmlElement element, string[]? expectedAttrNames)
         {
             foreach (XmlAttribute attr in element.Attributes)
             {
@@ -123,12 +123,12 @@ namespace System.Security.Cryptography.Xml
             return a.Prefix.Length == 0 ? string.Empty : a.LocalName;
         }
 
-        internal static bool HasNamespacePrefix(XmlAttribute a, string nsPrefix)
+        internal static bool HasNamespacePrefix(XmlAttribute a, string? nsPrefix)
         {
             return GetNamespacePrefix(a).Equals(nsPrefix);
         }
 
-        internal static bool IsNonRedundantNamespaceDecl(XmlAttribute a, XmlAttribute nearestAncestorWithSamePrefix)
+        internal static bool IsNonRedundantNamespaceDecl(XmlAttribute a, XmlAttribute? nearestAncestorWithSamePrefix)
         {
             if (nearestAncestorWithSamePrefix == null)
                 return !IsEmptyDefaultNamespaceNode(a);
@@ -179,14 +179,14 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        internal static XmlReader PreProcessStreamInput(Stream inputStream, XmlResolver xmlResolver, string baseUri)
+        internal static XmlReader PreProcessStreamInput(Stream inputStream, XmlResolver? xmlResolver, string? baseUri)
         {
             XmlReaderSettings settings = GetSecureXmlReaderSettings(xmlResolver);
             XmlReader reader = XmlReader.Create(inputStream, settings, baseUri);
             return reader;
         }
 
-        internal static XmlReaderSettings GetSecureXmlReaderSettings(XmlResolver xmlResolver)
+        internal static XmlReaderSettings GetSecureXmlReaderSettings(XmlResolver? xmlResolver)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.XmlResolver = xmlResolver;
@@ -196,7 +196,7 @@ namespace System.Security.Cryptography.Xml
             return settings;
         }
 
-        internal static XmlDocument PreProcessDocumentInput(XmlDocument document, XmlResolver xmlResolver, string baseUri)
+        internal static XmlDocument PreProcessDocumentInput(XmlDocument document, XmlResolver? xmlResolver, string? baseUri)
         {
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
@@ -218,7 +218,7 @@ namespace System.Security.Cryptography.Xml
             return doc;
         }
 
-        internal static XmlDocument PreProcessElementInput(XmlElement elem, XmlResolver xmlResolver, string baseUri)
+        internal static XmlDocument PreProcessElementInput(XmlElement elem, XmlResolver? xmlResolver, string? baseUri)
         {
             if (elem == null)
                 throw new ArgumentNullException(nameof(elem));
@@ -241,7 +241,7 @@ namespace System.Security.Cryptography.Xml
 
         internal static XmlDocument DiscardComments(XmlDocument document)
         {
-            XmlNodeList nodeList = document.SelectNodes("//comment()");
+            XmlNodeList? nodeList = document.SelectNodes("//comment()");
             if (nodeList != null)
             {
                 foreach (XmlNode node1 in nodeList)
@@ -252,7 +252,7 @@ namespace System.Security.Cryptography.Xml
             return document;
         }
 
-        internal static XmlNodeList AllDescendantNodes(XmlNode node, bool includeComments)
+        internal static XmlNodeList AllDescendantNodes(XmlNode? node, bool includeComments)
         {
             CanonicalXmlNodeList nodeList = new CanonicalXmlNodeList();
             CanonicalXmlNodeList elementList = new CanonicalXmlNodeList();
@@ -264,9 +264,9 @@ namespace System.Security.Cryptography.Xml
 
             do
             {
-                XmlNode rootNode = (XmlNode)elementList[index];
+                XmlNode? rootNode = elementList[index];
                 // Add the children nodes
-                XmlNodeList childNodes = rootNode.ChildNodes;
+                XmlNodeList? childNodes = rootNode?.ChildNodes;
                 if (childNodes != null)
                 {
                     foreach (XmlNode node1 in childNodes)
@@ -278,10 +278,10 @@ namespace System.Security.Cryptography.Xml
                     }
                 }
                 // Add the attribute nodes
-                XmlAttributeCollection attribNodes = rootNode.Attributes;
+                XmlAttributeCollection? attribNodes = rootNode?.Attributes;
                 if (attribNodes != null)
                 {
-                    foreach (XmlNode attribNode in rootNode.Attributes)
+                    foreach (XmlNode attribNode in attribNodes)
                     {
                         if (attribNode.LocalName == "xmlns" || attribNode.Prefix == "xmlns")
                             namespaceList.Add(attribNode);
@@ -307,7 +307,7 @@ namespace System.Security.Cryptography.Xml
             return nodeList;
         }
 
-        internal static bool NodeInList(XmlNode node, XmlNodeList nodeList)
+        internal static bool NodeInList(XmlNode? node, XmlNodeList nodeList)
         {
             foreach (XmlNode nodeElem in nodeList)
             {
@@ -358,8 +358,8 @@ namespace System.Security.Cryptography.Xml
         // This removes all children of an element.
         internal static void RemoveAllChildren(XmlElement inputElement)
         {
-            XmlNode child = inputElement.FirstChild;
-            XmlNode sibling = null;
+            XmlNode? child = inputElement.FirstChild;
+            XmlNode? sibling;
 
             while (child != null)
             {
@@ -376,8 +376,7 @@ namespace System.Security.Cryptography.Xml
         internal static long Pump(Stream input, Stream output)
         {
             // Use MemoryStream's WriteTo(Stream) method if possible
-            MemoryStream inputMS = input as MemoryStream;
-            if (inputMS != null && inputMS.Position == 0)
+            if (input is MemoryStream inputMS && inputMS.Position == 0)
             {
                 inputMS.WriteTo(output);
                 return inputMS.Length;
@@ -397,7 +396,7 @@ namespace System.Security.Cryptography.Xml
             return totalBytes;
         }
 
-        internal static Hashtable TokenizePrefixListString(string s)
+        internal static Hashtable TokenizePrefixListString(string? s)
         {
             Hashtable set = new Hashtable();
             if (s != null)
@@ -418,7 +417,7 @@ namespace System.Security.Cryptography.Xml
             return set;
         }
 
-        internal static string EscapeWhitespaceData(string data)
+        internal static string EscapeWhitespaceData(string? data)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(data);
@@ -426,7 +425,7 @@ namespace System.Security.Cryptography.Xml
             return sb.ToString();
         }
 
-        internal static string EscapeTextData(string data)
+        internal static string EscapeTextData(string? data)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(data);
@@ -437,12 +436,12 @@ namespace System.Security.Cryptography.Xml
             return sb.ToString();
         }
 
-        internal static string EscapeCData(string data)
+        internal static string EscapeCData(string? data)
         {
             return EscapeTextData(data);
         }
 
-        internal static string EscapeAttributeValue(string value)
+        internal static string EscapeAttributeValue(string? value)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(value);
@@ -455,7 +454,7 @@ namespace System.Security.Cryptography.Xml
             return sb.ToString();
         }
 
-        internal static XmlDocument GetOwnerDocument(XmlNodeList nodeList)
+        internal static XmlDocument? GetOwnerDocument(XmlNodeList nodeList)
         {
             foreach (XmlNode node in nodeList)
             {
@@ -465,7 +464,7 @@ namespace System.Security.Cryptography.Xml
             return null;
         }
 
-        internal static void AddNamespaces(XmlElement elem, CanonicalXmlNodeList namespaces)
+        internal static void AddNamespaces(XmlElement elem, CanonicalXmlNodeList? namespaces)
         {
             if (namespaces != null)
             {
@@ -481,7 +480,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        internal static void AddNamespaces(XmlElement elem, Hashtable namespaces)
+        internal static void AddNamespaces(XmlElement elem, Hashtable? namespaces)
         {
             if (namespaces != null)
             {
@@ -496,19 +495,19 @@ namespace System.Security.Cryptography.Xml
         }
 
         // This method gets the attributes that should be propagated
-        internal static CanonicalXmlNodeList GetPropagatedAttributes(XmlElement elem)
+        [return: NotNullIfNotNull("elem")]
+        internal static CanonicalXmlNodeList? GetPropagatedAttributes(XmlElement? elem)
         {
             if (elem == null)
                 return null;
 
             CanonicalXmlNodeList namespaces = new CanonicalXmlNodeList();
-            XmlNode ancestorNode = elem;
+            XmlNode? ancestorNode = elem;
             bool bDefNamespaceToAdd = true;
 
             while (ancestorNode != null)
             {
-                XmlElement ancestorElement = ancestorNode as XmlElement;
-                if (ancestorElement == null)
+                if (ancestorNode is not XmlElement ancestorElement)
                 {
                     ancestorNode = ancestorNode.ParentNode;
                     continue;
@@ -602,7 +601,7 @@ namespace System.Security.Cryptography.Xml
                 dwOutput *= 256;
                 dwOutput += input[i];
             }
-            return (dwOutput);
+            return dwOutput;
         }
 
         internal static int GetHexArraySize(byte[] hex)
@@ -634,7 +633,7 @@ namespace System.Security.Cryptography.Xml
         internal static X509Certificate2Collection BuildBagOfCerts(KeyInfoX509Data keyInfoX509Data, CertUsageType certUsageType)
         {
             X509Certificate2Collection collection = new X509Certificate2Collection();
-            ArrayList decryptionIssuerSerials = (certUsageType == CertUsageType.Decryption ? new ArrayList() : null);
+            ArrayList? decryptionIssuerSerials = (certUsageType == CertUsageType.Decryption ? new ArrayList() : null);
             if (keyInfoX509Data.Certificates != null)
             {
                 foreach (X509Certificate2 certificate in keyInfoX509Data.Certificates)
@@ -666,7 +665,7 @@ namespace System.Security.Cryptography.Xml
             {
                 if (stores[index] != null)
                 {
-                    X509Certificate2Collection filters = null;
+                    X509Certificate2Collection? filters = null;
                     // We don't care if we can't open the store.
                     try
                     {
@@ -748,9 +747,9 @@ namespace System.Security.Cryptography.Xml
             return false;
         }
 
-        internal static AsymmetricAlgorithm GetAnyPublicKey(X509Certificate2 certificate)
+        internal static AsymmetricAlgorithm? GetAnyPublicKey(X509Certificate2 certificate)
         {
-            AsymmetricAlgorithm algorithm = (AsymmetricAlgorithm)certificate.GetRSAPublicKey() ?? certificate.GetECDsaPublicKey();
+            AsymmetricAlgorithm? algorithm = certificate.GetRSAPublicKey() ?? certificate.GetECDsaPublicKey() as AsymmetricAlgorithm;
 
 #if NETCOREAPP
             if (algorithm is null && !OperatingSystem.IsTvOS() && !OperatingSystem.IsIOS())

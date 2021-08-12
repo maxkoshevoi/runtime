@@ -11,17 +11,6 @@ namespace System.Security.Cryptography.Xml
 {
     public class KeyInfoX509Data : KeyInfoClause
     {
-        // An array of certificates representing the certificate chain
-        private ArrayList _certificates;
-        // An array of issuer serial structs
-        private ArrayList _issuerSerials;
-        // An array of SKIs
-        private ArrayList _subjectKeyIds;
-        // An array of subject names
-        private ArrayList _subjectNames;
-        // A raw byte data representing a certificate revocation list
-        private byte[] _CRL;
-
         //
         // public constructors
         //
@@ -45,8 +34,8 @@ namespace System.Security.Cryptography.Xml
                 throw new ArgumentNullException(nameof(cert));
 
             X509Certificate2 certificate = new X509Certificate2(cert);
-            X509ChainElementCollection elements = null;
-            X509Chain chain = null;
+            X509ChainElementCollection elements;
+            X509Chain chain;
             switch (includeOption)
             {
                 case X509IncludeOption.ExcludeRoot:
@@ -95,58 +84,47 @@ namespace System.Security.Cryptography.Xml
         // public properties
         //
 
-        public ArrayList Certificates
-        {
-            get { return _certificates; }
-        }
+        // An array of certificates representing the certificate chain
+        public ArrayList? Certificates { get; private set; }
 
         public void AddCertificate(X509Certificate certificate)
         {
             if (certificate == null)
                 throw new ArgumentNullException(nameof(certificate));
 
-            if (_certificates == null)
-                _certificates = new ArrayList();
+            if (Certificates == null)
+                Certificates = new ArrayList();
 
             X509Certificate2 x509 = new X509Certificate2(certificate);
-            _certificates.Add(x509);
+            Certificates.Add(x509);
         }
 
-        public ArrayList SubjectKeyIds
-        {
-            get { return _subjectKeyIds; }
-        }
+        // An array of SKIs
+        public ArrayList? SubjectKeyIds { get; private set; }
 
         public void AddSubjectKeyId(byte[] subjectKeyId)
         {
-            if (_subjectKeyIds == null)
-                _subjectKeyIds = new ArrayList();
-            _subjectKeyIds.Add(subjectKeyId);
+            SubjectKeyIds ??= new ArrayList();
+            SubjectKeyIds.Add(subjectKeyId);
         }
 
         public void AddSubjectKeyId(string subjectKeyId)
         {
-            if (_subjectKeyIds == null)
-                _subjectKeyIds = new ArrayList();
-            _subjectKeyIds.Add(Utils.DecodeHexString(subjectKeyId));
+            SubjectKeyIds ??= new ArrayList();
+            SubjectKeyIds.Add(Utils.DecodeHexString(subjectKeyId));
         }
 
-        public ArrayList SubjectNames
-        {
-            get { return _subjectNames; }
-        }
+        // An array of subject names
+        public ArrayList? SubjectNames { get; private set; }
 
         public void AddSubjectName(string subjectName)
         {
-            if (_subjectNames == null)
-                _subjectNames = new ArrayList();
-            _subjectNames.Add(subjectName);
+            SubjectNames ??= new ArrayList();
+            SubjectNames.Add(subjectName);
         }
 
-        public ArrayList IssuerSerials
-        {
-            get { return _issuerSerials; }
-        }
+        // An array of issuer serial structs
+        public ArrayList? IssuerSerials { get; private set; }
 
         public void AddIssuerSerial(string issuerName, string serialNumber)
         {
@@ -156,28 +134,22 @@ namespace System.Security.Cryptography.Xml
             if (string.IsNullOrEmpty(serialNumber))
                 throw new ArgumentException(SR.Arg_EmptyOrNullString, nameof(serialNumber));
 
-            BigInteger h;
-            if (!BigInteger.TryParse(serialNumber, NumberStyles.AllowHexSpecifier, NumberFormatInfo.CurrentInfo, out h))
+            if (!BigInteger.TryParse(serialNumber, NumberStyles.AllowHexSpecifier, NumberFormatInfo.CurrentInfo, out BigInteger h))
                 throw new ArgumentException(SR.Cryptography_Xml_InvalidX509IssuerSerialNumber, nameof(serialNumber));
 
-            if (_issuerSerials == null)
-                _issuerSerials = new ArrayList();
-            _issuerSerials.Add(Utils.CreateX509IssuerSerial(issuerName, h.ToString()));
+            IssuerSerials ??= new ArrayList();
+            IssuerSerials.Add(Utils.CreateX509IssuerSerial(issuerName, h.ToString()));
         }
 
         // When we load an X509Data from Xml, we know the serial number is in decimal representation.
         internal void InternalAddIssuerSerial(string issuerName, string serialNumber)
         {
-            if (_issuerSerials == null)
-                _issuerSerials = new ArrayList();
-            _issuerSerials.Add(Utils.CreateX509IssuerSerial(issuerName, serialNumber));
+            IssuerSerials ??= new ArrayList();
+            IssuerSerials.Add(Utils.CreateX509IssuerSerial(issuerName, serialNumber));
         }
 
-        public byte[] CRL
-        {
-            get { return _CRL; }
-            set { _CRL = value; }
-        }
+        // A raw byte data representing a certificate revocation list
+        public byte[]? CRL { get; set; }
 
         //
         // private methods
@@ -185,11 +157,11 @@ namespace System.Security.Cryptography.Xml
 
         private void Clear()
         {
-            _CRL = null;
-            if (_subjectKeyIds != null) _subjectKeyIds.Clear();
-            if (_subjectNames != null) _subjectNames.Clear();
-            if (_issuerSerials != null) _issuerSerials.Clear();
-            if (_certificates != null) _certificates.Clear();
+            CRL = null;
+            if (SubjectKeyIds != null) SubjectKeyIds.Clear();
+            if (SubjectNames != null) SubjectNames.Clear();
+            if (IssuerSerials != null) IssuerSerials.Clear();
+            if (Certificates != null) Certificates.Clear();
         }
 
         //
@@ -207,9 +179,9 @@ namespace System.Security.Cryptography.Xml
         {
             XmlElement x509DataElement = xmlDocument.CreateElement("X509Data", SignedXml.XmlDsigNamespaceUrl);
 
-            if (_issuerSerials != null)
+            if (IssuerSerials != null)
             {
-                foreach (X509IssuerSerial issuerSerial in _issuerSerials)
+                foreach (X509IssuerSerial issuerSerial in IssuerSerials)
                 {
                     XmlElement issuerSerialElement = xmlDocument.CreateElement("X509IssuerSerial", SignedXml.XmlDsigNamespaceUrl);
                     XmlElement issuerNameElement = xmlDocument.CreateElement("X509IssuerName", SignedXml.XmlDsigNamespaceUrl);
@@ -222,9 +194,9 @@ namespace System.Security.Cryptography.Xml
                 }
             }
 
-            if (_subjectKeyIds != null)
+            if (SubjectKeyIds != null)
             {
-                foreach (byte[] subjectKeyId in _subjectKeyIds)
+                foreach (byte[] subjectKeyId in SubjectKeyIds)
                 {
                     XmlElement subjectKeyIdElement = xmlDocument.CreateElement("X509SKI", SignedXml.XmlDsigNamespaceUrl);
                     subjectKeyIdElement.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(subjectKeyId)));
@@ -232,9 +204,9 @@ namespace System.Security.Cryptography.Xml
                 }
             }
 
-            if (_subjectNames != null)
+            if (SubjectNames != null)
             {
-                foreach (string subjectName in _subjectNames)
+                foreach (string subjectName in SubjectNames)
                 {
                     XmlElement subjectNameElement = xmlDocument.CreateElement("X509SubjectName", SignedXml.XmlDsigNamespaceUrl);
                     subjectNameElement.AppendChild(xmlDocument.CreateTextNode(subjectName));
@@ -242,9 +214,9 @@ namespace System.Security.Cryptography.Xml
                 }
             }
 
-            if (_certificates != null)
+            if (Certificates != null)
             {
-                foreach (X509Certificate certificate in _certificates)
+                foreach (X509Certificate certificate in Certificates)
                 {
                     XmlElement x509Element = xmlDocument.CreateElement("X509Certificate", SignedXml.XmlDsigNamespaceUrl);
                     x509Element.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(certificate.GetRawCertData())));
@@ -252,10 +224,10 @@ namespace System.Security.Cryptography.Xml
                 }
             }
 
-            if (_CRL != null)
+            if (CRL != null)
             {
                 XmlElement crlElement = xmlDocument.CreateElement("X509CRL", SignedXml.XmlDsigNamespaceUrl);
-                crlElement.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(_CRL)));
+                crlElement.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(CRL)));
                 x509DataElement.AppendChild(crlElement);
             }
 
@@ -284,7 +256,7 @@ namespace System.Security.Cryptography.Xml
             Clear();
 
             if (x509CRLNodes.Count != 0)
-                _CRL = Convert.FromBase64String(Utils.DiscardWhiteSpaces(x509CRLNodes.Item(0).InnerText));
+                CRL = Convert.FromBase64String(Utils.DiscardWhiteSpaces(x509CRLNodes.Item(0).InnerText));
 
             foreach (XmlNode issuerSerialNode in x509IssuerSerialNodes)
             {

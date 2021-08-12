@@ -10,10 +10,10 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlNodeList), typeof(XmlDocument) };
         private readonly Type[] _outputTypes = { typeof(XmlNodeList), typeof(XmlDocument) };
-        private XmlNodeList _inputNodeList;
+        private XmlNodeList? _inputNodeList;
         private readonly bool _includeComments;
-        private XmlNamespaceManager _nsm;
-        private XmlDocument _containingDocument;
+        private XmlNamespaceManager? _nsm;
+        private XmlDocument? _containingDocument;
         private int _signaturePosition;
 
         internal int SignaturePosition
@@ -33,15 +33,9 @@ namespace System.Security.Cryptography.Xml
             Algorithm = SignedXml.XmlDsigEnvelopedSignatureTransformUrl;
         }
 
-        public override Type[] InputTypes
-        {
-            get { return _inputTypes; }
-        }
+        public override Type[] InputTypes => _inputTypes;
 
-        public override Type[] OutputTypes
-        {
-            get { return _outputTypes; }
-        }
+        public override Type[] OutputTypes => _outputTypes;
 
         // An enveloped signature has no inner XML elements
         public override void LoadInnerXml(XmlNodeList nodeList)
@@ -51,26 +45,26 @@ namespace System.Security.Cryptography.Xml
         }
 
         // An enveloped signature has no inner XML elements
-        protected override XmlNodeList GetInnerXml()
+        protected override XmlNodeList? GetInnerXml()
         {
             return null;
         }
 
         public override void LoadInput(object obj)
         {
-            if (obj is Stream)
+            if (obj is Stream stream)
             {
-                LoadStreamInput((Stream)obj);
+                LoadStreamInput(stream);
                 return;
             }
-            if (obj is XmlNodeList)
+            if (obj is XmlNodeList list)
             {
-                LoadXmlNodeListInput((XmlNodeList)obj);
+                LoadXmlNodeListInput(list);
                 return;
             }
-            if (obj is XmlDocument)
+            if (obj is XmlDocument document)
             {
-                LoadXmlDocumentInput((XmlDocument)obj);
+                LoadXmlDocumentInput(document);
                 return;
             }
         }
@@ -79,7 +73,7 @@ namespace System.Security.Cryptography.Xml
         {
             XmlDocument doc = new XmlDocument();
             doc.PreserveWhitespace = true;
-            XmlResolver resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
+            XmlResolver? resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
             XmlReader xmlReader = Utils.PreProcessStreamInput(stream, resolver, BaseURI);
             doc.Load(xmlReader);
             _containingDocument = doc;
@@ -122,7 +116,7 @@ namespace System.Security.Cryptography.Xml
             {
                 // If the position has not been set, then we don't want to remove any signature tags
                 if (_signaturePosition == 0) return _inputNodeList;
-                XmlNodeList signatureList = _containingDocument.SelectNodes("//dsig:Signature", _nsm);
+                XmlNodeList? signatureList = _containingDocument.SelectNodes("//dsig:Signature", _nsm);
                 if (signatureList == null) return _inputNodeList;
 
                 CanonicalXmlNodeList resultNodeList = new CanonicalXmlNodeList();
@@ -140,7 +134,7 @@ namespace System.Security.Cryptography.Xml
                         try
                         {
                             // Find the nearest signature ancestor tag
-                            XmlNode result = node.SelectSingleNode("ancestor-or-self::dsig:Signature[1]", _nsm);
+                            XmlNode? result = node.SelectSingleNode("ancestor-or-self::dsig:Signature[1]", _nsm);
                             int position = 0;
                             foreach (XmlNode node1 in signatureList)
                             {
@@ -160,7 +154,7 @@ namespace System.Security.Cryptography.Xml
             // Else we have received either a stream or a document as input
             else
             {
-                XmlNodeList signatureList = _containingDocument.SelectNodes("//dsig:Signature", _nsm);
+                XmlNodeList? signatureList = _containingDocument.SelectNodes("//dsig:Signature", _nsm);
                 if (signatureList == null) return _containingDocument;
                 if (signatureList.Count < _signaturePosition || _signaturePosition <= 0) return _containingDocument;
 

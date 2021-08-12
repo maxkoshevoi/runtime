@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Security.Cryptography.Xml
 {
@@ -19,12 +20,9 @@ namespace System.Security.Cryptography.Xml
             return _references.GetEnumerator();
         }
 
-        public int Count
-        {
-            get { return _references.Count; }
-        }
+        public int Count => _references.Count;
 
-        public int Add(object value)
+        public int Add(object? value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
@@ -40,17 +38,17 @@ namespace System.Security.Cryptography.Xml
             _references.Clear();
         }
 
-        public bool Contains(object value)
+        public bool Contains(object? value)
         {
             return _references.Contains(value);
         }
 
-        public int IndexOf(object value)
+        public int IndexOf(object? value)
         {
             return _references.IndexOf(value);
         }
 
-        public void Insert(int index, object value)
+        public void Insert(int index, object? value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
@@ -61,7 +59,7 @@ namespace System.Security.Cryptography.Xml
             _references.Insert(index, value);
         }
 
-        public void Remove(object value)
+        public void Remove(object? value)
         {
             _references.Remove(value);
         }
@@ -73,7 +71,7 @@ namespace System.Security.Cryptography.Xml
 
         public EncryptedReference Item(int index)
         {
-            return (EncryptedReference)_references[index];
+            return (EncryptedReference)_references[index]!;
         }
 
         [System.Runtime.CompilerServices.IndexerName("ItemOf")]
@@ -90,9 +88,9 @@ namespace System.Security.Cryptography.Xml
         }
 
         /// <internalonly/>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
-            get { return _references[index]; }
+            get { return _references[index]!; }
             set
             {
                 if (value == null)

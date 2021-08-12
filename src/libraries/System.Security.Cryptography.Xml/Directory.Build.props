@@ -4,5 +4,6 @@
     <IsAspNetCoreApp>true</IsAspNetCoreApp>
     <IncludePlatformAttributes>true</IncludePlatformAttributes>
     <UnsupportedOSPlatforms>browser</UnsupportedOSPlatforms>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>
