@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Xml;
@@ -12,15 +11,18 @@ namespace System.Security.Cryptography.Xml
     {
         internal const string DefaultDigestMethod = SignedXml.XmlDsigSHA256Url;
 
-        private string? _uri;
-        private string? _type;
-        private TransformChain? _transformChain;
-        private string? _digestMethod;
-        private byte[]? _digestValue;
-        private HashAlgorithm? _hashAlgorithm;
-        private readonly object? _refTarget;
-        private XmlElement? _cachedXml;
-        internal CanonicalXmlNodeList? _namespaces;
+        private string _id;
+        private string _uri;
+        private string _type;
+        private TransformChain _transformChain;
+        private string _digestMethod;
+        private byte[] _digestValue;
+        private HashAlgorithm _hashAlgorithm;
+        private readonly object _refTarget;
+        private readonly ReferenceTargetType _refTargetType;
+        private XmlElement _cachedXml;
+        private SignedXml _signedXml;
+        internal CanonicalXmlNodeList _namespaces;
 
         //
         // public constructors
@@ -30,7 +32,7 @@ namespace System.Security.Cryptography.Xml
         {
             _transformChain = new TransformChain();
             _refTarget = null;
-            ReferenceTargetType = ReferenceTargetType.UriReference;
+            _refTargetType = ReferenceTargetType.UriReference;
             _cachedXml = null;
             _digestMethod = DefaultDigestMethod;
         }
@@ -39,7 +41,7 @@ namespace System.Security.Cryptography.Xml
         {
             _transformChain = new TransformChain();
             _refTarget = stream;
-            ReferenceTargetType = ReferenceTargetType.Stream;
+            _refTargetType = ReferenceTargetType.Stream;
             _cachedXml = null;
             _digestMethod = DefaultDigestMethod;
         }
@@ -49,7 +51,7 @@ namespace System.Security.Cryptography.Xml
             _transformChain = new TransformChain();
             _refTarget = uri;
             _uri = uri;
-            ReferenceTargetType = ReferenceTargetType.UriReference;
+            _refTargetType = ReferenceTargetType.UriReference;
             _cachedXml = null;
             _digestMethod = DefaultDigestMethod;
         }
@@ -58,7 +60,7 @@ namespace System.Security.Cryptography.Xml
         {
             _transformChain = new TransformChain();
             _refTarget = element;
-            ReferenceTargetType = ReferenceTargetType.XmlElement;
+            _refTargetType = ReferenceTargetType.XmlElement;
             _cachedXml = null;
             _digestMethod = DefaultDigestMethod;
         }
@@ -67,9 +69,13 @@ namespace System.Security.Cryptography.Xml
         // public properties
         //
 
-        public string? Id { get; set; }
+        public string Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
-        public string? Uri
+        public string Uri
         {
             get { return _uri; }
             set
@@ -79,7 +85,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public string? Type
+        public string Type
         {
             get { return _type; }
             set
@@ -113,7 +119,8 @@ namespace System.Security.Cryptography.Xml
         {
             get
             {
-                _transformChain ??= new TransformChain();
+                if (_transformChain == null)
+                    _transformChain = new TransformChain();
                 return _transformChain;
             }
             set
@@ -123,12 +130,27 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        [MemberNotNullWhen(true, nameof(_cachedXml))]
-        internal bool CacheValid => _cachedXml != null;
+        internal bool CacheValid
+        {
+            get
+            {
+                return (_cachedXml != null);
+            }
+        }
 
-        internal SignedXml? SignedXml { get; set; }
+        internal SignedXml SignedXml
+        {
+            get { return _signedXml; }
+            set { _signedXml = value; }
+        }
 
-        internal ReferenceTargetType ReferenceTargetType { get; private set; }
+        internal ReferenceTargetType ReferenceTargetType
+        {
+            get
+            {
+                return _refTargetType;
+            }
+        }
 
         //
         // public methods
@@ -148,8 +170,8 @@ namespace System.Security.Cryptography.Xml
             // Create the Reference
             XmlElement referenceElement = document.CreateElement("Reference", SignedXml.XmlDsigNamespaceUrl);
 
-            if (!string.IsNullOrEmpty(Id))
-                referenceElement.SetAttribute("Id", Id);
+            if (!string.IsNullOrEmpty(_id))
+                referenceElement.SetAttribute("Id", _id);
 
             if (_uri != null)
                 referenceElement.SetAttribute("URI", _uri);
@@ -188,7 +210,7 @@ namespace System.Security.Cryptography.Xml
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            Id = Utils.GetAttribute(value, "Id", SignedXml.XmlDsigNamespaceUrl);
+            _id = Utils.GetAttribute(value, "Id", SignedXml.XmlDsigNamespaceUrl);
             _uri = Utils.GetAttribute(value, "URI", SignedXml.XmlDsigNamespaceUrl);
             _type = Utils.GetAttribute(value, "Type", SignedXml.XmlDsigNamespaceUrl);
             if (!Utils.VerifyAttributes(value, new string[] { "Id", "URI", "Type" }))
@@ -200,7 +222,7 @@ namespace System.Security.Cryptography.Xml
             // Transforms
             bool hasTransforms = false;
             TransformChain = new TransformChain();
-            XmlNodeList? transformsNodes = value.SelectNodes("ds:Transforms", nsm);
+            XmlNodeList transformsNodes = value.SelectNodes("ds:Transforms", nsm);
             if (transformsNodes != null && transformsNodes.Count != 0)
             {
                 if (transformsNodes.Count > 1)
@@ -208,12 +230,12 @@ namespace System.Security.Cryptography.Xml
                     throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/Transforms");
                 }
                 hasTransforms = true;
-                XmlElement transformsElement = (XmlElement)transformsNodes[0]!;
-                if (!Utils.VerifyAttributes(transformsElement, (string[]?)null))
+                XmlElement transformsElement = transformsNodes[0] as XmlElement;
+                if (!Utils.VerifyAttributes(transformsElement, (string[])null))
                 {
                     throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/Transforms");
                 }
-                XmlNodeList? transformNodes = transformsElement.SelectNodes("ds:Transform", nsm);
+                XmlNodeList transformNodes = transformsElement.SelectNodes("ds:Transform", nsm);
                 if (transformNodes != null)
                 {
                     if (transformNodes.Count != transformsElement.SelectNodes("*").Count)
@@ -226,13 +248,13 @@ namespace System.Security.Cryptography.Xml
                     }
                     foreach (XmlNode transformNode in transformNodes)
                     {
-                        XmlElement? transformElement = transformNode as XmlElement;
-                        string? algorithm = Utils.GetAttribute(transformElement, "Algorithm", SignedXml.XmlDsigNamespaceUrl);
+                        XmlElement transformElement = transformNode as XmlElement;
+                        string algorithm = Utils.GetAttribute(transformElement, "Algorithm", SignedXml.XmlDsigNamespaceUrl);
                         if (algorithm == null || !Utils.VerifyAttributes(transformElement, "Algorithm"))
                         {
                             throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
                         }
-                        Transform? transform = CryptoHelpers.CreateFromName<Transform>(algorithm);
+                        Transform transform = CryptoHelpers.CreateFromName<Transform>(algorithm);
                         if (transform == null)
                         {
                             throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
@@ -241,12 +263,12 @@ namespace System.Security.Cryptography.Xml
                         // let the transform read the children of the transformElement for data
                         transform.LoadInnerXml(transformElement.ChildNodes);
                         // Hack! this is done to get around the lack of here() function support in XPath
-                        if (transform is XmlDsigEnvelopedSignatureTransform dsigTransform)
+                        if (transform is XmlDsigEnvelopedSignatureTransform)
                         {
                             // Walk back to the Signature tag. Find the nearest signature ancestor
                             // Signature-->SignedInfo-->Reference-->Transforms-->Transform
-                            XmlNode? signatureTag = transformElement.SelectSingleNode("ancestor::ds:Signature[1]", nsm);
-                            XmlNodeList? signatureList = transformElement.SelectNodes("//ds:Signature", nsm);
+                            XmlNode signatureTag = transformElement.SelectSingleNode("ancestor::ds:Signature[1]", nsm);
+                            XmlNodeList signatureList = transformElement.SelectNodes("//ds:Signature", nsm);
                             if (signatureList != null)
                             {
                                 int position = 0;
@@ -255,7 +277,7 @@ namespace System.Security.Cryptography.Xml
                                     position++;
                                     if (node == signatureTag)
                                     {
-                                        dsigTransform.SignaturePosition = position;
+                                        ((XmlDsigEnvelopedSignatureTransform)transform).SignaturePosition = position;
                                         break;
                                     }
                                 }
@@ -266,19 +288,20 @@ namespace System.Security.Cryptography.Xml
             }
 
             // DigestMethod
-            XmlNodeList? digestMethodNodes = value.SelectNodes("ds:DigestMethod", nsm);
+            XmlNodeList digestMethodNodes = value.SelectNodes("ds:DigestMethod", nsm);
             if (digestMethodNodes == null || digestMethodNodes.Count == 0 || digestMethodNodes.Count > 1)
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/DigestMethod");
-            XmlElement? digestMethodElement = digestMethodNodes[0] as XmlElement;
+            XmlElement digestMethodElement = digestMethodNodes[0] as XmlElement;
             _digestMethod = Utils.GetAttribute(digestMethodElement, "Algorithm", SignedXml.XmlDsigNamespaceUrl);
             if (_digestMethod == null || !Utils.VerifyAttributes(digestMethodElement, "Algorithm"))
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/DigestMethod");
 
+
             // DigestValue
-            XmlNodeList? digestValueNodes = value.SelectNodes("ds:DigestValue", nsm);
+            XmlNodeList digestValueNodes = value.SelectNodes("ds:DigestValue", nsm);
             if (digestValueNodes == null || digestValueNodes.Count == 0 || digestValueNodes.Count > 1)
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/DigestValue");
-            XmlElement? digestValueElement = digestValueNodes[0] as XmlElement;
+            XmlElement digestValueElement = digestValueNodes[0] as XmlElement;
             _digestValue = Convert.FromBase64String(Utils.DiscardWhiteSpaces(digestValueElement.InnerText));
             if (!Utils.VerifyAttributes(digestValueElement, (string[])null))
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "Reference/DigestValue");
@@ -300,14 +323,14 @@ namespace System.Security.Cryptography.Xml
             TransformChain.Add(transform);
         }
 
-        internal void UpdateHashValue(XmlDocument? document, CanonicalXmlNodeList refList)
+        internal void UpdateHashValue(XmlDocument document, CanonicalXmlNodeList refList)
         {
             DigestValue = CalculateHashValue(document, refList);
         }
 
-        // What we want to do is pump the input through the TransformChain and then
+        // What we want to do is pump the input throug the TransformChain and then
         // hash the output of the chain document is the document context for resolving relative references
-        internal byte[] CalculateHashValue(XmlDocument? document, CanonicalXmlNodeList refList)
+        internal byte[] CalculateHashValue(XmlDocument document, CanonicalXmlNodeList refList)
         {
             // refList is a list of elements that might be targets of references
             // Now's the time to create our hashing algorithm
@@ -317,15 +340,15 @@ namespace System.Security.Cryptography.Xml
 
             // Let's go get the target.
             string baseUri = (document == null ? System.Environment.CurrentDirectory + "\\" : document.BaseURI);
-            Stream? hashInputStream = null;
-            WebResponse? response = null;
-            Stream? inputStream = null;
-            XmlResolver? resolver = null;
-            byte[]? hashval = null;
+            Stream hashInputStream = null;
+            WebResponse response = null;
+            Stream inputStream = null;
+            XmlResolver resolver = null;
+            byte[] hashval = null;
 
             try
             {
-                switch (ReferenceTargetType)
+                switch (_refTargetType)
                 {
                     case ReferenceTargetType.Stream:
                         // This is the easiest case. We already have a stream, so just pump it through the TransformChain
@@ -342,7 +365,7 @@ namespace System.Security.Cryptography.Xml
                             resolver = (SignedXml.ResolverSet ? SignedXml._xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), baseUri));
                             // In the case of a Uri-less reference, we will simply pass null to the transform chain.
                             // The first transform in the chain is expected to know how to retrieve the data to hash.
-                            hashInputStream = TransformChain.TransformToOctetStream((Stream?)null, resolver, baseUri);
+                            hashInputStream = TransformChain.TransformToOctetStream((Stream)null, resolver, baseUri);
                         }
                         else if (_uri.Length == 0)
                         {
@@ -360,10 +383,11 @@ namespace System.Security.Cryptography.Xml
                         {
                             // If we get here, then we are constructing a Reference to an embedded DataObject
                             // referenced by an Id = attribute. Go find the relevant object
-                            string idref = Utils.GetIdFromLocalUri(_uri, out bool discardComments);
+                            bool discardComments = true;
+                            string idref = Utils.GetIdFromLocalUri(_uri, out discardComments);
                             if (idref == "xpointer(/)")
                             {
-                                // This is a self referential case
+                                // This is a self referencial case
                                 if (document == null)
                                     throw new CryptographicException(SR.Format(SR.Cryptography_Xml_SelfReferenceRequiresContext, _uri));
 
@@ -384,12 +408,13 @@ namespace System.Security.Cryptography.Xml
                                 {
                                     foreach (XmlNode node in refList)
                                     {
-                                        if ((node is XmlElement tempElem) && (Utils.HasAttribute(tempElem, "Id", SignedXml.XmlDsigNamespaceUrl))
+                                        XmlElement tempElem = node as XmlElement;
+                                        if ((tempElem != null) && (Utils.HasAttribute(tempElem, "Id", SignedXml.XmlDsigNamespaceUrl))
                                             && (Utils.GetAttribute(tempElem, "Id", SignedXml.XmlDsigNamespaceUrl).Equals(idref)))
                                         {
                                             elem = tempElem;
-                                            if (SignedXml._context != null)
-                                                _namespaces = Utils.GetPropagatedAttributes(SignedXml._context);
+                                            if (_signedXml._context != null)
+                                                _namespaces = Utils.GetPropagatedAttributes(_signedXml._context);
                                             break;
                                         }
                                     }

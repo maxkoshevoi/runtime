@@ -9,12 +9,17 @@ namespace System.Security.Cryptography.Xml
     // the class that provides node subset state and canonicalization function to XmlCDataSection
     internal sealed class CanonicalXmlCDataSection : XmlCDataSection, ICanonicalizableNode
     {
-        public CanonicalXmlCDataSection(string? data, XmlDocument doc, bool defaultNodeSetInclusionState) : base(data, doc)
+        private bool _isInNodeSet;
+        public CanonicalXmlCDataSection(string data, XmlDocument doc, bool defaultNodeSetInclusionState) : base(data, doc)
         {
-            IsInNodeSet = defaultNodeSetInclusionState;
+            _isInNodeSet = defaultNodeSetInclusionState;
         }
 
-        public bool IsInNodeSet { get; set; }
+        public bool IsInNodeSet
+        {
+            get { return _isInNodeSet; }
+            set { _isInNodeSet = value; }
+        }
 
         public void Write(StringBuilder strBuilder, DocPosition docPos, AncestralNamespaceContextManager anc)
         {

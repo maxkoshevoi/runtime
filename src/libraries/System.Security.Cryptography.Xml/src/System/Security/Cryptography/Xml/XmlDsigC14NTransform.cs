@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml;
 
@@ -11,7 +10,7 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlDocument), typeof(XmlNodeList) };
         private readonly Type[] _outputTypes = { typeof(Stream) };
-        private CanonicalXml? _cXml;
+        private CanonicalXml _cXml;
         private readonly bool _includeComments;
 
         public XmlDsigC14NTransform()
@@ -25,38 +24,43 @@ namespace System.Security.Cryptography.Xml
             Algorithm = (includeComments ? SignedXml.XmlDsigC14NWithCommentsTransformUrl : SignedXml.XmlDsigC14NTransformUrl);
         }
 
-        public override Type[] InputTypes => _inputTypes;
+        public override Type[] InputTypes
+        {
+            get { return _inputTypes; }
+        }
 
-        public override Type[] OutputTypes => _outputTypes;
+        public override Type[] OutputTypes
+        {
+            get { return _outputTypes; }
+        }
 
-        public override void LoadInnerXml(XmlNodeList? nodeList)
+        public override void LoadInnerXml(XmlNodeList nodeList)
         {
             if (nodeList != null && nodeList.Count > 0)
                 throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
         }
 
-        protected override XmlNodeList? GetInnerXml()
+        protected override XmlNodeList GetInnerXml()
         {
             return null;
         }
 
-        [MemberNotNull(nameof(_cXml))]
         public override void LoadInput(object obj)
         {
-            XmlResolver? resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
-            if (obj is Stream stream)
+            XmlResolver resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
+            if (obj is Stream)
             {
-                _cXml = new CanonicalXml(stream, _includeComments, resolver, BaseURI);
+                _cXml = new CanonicalXml((Stream)obj, _includeComments, resolver, BaseURI);
                 return;
             }
-            if (obj is XmlDocument document)
+            if (obj is XmlDocument)
             {
-                _cXml = new CanonicalXml(document, resolver, _includeComments);
+                _cXml = new CanonicalXml((XmlDocument)obj, resolver, _includeComments);
                 return;
             }
-            if (obj is XmlNodeList list)
+            if (obj is XmlNodeList)
             {
-                _cXml = new CanonicalXml(list, resolver, _includeComments);
+                _cXml = new CanonicalXml((XmlNodeList)obj, resolver, _includeComments);
             }
             else
             {

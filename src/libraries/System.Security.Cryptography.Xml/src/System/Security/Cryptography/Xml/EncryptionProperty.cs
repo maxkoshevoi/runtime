@@ -1,15 +1,16 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace System.Security.Cryptography.Xml
 {
     public sealed class EncryptionProperty
     {
-        private XmlElement? _elemProp;
-        private XmlElement? _cachedXml;
+        private string _target;
+        private string _id;
+        private XmlElement _elemProp;
+        private XmlElement _cachedXml;
 
         // We are being lax here as per the spec
         public EncryptionProperty() { }
@@ -25,11 +26,17 @@ namespace System.Security.Cryptography.Xml
             _cachedXml = null;
         }
 
-        public string? Id { get; private set; }
+        public string Id
+        {
+            get { return _id; }
+        }
 
-        public string? Target { get; private set; }
+        public string Target
+        {
+            get { return _target; }
+        }
 
-        public XmlElement? PropertyElement
+        public XmlElement PropertyElement
         {
             get { return _elemProp; }
             set
@@ -44,8 +51,13 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        [MemberNotNullWhen(true, nameof(_cachedXml))]
-        private bool CacheValid => _cachedXml != null;
+        private bool CacheValid
+        {
+            get
+            {
+                return (_cachedXml != null);
+            }
+        }
 
         public XmlElement GetXml()
         {
@@ -58,11 +70,9 @@ namespace System.Security.Cryptography.Xml
 
         internal XmlElement GetXml(XmlDocument document)
         {
-            return (XmlElement)document.ImportNode(_elemProp, true);
+            return document.ImportNode(_elemProp, true) as XmlElement;
         }
 
-        [MemberNotNull(nameof(_elemProp))]
-        [MemberNotNull(nameof(_cachedXml))]
         public void LoadXml(XmlElement value)
         {
             if (value == null)
@@ -72,8 +82,8 @@ namespace System.Security.Cryptography.Xml
 
             // cache the Xml
             _cachedXml = value;
-            Id = Utils.GetAttribute(value, "Id", EncryptedXml.XmlEncNamespaceUrl);
-            Target = Utils.GetAttribute(value, "Target", EncryptedXml.XmlEncNamespaceUrl);
+            _id = Utils.GetAttribute(value, "Id", EncryptedXml.XmlEncNamespaceUrl);
+            _target = Utils.GetAttribute(value, "Target", EncryptedXml.XmlEncNamespaceUrl);
             _elemProp = value;
         }
     }

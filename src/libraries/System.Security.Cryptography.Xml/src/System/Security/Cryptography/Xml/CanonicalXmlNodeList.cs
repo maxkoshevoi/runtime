@@ -8,11 +8,16 @@ namespace System.Security.Cryptography.Xml
 {
     internal sealed class CanonicalXmlNodeList : XmlNodeList, IList
     {
-        private readonly ArrayList _nodeArray = new();
+        private readonly ArrayList _nodeArray;
+
+        internal CanonicalXmlNodeList()
+        {
+            _nodeArray = new ArrayList();
+        }
 
         public override XmlNode Item(int index)
         {
-            return (XmlNode)_nodeArray[index]!;
+            return (XmlNode)_nodeArray[index];
         }
 
         public override IEnumerator GetEnumerator()
@@ -20,12 +25,15 @@ namespace System.Security.Cryptography.Xml
             return _nodeArray.GetEnumerator();
         }
 
-        public override int Count => _nodeArray.Count;
+        public override int Count
+        {
+            get { return _nodeArray.Count; }
+        }
 
         // IList methods
-        public int Add(object? value)
+        public int Add(object value)
         {
-            if (value is not XmlNode)
+            if (!(value is XmlNode))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, "node");
             return _nodeArray.Add(value);
         }
@@ -35,24 +43,24 @@ namespace System.Security.Cryptography.Xml
             _nodeArray.Clear();
         }
 
-        public bool Contains(object? value)
+        public bool Contains(object value)
         {
             return _nodeArray.Contains(value);
         }
 
-        public int IndexOf(object? value)
+        public int IndexOf(object value)
         {
             return _nodeArray.IndexOf(value);
         }
 
-        public void Insert(int index, object? value)
+        public void Insert(int index, object value)
         {
-            if (value is not XmlNode)
+            if (!(value is XmlNode))
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
             _nodeArray.Insert(index, value);
         }
 
-        public void Remove(object? value)
+        public void Remove(object value)
         {
             _nodeArray.Remove(value);
         }
@@ -62,16 +70,22 @@ namespace System.Security.Cryptography.Xml
             _nodeArray.RemoveAt(index);
         }
 
-        public bool IsFixedSize => _nodeArray.IsFixedSize;
+        public bool IsFixedSize
+        {
+            get { return _nodeArray.IsFixedSize; }
+        }
 
-        public bool IsReadOnly => _nodeArray.IsReadOnly;
+        public bool IsReadOnly
+        {
+            get { return _nodeArray.IsReadOnly; }
+        }
 
-        object? IList.this[int index]
+        object IList.this[int index]
         {
             get { return _nodeArray[index]; }
             set
             {
-                if (value is not XmlNode)
+                if (!(value is XmlNode))
                     throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(value));
                 _nodeArray[index] = value;
             }
@@ -82,8 +96,14 @@ namespace System.Security.Cryptography.Xml
             _nodeArray.CopyTo(array, index);
         }
 
-        public object SyncRoot => _nodeArray.SyncRoot;
+        public object SyncRoot
+        {
+            get { return _nodeArray.SyncRoot; }
+        }
 
-        public bool IsSynchronized => _nodeArray.IsSynchronized;
+        public bool IsSynchronized
+        {
+            get { return _nodeArray.IsSynchronized; }
+        }
     }
 }

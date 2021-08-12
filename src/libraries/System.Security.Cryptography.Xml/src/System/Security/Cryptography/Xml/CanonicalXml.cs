@@ -17,7 +17,7 @@ namespace System.Security.Cryptography.Xml
         // private static string defaultXPathWithComments = "(//. | //@* | //namespace::*)";
         // private static string defaultXPathWithComments = "(//. | //@* | //namespace::*)";
 
-        internal CanonicalXml(Stream inputStream, bool includeComments, XmlResolver? resolver, string? strBaseUri)
+        internal CanonicalXml(Stream inputStream, bool includeComments, XmlResolver resolver, string strBaseUri)
         {
             if (inputStream == null)
                 throw new ArgumentNullException(nameof(inputStream));
@@ -28,8 +28,8 @@ namespace System.Security.Cryptography.Xml
             _ancMgr = new C14NAncestralNamespaceContextManager();
         }
 
-        internal CanonicalXml(XmlDocument document, XmlResolver? resolver) : this(document, resolver, false) { }
-        internal CanonicalXml(XmlDocument document, XmlResolver? resolver, bool includeComments)
+        internal CanonicalXml(XmlDocument document, XmlResolver resolver) : this(document, resolver, false) { }
+        internal CanonicalXml(XmlDocument document, XmlResolver resolver, bool includeComments)
         {
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
@@ -40,7 +40,7 @@ namespace System.Security.Cryptography.Xml
             _ancMgr = new C14NAncestralNamespaceContextManager();
         }
 
-        internal CanonicalXml(XmlNodeList nodeList, XmlResolver? resolver, bool includeComments)
+        internal CanonicalXml(XmlNodeList nodeList, XmlResolver resolver, bool includeComments)
         {
             if (nodeList == null)
                 throw new ArgumentNullException(nameof(nodeList));
@@ -57,10 +57,10 @@ namespace System.Security.Cryptography.Xml
             MarkInclusionStateForNodes(nodeList, doc, _c14nDoc);
         }
 
-        private static void MarkNodeAsIncluded(XmlNode? node)
+        private static void MarkNodeAsIncluded(XmlNode node)
         {
-            if (node is ICanonicalizableNode canonNode)
-                canonNode.IsInNodeSet = true;
+            if (node is ICanonicalizableNode)
+                ((ICanonicalizableNode)node).IsInNodeSet = true;
         }
 
         private static void MarkInclusionStateForNodes(XmlNodeList nodeList, XmlDocument inputRoot, XmlDocument root)
@@ -73,8 +73,8 @@ namespace System.Security.Cryptography.Xml
 
             do
             {
-                XmlNode currentNode = elementList[index] ?? throw new IndexOutOfRangeException();
-                XmlNode currentNodeCanonical = elementListCanonical[index] ?? throw new IndexOutOfRangeException();
+                XmlNode currentNode = (XmlNode)elementList[index];
+                XmlNode currentNodeCanonical = (XmlNode)elementListCanonical[index];
                 XmlNodeList childNodes = currentNode.ChildNodes;
                 XmlNodeList childNodesCanonical = currentNodeCanonical.ChildNodes;
                 for (int i = 0; i < childNodes.Count; i++)
@@ -87,7 +87,7 @@ namespace System.Security.Cryptography.Xml
                         MarkNodeAsIncluded(childNodesCanonical[i]);
                     }
 
-                    XmlAttributeCollection? attribNodes = childNodes[i].Attributes;
+                    XmlAttributeCollection attribNodes = childNodes[i].Attributes;
                     if (attribNodes != null)
                     {
                         for (int j = 0; j < attribNodes.Count; j++)

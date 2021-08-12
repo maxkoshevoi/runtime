@@ -1,16 +1,15 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace System.Security.Cryptography.Xml
 {
     public sealed class CipherData
     {
-        private XmlElement? _cachedXml;
-        private CipherReference? _cipherReference;
-        private byte[]? _cipherValue;
+        private XmlElement _cachedXml;
+        private CipherReference _cipherReference;
+        private byte[] _cipherValue;
 
         public CipherData() { }
 
@@ -24,11 +23,15 @@ namespace System.Security.Cryptography.Xml
             CipherReference = cipherReference;
         }
 
-        [MemberNotNullWhen(true, nameof(_cachedXml))]
-        private bool CacheValid => _cachedXml != null;
+        private bool CacheValid
+        {
+            get
+            {
+                return (_cachedXml != null);
+            }
+        }
 
-        [DisallowNull]
-        public CipherReference? CipherReference
+        public CipherReference CipherReference
         {
             get { return _cipherReference; }
             set
@@ -43,8 +46,7 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        [DisallowNull]
-        public byte[]? CipherValue
+        public byte[] CipherValue
         {
             get { return _cipherValue; }
             set
@@ -96,8 +98,8 @@ namespace System.Security.Cryptography.Xml
             XmlNamespaceManager nsm = new XmlNamespaceManager(value.OwnerDocument.NameTable);
             nsm.AddNamespace("enc", EncryptedXml.XmlEncNamespaceUrl);
 
-            XmlNode? cipherValueNode = value.SelectSingleNode("enc:CipherValue", nsm);
-            XmlNode? cipherReferenceNode = value.SelectSingleNode("enc:CipherReference", nsm);
+            XmlNode cipherValueNode = value.SelectSingleNode("enc:CipherValue", nsm);
+            XmlNode cipherReferenceNode = value.SelectSingleNode("enc:CipherReference", nsm);
             if (cipherValueNode != null)
             {
                 if (cipherReferenceNode != null)

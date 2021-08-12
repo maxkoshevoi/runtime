@@ -11,7 +11,8 @@ namespace System.Security.Cryptography.Xml
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlDocument), typeof(XmlNodeList) };
         private readonly Type[] _outputTypes = { typeof(Stream) };
         private readonly bool _includeComments;
-        private ExcCanonicalXml? _excCanonicalXml;
+        private string _inclusiveNamespacesPrefixList;
+        private ExcCanonicalXml _excCanonicalXml;
 
         public XmlDsigExcC14NTransform() : this(false, null) { }
 
@@ -19,44 +20,53 @@ namespace System.Security.Cryptography.Xml
 
         public XmlDsigExcC14NTransform(string inclusiveNamespacesPrefixList) : this(false, inclusiveNamespacesPrefixList) { }
 
-        public XmlDsigExcC14NTransform(bool includeComments, string? inclusiveNamespacesPrefixList)
+        public XmlDsigExcC14NTransform(bool includeComments, string inclusiveNamespacesPrefixList)
         {
             _includeComments = includeComments;
-            InclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
+            _inclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
             Algorithm = (includeComments ? SignedXml.XmlDsigExcC14NWithCommentsTransformUrl : SignedXml.XmlDsigExcC14NTransformUrl);
         }
 
-        public string? InclusiveNamespacesPrefixList { get; set; }
+        public string InclusiveNamespacesPrefixList
+        {
+            get { return _inclusiveNamespacesPrefixList; }
+            set { _inclusiveNamespacesPrefixList = value; }
+        }
 
-        public override Type[] InputTypes => _inputTypes;
+        public override Type[] InputTypes
+        {
+            get { return _inputTypes; }
+        }
 
-        public override Type[] OutputTypes => _outputTypes;
+        public override Type[] OutputTypes
+        {
+            get { return _outputTypes; }
+        }
 
         public override void LoadInnerXml(XmlNodeList nodeList)
         {
-            if (nodeList == null)
+            if (nodeList != null)
             {
-                return;
-            }
-
-            foreach (XmlNode n in nodeList)
-            {
-                if (n is XmlElement e)
+                foreach (XmlNode n in nodeList)
                 {
-                    if (e.LocalName.Equals("InclusiveNamespaces")
-                    && e.NamespaceURI.Equals(SignedXml.XmlDsigExcC14NTransformUrl) &&
-                    Utils.HasAttribute(e, "PrefixList", SignedXml.XmlDsigNamespaceUrl))
+                    XmlElement e = n as XmlElement;
+                    if (e != null)
                     {
-                        if (!Utils.VerifyAttributes(e, "PrefixList"))
+                        if (e.LocalName.Equals("InclusiveNamespaces")
+                        && e.NamespaceURI.Equals(SignedXml.XmlDsigExcC14NTransformUrl) &&
+                        Utils.HasAttribute(e, "PrefixList", SignedXml.XmlDsigNamespaceUrl))
+                        {
+                            if (!Utils.VerifyAttributes(e, "PrefixList"))
+                            {
+                                throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
+                            }
+                            this.InclusiveNamespacesPrefixList = Utils.GetAttribute(e, "PrefixList", SignedXml.XmlDsigNamespaceUrl);
+                            return;
+                        }
+                        else
                         {
                             throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
                         }
-                        this.InclusiveNamespacesPrefixList = Utils.GetAttribute(e, "PrefixList", SignedXml.XmlDsigNamespaceUrl);
-                        return;
-                    }
-                    else
-                    {
-                        throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
                     }
                 }
             }
@@ -64,24 +74,24 @@ namespace System.Security.Cryptography.Xml
 
         public override void LoadInput(object obj)
         {
-            XmlResolver? resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
-            if (obj is Stream stream)
+            XmlResolver resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
+            if (obj is Stream)
             {
-                _excCanonicalXml = new ExcCanonicalXml(stream, _includeComments, InclusiveNamespacesPrefixList, resolver, BaseURI);
+                _excCanonicalXml = new ExcCanonicalXml((Stream)obj, _includeComments, _inclusiveNamespacesPrefixList, resolver, BaseURI);
             }
-            else if (obj is XmlDocument document)
+            else if (obj is XmlDocument)
             {
-                _excCanonicalXml = new ExcCanonicalXml(document, _includeComments, InclusiveNamespacesPrefixList, resolver);
+                _excCanonicalXml = new ExcCanonicalXml((XmlDocument)obj, _includeComments, _inclusiveNamespacesPrefixList, resolver);
             }
-            else if (obj is XmlNodeList list)
+            else if (obj is XmlNodeList)
             {
-                _excCanonicalXml = new ExcCanonicalXml(list, _includeComments, InclusiveNamespacesPrefixList, resolver);
+                _excCanonicalXml = new ExcCanonicalXml((XmlNodeList)obj, _includeComments, _inclusiveNamespacesPrefixList, resolver);
             }
             else
                 throw new ArgumentException(SR.Cryptography_Xml_IncorrectObjectType, nameof(obj));
         }
 
-        protected override XmlNodeList? GetInnerXml()
+        protected override XmlNodeList GetInnerXml()
         {
             if (InclusiveNamespacesPrefixList == null)
                 return null;

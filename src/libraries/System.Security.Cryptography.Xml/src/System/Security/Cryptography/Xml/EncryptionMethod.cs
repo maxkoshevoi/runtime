@@ -1,34 +1,38 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace System.Security.Cryptography.Xml
 {
     public class EncryptionMethod
     {
-        private XmlElement? _cachedXml;
+        private XmlElement _cachedXml;
         private int _keySize;
-        private string? _algorithm;
+        private string _algorithm;
 
         public EncryptionMethod()
         {
             _cachedXml = null;
         }
 
-        public EncryptionMethod(string? algorithm)
+        public EncryptionMethod(string algorithm)
         {
             _algorithm = algorithm;
             _cachedXml = null;
         }
 
-        [MemberNotNullWhen(true, nameof(_cachedXml))]
-        private bool CacheValid => _cachedXml != null;
+        private bool CacheValid
+        {
+            get
+            {
+                return (_cachedXml != null);
+            }
+        }
 
         public int KeySize
         {
-            get => _keySize;
+            get { return _keySize; }
             set
             {
                 if (value <= 0)
@@ -38,9 +42,9 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public string? KeyAlgorithm
+        public string KeyAlgorithm
         {
-            get => _algorithm;
+            get { return _algorithm; }
             set
             {
                 _algorithm = value;
@@ -84,7 +88,7 @@ namespace System.Security.Cryptography.Xml
             XmlElement encryptionMethodElement = value;
             _algorithm = Utils.GetAttribute(encryptionMethodElement, "Algorithm", EncryptedXml.XmlEncNamespaceUrl);
 
-            XmlNode? keySizeNode = value.SelectSingleNode("enc:KeySize", nsm);
+            XmlNode keySizeNode = value.SelectSingleNode("enc:KeySize", nsm);
             if (keySizeNode != null)
             {
                 KeySize = Convert.ToInt32(Utils.DiscardWhiteSpaces(keySizeNode.InnerText), null);

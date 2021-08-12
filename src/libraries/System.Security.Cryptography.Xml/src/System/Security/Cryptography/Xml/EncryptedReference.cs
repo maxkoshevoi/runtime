@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace System.Security.Cryptography.Xml
@@ -9,9 +8,9 @@ namespace System.Security.Cryptography.Xml
     public abstract class EncryptedReference
     {
         private string _uri;
-        private string? _referenceType;
+        private string _referenceType;
         private TransformChain _transformChain;
-        internal XmlElement? _cachedXml;
+        internal XmlElement _cachedXml;
 
         protected EncryptedReference() : this(string.Empty, new TransformChain())
         {
@@ -23,8 +22,8 @@ namespace System.Security.Cryptography.Xml
 
         protected EncryptedReference(string uri, TransformChain transformChain)
         {
-            Uri = _uri = uri;
-            TransformChain = _transformChain = transformChain;
+            TransformChain = transformChain;
+            Uri = uri;
             _cachedXml = null;
         }
 
@@ -44,7 +43,8 @@ namespace System.Security.Cryptography.Xml
         {
             get
             {
-                _transformChain ??= new TransformChain();
+                if (_transformChain == null)
+                    _transformChain = new TransformChain();
                 return _transformChain;
             }
             set
@@ -59,7 +59,7 @@ namespace System.Security.Cryptography.Xml
             TransformChain.Add(transform);
         }
 
-        protected string? ReferenceType
+        protected string ReferenceType
         {
             get { return _referenceType; }
             set
@@ -69,8 +69,13 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        [MemberNotNullWhen(true, nameof(_cachedXml))]
-        protected internal bool CacheValid => _cachedXml != null;
+        protected internal bool CacheValid
+        {
+            get
+            {
+                return (_cachedXml != null);
+            }
+        }
 
         public virtual XmlElement GetXml()
         {

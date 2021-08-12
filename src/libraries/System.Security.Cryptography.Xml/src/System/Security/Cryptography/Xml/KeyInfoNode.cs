@@ -8,6 +8,8 @@ namespace System.Security.Cryptography.Xml
     // This is for generic, unknown nodes
     public class KeyInfoNode : KeyInfoClause
     {
+        private XmlElement _node;
+
         //
         // public constructors
         //
@@ -16,14 +18,18 @@ namespace System.Security.Cryptography.Xml
 
         public KeyInfoNode(XmlElement node)
         {
-            Value = node;
+            _node = node;
         }
 
         //
         // public properties
         //
 
-        public XmlElement? Value { get; set; }
+        public XmlElement Value
+        {
+            get { return _node; }
+            set { _node = value; }
+        }
 
         //
         // public methods
@@ -38,12 +44,12 @@ namespace System.Security.Cryptography.Xml
 
         internal override XmlElement GetXml(XmlDocument xmlDocument)
         {
-            return (XmlElement)xmlDocument.ImportNode(Value, true);
+            return xmlDocument.ImportNode(_node, true) as XmlElement;
         }
 
         public override void LoadXml(XmlElement value)
         {
-            Value = value;
+            _node = value;
         }
     }
 }

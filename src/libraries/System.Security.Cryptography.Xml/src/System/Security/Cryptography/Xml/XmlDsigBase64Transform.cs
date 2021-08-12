@@ -12,41 +12,47 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlNodeList), typeof(XmlDocument) };
         private readonly Type[] _outputTypes = { typeof(Stream) };
-        private CryptoStream? _cs;
+        private CryptoStream _cs;
 
         public XmlDsigBase64Transform()
         {
             Algorithm = SignedXml.XmlDsigBase64TransformUrl;
         }
 
-        public override Type[] InputTypes =>  _inputTypes;
+        public override Type[] InputTypes
+        {
+            get { return _inputTypes; }
+        }
 
-        public override Type[] OutputTypes => _outputTypes;
+        public override Type[] OutputTypes
+        {
+            get { return _outputTypes; }
+        }
 
         public override void LoadInnerXml(XmlNodeList nodeList)
         {
         }
 
-        protected override XmlNodeList? GetInnerXml()
+        protected override XmlNodeList GetInnerXml()
         {
             return null;
         }
 
         public override void LoadInput(object obj)
         {
-            if (obj is Stream stream)
+            if (obj is Stream)
             {
-                LoadStreamInput(stream);
+                LoadStreamInput((Stream)obj);
                 return;
             }
-            if (obj is XmlNodeList list)
+            if (obj is XmlNodeList)
             {
-                LoadXmlNodeListInput(list);
+                LoadXmlNodeListInput((XmlNodeList)obj);
                 return;
             }
-            if (obj is XmlDocument document)
+            if (obj is XmlDocument)
             {
-                LoadXmlNodeListInput(document.SelectNodes("//."));
+                LoadXmlNodeListInput(((XmlDocument)obj).SelectNodes("//."));
                 return;
             }
         }
@@ -87,7 +93,7 @@ namespace System.Security.Cryptography.Xml
             StringBuilder sb = new StringBuilder();
             foreach (XmlNode node in nodeList)
             {
-                XmlNode? result = node.SelectSingleNode("self::text()");
+                XmlNode result = node.SelectSingleNode("self::text()");
                 if (result != null)
                     sb.Append(result.OuterXml);
             }

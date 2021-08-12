@@ -10,13 +10,19 @@ namespace System.Security.Cryptography.Xml
     // the class that provides node subset state and canonicalization function to XmlElement
     internal sealed class CanonicalXmlElement : XmlElement, ICanonicalizableNode
     {
-        public CanonicalXmlElement(string prefix, string localName, string? namespaceURI, XmlDocument doc, bool defaultNodeSetInclusionState)
+        private bool _isInNodeSet;
+
+        public CanonicalXmlElement(string prefix, string localName, string namespaceURI, XmlDocument doc, bool defaultNodeSetInclusionState)
             : base(prefix, localName, namespaceURI, doc)
         {
-            IsInNodeSet = defaultNodeSetInclusionState;
+            _isInNodeSet = defaultNodeSetInclusionState;
         }
 
-        public bool IsInNodeSet { get; set; }
+        public bool IsInNodeSet
+        {
+            get { return _isInNodeSet; }
+            set { _isInNodeSet = value; }
+        }
 
         public void Write(StringBuilder strBuilder, DocPosition docPos, AncestralNamespaceContextManager anc)
         {
@@ -133,13 +139,13 @@ namespace System.Security.Cryptography.Xml
                 anc.GetNamespacesToRender(this, attrListToRender, nsListToRender, nsLocallyDeclared);
                 rgbData = utf8.GetBytes("<" + Name);
                 hash.TransformBlock(rgbData, 0, rgbData.Length, rgbData, 0);
-                foreach (CanonicalXmlAttribute attr in nsListToRender.GetKeyList())
+                foreach (object attr in nsListToRender.GetKeyList())
                 {
-                    attr.WriteHash(hash, docPos, anc);
+                    (attr as CanonicalXmlAttribute).WriteHash(hash, docPos, anc);
                 }
-                foreach (CanonicalXmlAttribute attr in attrListToRender.GetKeyList())
+                foreach (object attr in attrListToRender.GetKeyList())
                 {
-                    attr.WriteHash(hash, docPos, anc);
+                    (attr as CanonicalXmlAttribute).WriteHash(hash, docPos, anc);
                 }
                 rgbData = utf8.GetBytes(">");
                 hash.TransformBlock(rgbData, 0, rgbData.Length, rgbData, 0);

@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
@@ -13,9 +12,9 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlDocument), typeof(XmlNodeList) };
         private readonly Type[] _outputTypes = { typeof(Stream) };
-        private XmlNodeList? _xslNodes;
-        private string? _xslFragment;
-        private Stream? _inputStream;
+        private XmlNodeList _xslNodes;
+        private string _xslFragment;
+        private Stream _inputStream;
         private readonly bool _includeComments;
 
         public XmlDsigXsltTransform()
@@ -29,18 +28,28 @@ namespace System.Security.Cryptography.Xml
             Algorithm = SignedXml.XmlDsigXsltTransformUrl;
         }
 
-        public override Type[] InputTypes => _inputTypes;
+        public override Type[] InputTypes
+        {
+            get
+            {
+                return _inputTypes;
+            }
+        }
 
-        public override Type[] OutputTypes => _outputTypes;
+        public override Type[] OutputTypes
+        {
+            get
+            {
+                return _outputTypes;
+            }
+        }
 
-        [MemberNotNull(nameof(_xslNodes))]
-        [MemberNotNull(nameof(_xslFragment))]
         public override void LoadInnerXml(XmlNodeList nodeList)
         {
             if (nodeList == null)
                 throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
             // check that the XSLT element is well formed
-            XmlElement? firstDataElement = null;
+            XmlElement firstDataElement = null;
             int count = 0;
             foreach (XmlNode node in nodeList)
             {
@@ -63,33 +72,32 @@ namespace System.Security.Cryptography.Xml
             _xslFragment = firstDataElement.OuterXml.Trim(null);
         }
 
-        protected override XmlNodeList? GetInnerXml()
+        protected override XmlNodeList GetInnerXml()
         {
             return _xslNodes;
         }
 
-        [MemberNotNull(nameof(_inputStream))]
         public override void LoadInput(object obj)
         {
             if (_inputStream != null)
                 _inputStream.Close();
             _inputStream = new MemoryStream();
-            if (obj is Stream stream)
+            if (obj is Stream)
             {
-                _inputStream = stream;
+                _inputStream = (Stream)obj;
             }
-            else if (obj is XmlNodeList list)
+            else if (obj is XmlNodeList)
             {
-                CanonicalXml xmlDoc = new CanonicalXml(list, null, _includeComments);
+                CanonicalXml xmlDoc = new CanonicalXml((XmlNodeList)obj, null, _includeComments);
                 byte[] buffer = xmlDoc.GetBytes();
                 if (buffer == null) return;
                 _inputStream.Write(buffer, 0, buffer.Length);
                 _inputStream.Flush();
                 _inputStream.Position = 0;
             }
-            else if (obj is XmlDocument document)
+            else if (obj is XmlDocument)
             {
-                CanonicalXml xmlDoc = new CanonicalXml(document, null, _includeComments);
+                CanonicalXml xmlDoc = new CanonicalXml((XmlDocument)obj, null, _includeComments);
                 byte[] buffer = xmlDoc.GetBytes();
                 if (buffer == null) return;
                 _inputStream.Write(buffer, 0, buffer.Length);
@@ -105,11 +113,6 @@ namespace System.Security.Cryptography.Xml
             //  2- XPathDocument will expand entities, we don't want this, so set the resolver to null
             //  3- We don't want the document function feature of XslTransforms.
 
-            if (_inputStream == null || _xslFragment == null)
-            {
-                throw new InvalidOperationException();
-            }
-
             // load the XSL Transform
             XslCompiledTransform xslt = new XslCompiledTransform();
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -118,7 +121,7 @@ namespace System.Security.Cryptography.Xml
             settings.MaxCharactersInDocument = Utils.MaxCharactersInDocument;
             using (StringReader sr = new StringReader(_xslFragment))
             {
-                XmlReader readerXsl = XmlReader.Create(sr, settings, (string?)null);
+                XmlReader readerXsl = XmlReader.Create(sr, settings, (string)null);
                 xslt.Load(readerXsl, XsltSettings.Default, null);
 
                 // Now load the input stream, XmlDocument can be used but is less efficient

@@ -3,17 +3,16 @@
 
 using System.Xml;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace System.Security.Cryptography.Xml
 {
     internal abstract class AncestralNamespaceContextManager
     {
-        internal List<NamespaceFrame> _ancestorStack = new();
+        internal ArrayList _ancestorStack = new ArrayList();
 
         internal NamespaceFrame GetScopeAt(int i)
         {
-            return _ancestorStack[i];
+            return (NamespaceFrame)_ancestorStack[i];
         }
 
         internal NamespaceFrame GetCurrentScope()
@@ -21,23 +20,24 @@ namespace System.Security.Cryptography.Xml
             return GetScopeAt(_ancestorStack.Count - 1);
         }
 
-        protected XmlAttribute? GetNearestRenderedNamespaceWithMatchingPrefix(string nsPrefix, out int depth)
+        protected XmlAttribute GetNearestRenderedNamespaceWithMatchingPrefix(string nsPrefix, out int depth)
         {
+            XmlAttribute attr = null;
             depth = -1;
             for (int i = _ancestorStack.Count - 1; i >= 0; i--)
             {
-                if (GetScopeAt(i).GetRendered(nsPrefix) != null)
+                if ((attr = GetScopeAt(i).GetRendered(nsPrefix)) != null)
                 {
                     depth = i;
-                    return null;
+                    return attr;
                 }
             }
             return null;
         }
 
-        protected XmlAttribute? GetNearestUnrenderedNamespaceWithMatchingPrefix(string nsPrefix, out int depth)
+        protected XmlAttribute GetNearestUnrenderedNamespaceWithMatchingPrefix(string nsPrefix, out int depth)
         {
-            XmlAttribute attr;
+            XmlAttribute attr = null;
             depth = -1;
             for (int i = _ancestorStack.Count - 1; i >= 0; i--)
             {

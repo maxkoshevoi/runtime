@@ -8,6 +8,7 @@ namespace System.Security.Cryptography.Xml
 {
     public class KeyInfo : IEnumerable
     {
+        private string _id;
         private readonly ArrayList _keyInfoClauses;
 
         //
@@ -23,7 +24,11 @@ namespace System.Security.Cryptography.Xml
         // public properties
         //
 
-        public string? Id { get; set; }
+        public string Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
         public XmlElement GetXml()
         {
@@ -36,9 +41,9 @@ namespace System.Security.Cryptography.Xml
         {
             // Create the KeyInfo element itself
             XmlElement keyInfoElement = xmlDocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
-            if (!string.IsNullOrEmpty(Id))
+            if (!string.IsNullOrEmpty(_id))
             {
-                keyInfoElement.SetAttribute("Id", Id);
+                keyInfoElement.SetAttribute("Id", _id);
             }
 
             // Add all the clauses that go underneath it
@@ -59,28 +64,30 @@ namespace System.Security.Cryptography.Xml
                 throw new ArgumentNullException(nameof(value));
 
             XmlElement keyInfoElement = value;
-            Id = Utils.GetAttribute(keyInfoElement, "Id", SignedXml.XmlDsigNamespaceUrl);
+            _id = Utils.GetAttribute(keyInfoElement, "Id", SignedXml.XmlDsigNamespaceUrl);
             if (!Utils.VerifyAttributes(keyInfoElement, "Id"))
                 throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "KeyInfo");
 
-            XmlNode? child = keyInfoElement.FirstChild;
+            XmlNode child = keyInfoElement.FirstChild;
             while (child != null)
             {
-                if (child is XmlElement elem)
+                XmlElement elem = child as XmlElement;
+                if (elem != null)
                 {
                     // Create the right type of KeyInfoClause; we use a combination of the namespace and tag name (local name)
                     string kicString = elem.NamespaceURI + " " + elem.LocalName;
                     // Special-case handling for KeyValue -- we have to go one level deeper
                     if (kicString == "http://www.w3.org/2000/09/xmldsig# KeyValue")
                     {
-                        if (!Utils.VerifyAttributes(elem, (string[]?)null))
+                        if (!Utils.VerifyAttributes(elem, (string[])null))
                         {
                             throw new CryptographicException(SR.Cryptography_Xml_InvalidElement, "KeyInfo/KeyValue");
                         }
                         XmlNodeList nodeList2 = elem.ChildNodes;
                         foreach (XmlNode node2 in nodeList2)
                         {
-                            if (node2 is XmlElement elem2)
+                            XmlElement elem2 = node2 as XmlElement;
+                            if (elem2 != null)
                             {
                                 kicString += "/" + elem2.LocalName;
                                 break;
@@ -88,9 +95,10 @@ namespace System.Security.Cryptography.Xml
                         }
                     }
 
-                    KeyInfoClause? keyInfoClause = CryptoHelpers.CreateFromName<KeyInfoClause>(kicString);
+                    KeyInfoClause keyInfoClause = CryptoHelpers.CreateFromName<KeyInfoClause>(kicString);
                     // if we don't know what kind of KeyInfoClause we're looking at, use a generic KeyInfoNode:
-                    keyInfoClause ??= new KeyInfoNode();
+                    if (keyInfoClause == null)
+                        keyInfoClause = new KeyInfoNode();
 
                     // Ask the create clause to fill itself with the corresponding XML
                     keyInfoClause.LoadXml(elem);
@@ -101,7 +109,10 @@ namespace System.Security.Cryptography.Xml
             }
         }
 
-        public int Count => _keyInfoClauses.Count;
+        public int Count
+        {
+            get { return _keyInfoClauses.Count; }
+        }
 
         //
         // public constructors

@@ -7,6 +7,9 @@ namespace System.Security.Cryptography.Xml
 {
     public class KeyInfoRetrievalMethod : KeyInfoClause
     {
+        private string _uri;
+        private string _type;
+
         //
         // public constructors
         //
@@ -15,22 +18,30 @@ namespace System.Security.Cryptography.Xml
 
         public KeyInfoRetrievalMethod(string strUri)
         {
-            Uri = strUri;
+            _uri = strUri;
         }
 
         public KeyInfoRetrievalMethod(string strUri, string typeName)
         {
-            Uri = strUri;
-            Type = typeName;
+            _uri = strUri;
+            _type = typeName;
         }
 
         //
         // public properties
         //
 
-        public string? Uri { get; set; }
+        public string Uri
+        {
+            get { return _uri; }
+            set { _uri = value; }
+        }
 
-        public string? Type { get; set; }
+        public string Type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
 
         public override XmlElement GetXml()
         {
@@ -44,10 +55,10 @@ namespace System.Security.Cryptography.Xml
             // Create the actual element
             XmlElement retrievalMethodElement = xmlDocument.CreateElement("RetrievalMethod", SignedXml.XmlDsigNamespaceUrl);
 
-            if (!string.IsNullOrEmpty(Uri))
-                retrievalMethodElement.SetAttribute("URI", Uri);
-            if (!string.IsNullOrEmpty(Type))
-                retrievalMethodElement.SetAttribute("Type", Type);
+            if (!string.IsNullOrEmpty(_uri))
+                retrievalMethodElement.SetAttribute("URI", _uri);
+            if (!string.IsNullOrEmpty(_type))
+                retrievalMethodElement.SetAttribute("Type", _type);
 
             return retrievalMethodElement;
         }
@@ -57,8 +68,8 @@ namespace System.Security.Cryptography.Xml
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            Uri = Utils.GetAttribute(value, "URI", SignedXml.XmlDsigNamespaceUrl);
-            Type = Utils.GetAttribute(value, "Type", SignedXml.XmlDsigNamespaceUrl);
+            _uri = Utils.GetAttribute(value, "URI", SignedXml.XmlDsigNamespaceUrl);
+            _type = Utils.GetAttribute(value, "Type", SignedXml.XmlDsigNamespaceUrl);
         }
     }
 }

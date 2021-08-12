@@ -9,13 +9,19 @@ namespace System.Security.Cryptography.Xml
     // the class that provides node subset state and canonicalization function to XmlSignificantWhitespace
     internal sealed class CanonicalXmlSignificantWhitespace : XmlSignificantWhitespace, ICanonicalizableNode
     {
-        public CanonicalXmlSignificantWhitespace(string? strData, XmlDocument doc, bool defaultNodeSetInclusionState)
+        private bool _isInNodeSet;
+
+        public CanonicalXmlSignificantWhitespace(string strData, XmlDocument doc, bool defaultNodeSetInclusionState)
             : base(strData, doc)
         {
-            IsInNodeSet = defaultNodeSetInclusionState;
+            _isInNodeSet = defaultNodeSetInclusionState;
         }
 
-        public bool IsInNodeSet { get; set; }
+        public bool IsInNodeSet
+        {
+            get { return _isInNodeSet; }
+            set { _isInNodeSet = value; }
+        }
 
         public void Write(StringBuilder strBuilder, DocPosition docPos, AncestralNamespaceContextManager anc)
         {

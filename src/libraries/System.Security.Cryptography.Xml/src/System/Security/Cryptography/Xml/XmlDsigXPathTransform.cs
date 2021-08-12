@@ -13,18 +13,24 @@ namespace System.Security.Cryptography.Xml
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlNodeList), typeof(XmlDocument) };
         private readonly Type[] _outputTypes = { typeof(XmlNodeList) };
-        private string? _xpathexpr;
-        private XmlDocument? _document;
-        private XmlNamespaceManager? _nsm;
+        private string _xpathexpr;
+        private XmlDocument _document;
+        private XmlNamespaceManager _nsm;
 
         public XmlDsigXPathTransform()
         {
             Algorithm = SignedXml.XmlDsigXPathTransformUrl;
         }
 
-        public override Type[] InputTypes => _inputTypes;
+        public override Type[] InputTypes
+        {
+            get { return _inputTypes; }
+        }
 
-        public override Type[] OutputTypes => _outputTypes;
+        public override Type[] OutputTypes
+        {
+            get { return _outputTypes; }
+        }
 
         public override void LoadInnerXml(XmlNodeList nodeList)
         {
@@ -34,9 +40,10 @@ namespace System.Security.Cryptography.Xml
 
             foreach (XmlNode node in nodeList)
             {
-                string? prefix = null;
-                string? namespaceURI = null;
-                if (node is XmlElement elem)
+                string prefix = null;
+                string namespaceURI = null;
+                XmlElement elem = node as XmlElement;
+                if (elem != null)
                 {
                     if (elem.LocalName == "XPath")
                     {
@@ -44,7 +51,7 @@ namespace System.Security.Cryptography.Xml
                         XmlNodeReader nr = new XmlNodeReader(elem);
                         XmlNameTable nt = nr.NameTable;
                         _nsm = new XmlNamespaceManager(nt);
-                        if (!Utils.VerifyAttributes(elem, (string?)null))
+                        if (!Utils.VerifyAttributes(elem, (string)null))
                         {
                             throw new CryptographicException(SR.Cryptography_Xml_UnknownTransform);
                         }
@@ -110,23 +117,23 @@ namespace System.Security.Cryptography.Xml
 
         public override void LoadInput(object obj)
         {
-            if (obj is Stream stream)
+            if (obj is Stream)
             {
-                LoadStreamInput(stream);
+                LoadStreamInput((Stream)obj);
             }
-            else if (obj is XmlNodeList list)
+            else if (obj is XmlNodeList)
             {
-                LoadXmlNodeListInput(list);
+                LoadXmlNodeListInput((XmlNodeList)obj);
             }
-            else if (obj is XmlDocument document)
+            else if (obj is XmlDocument)
             {
-                LoadXmlDocumentInput(document);
+                LoadXmlDocumentInput((XmlDocument)obj);
             }
         }
 
         private void LoadStreamInput(Stream stream)
         {
-            XmlResolver? resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
+            XmlResolver resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
             XmlReader valReader = Utils.PreProcessStreamInput(stream, resolver, BaseURI);
             _document = new XmlDocument();
             _document.PreserveWhitespace = true;
@@ -136,7 +143,7 @@ namespace System.Security.Cryptography.Xml
         private void LoadXmlNodeListInput(XmlNodeList nodeList)
         {
             // Use C14N to get a document
-            XmlResolver? resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
+            XmlResolver resolver = (ResolverSet ? _xmlResolver : new XmlSecureResolver(new XmlUrlResolver(), BaseURI));
             CanonicalXml c14n = new CanonicalXml((XmlNodeList)nodeList, resolver, true);
             using (MemoryStream ms = new MemoryStream(c14n.GetBytes()))
             {
@@ -154,7 +161,7 @@ namespace System.Security.Cryptography.Xml
             CanonicalXmlNodeList resultNodeList = new CanonicalXmlNodeList();
             if (!string.IsNullOrEmpty(_xpathexpr))
             {
-                XPathNavigator? navigator = _document.CreateNavigator();
+                XPathNavigator navigator = _document.CreateNavigator();
                 XPathNodeIterator it = navigator.Select("//. | //@*");
 
                 XPathExpression xpathExpr = navigator.Compile("boolean(" + _xpathexpr + ")");
