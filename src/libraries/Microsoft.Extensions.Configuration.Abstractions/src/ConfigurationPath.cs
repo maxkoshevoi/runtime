@@ -3,8 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-
-#nullable enable
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Extensions.Configuration
 {
