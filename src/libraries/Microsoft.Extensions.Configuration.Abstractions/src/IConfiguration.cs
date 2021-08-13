@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.Configuration
         ///     This method will never return <c>null</c>. If no matching sub-section is found with the specified key,
         ///     an empty <see cref="IConfigurationSection"/> will be returned.
         /// </remarks>
-        IConfigurationSection? GetSection(string key);
+        IConfigurationSection GetSection(string key);
 
         /// <summary>
         /// Gets the immediate descendant configuration sub-sections.
