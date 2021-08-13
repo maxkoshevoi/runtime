@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.Configuration.Test
     {
         public static readonly string ArbitraryFilePath = "Unit tests do not touch file system";
 
-        public static IFileProvider StringToFileProvider(string str)
+        public static IFileProvider StringToFileProvider(string? str)
         {
             return new TestFileProvider(str);
 
@@ -20,9 +20,9 @@ namespace Microsoft.Extensions.Configuration.Test
 
         private class TestFile : IFileInfo
         {
-            private readonly string _data;
+            private readonly string? _data;
 
-            public TestFile(string str)
+            public TestFile(string? str)
             {
                 _data = str;
             }
@@ -59,7 +59,7 @@ namespace Microsoft.Extensions.Configuration.Test
                 }
             }
 
-            public string Name
+            public string? Name
             {
                 get
                 {
@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.Configuration.Test
                 }
             }
 
-            public string PhysicalPath
+            public string? PhysicalPath
             {
                 get
                 {
@@ -83,29 +83,29 @@ namespace Microsoft.Extensions.Configuration.Test
 
         private class TestFileProvider : IFileProvider
         {
-            private string _data;
-            public TestFileProvider(string str)
+            private string? _data;
+            public TestFileProvider(string? str)
             {
                 _data = str;
             }
 
-            public IDirectoryContents GetDirectoryContents(string subpath)
+            public IDirectoryContents GetDirectoryContents(string? subpath)
             {
                 throw new NotImplementedException();
             }
 
-            public IFileInfo GetFileInfo(string subpath)
+            public IFileInfo GetFileInfo(string? subpath)
             {
                 return new TestFile(_data);
             }
 
-            public IChangeToken Watch(string filter)
+            public IChangeToken Watch(string? filter)
             {
                 throw new NotImplementedException();
             }
         }
 
-        public static Stream StringToStream(string str)
+        public static Stream StringToStream(string? str)
         {
             var memStream = new MemoryStream();
             var textWriter = new StreamWriter(memStream);
