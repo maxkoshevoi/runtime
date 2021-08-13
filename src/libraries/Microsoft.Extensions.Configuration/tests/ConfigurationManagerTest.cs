@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.Configuration.Test
         {
             var config = new ConfigurationManager();
 
-            config.AddInMemoryCollection(new Dictionary<string, string>
+            config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 { "TestKey", "TestValue" },
             });
@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.Configuration.Test
 
             Assert.False(reloadToken.HasChanged);
 
-            config.AddInMemoryCollection(new Dictionary<string, string>
+            config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 { "TestKey", "TestValue" },
             });
@@ -235,15 +235,15 @@ namespace Microsoft.Extensions.Configuration.Test
         public void LoadAndCombineKeyValuePairsFromDifferentConfigurationProviders()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Mem1:KeyInMem1", "ValueInMem1"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Mem2:KeyInMem2", "ValueInMem2"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Mem3:KeyInMem3", "ValueInMem3"}
             };
@@ -282,15 +282,15 @@ namespace Microsoft.Extensions.Configuration.Test
         public void CanChainConfiguration()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Mem1:KeyInMem1", "ValueInMem1"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Mem2:KeyInMem2", "ValueInMem2"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Mem3:KeyInMem3", "ValueInMem3"}
             };
@@ -327,21 +327,21 @@ namespace Microsoft.Extensions.Configuration.Test
         public void ChainedAsEnumerateFlattensIntoDictionaryTest(bool removePath)
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:", "NoKeyValue1"},
                 {"Mem1:KeyInMem1", "ValueInMem1"},
                 {"Mem1:KeyInMem1:Deep1", "ValueDeep1"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Mem2", "Value2"},
                 {"Mem2:", "NoKeyValue2"},
                 {"Mem2:KeyInMem2", "ValueInMem2"},
                 {"Mem2:KeyInMem2:Deep2", "ValueDeep2"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Mem3", "Value3"},
                 {"Mem3:", "NoKeyValue3"},
@@ -387,21 +387,21 @@ namespace Microsoft.Extensions.Configuration.Test
         public void AsEnumerateFlattensIntoDictionaryTest(bool removePath)
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:", "NoKeyValue1"},
                 {"Mem1:KeyInMem1", "ValueInMem1"},
                 {"Mem1:KeyInMem1:Deep1", "ValueDeep1"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Mem2", "Value2"},
                 {"Mem2:", "NoKeyValue2"},
                 {"Mem2:KeyInMem2", "ValueInMem2"},
                 {"Mem2:KeyInMem2:Deep2", "ValueDeep2"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Mem3", "Value3"},
                 {"Mem3:", "NoKeyValue3"},
@@ -439,21 +439,21 @@ namespace Microsoft.Extensions.Configuration.Test
         public void AsEnumerateStripsKeyFromChildren()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:", "NoKeyValue1"},
                 {"Mem1:KeyInMem1", "ValueInMem1"},
                 {"Mem1:KeyInMem1:Deep1", "ValueDeep1"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Mem2", "Value2"},
                 {"Mem2:", "NoKeyValue2"},
                 {"Mem2:KeyInMem2", "ValueInMem2"},
                 {"Mem2:KeyInMem2:Deep2", "ValueDeep2"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Mem3", "Value3"},
                 {"Mem3:", "NoKeyValue3"},
@@ -499,11 +499,11 @@ namespace Microsoft.Extensions.Configuration.Test
         public void NewConfigurationProviderOverridesOldOneWhenKeyIsDuplicated()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
                 {
                     {"Key1:Key2", "ValueInMem1"}
                 };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
                 {
                     {"Key1:Key2", "ValueInMem2"}
                 };
@@ -526,11 +526,11 @@ namespace Microsoft.Extensions.Configuration.Test
         {
             var configurationRoot = new ConfigurationManager();
 
-            configurationRoot.AddInMemoryCollection(new Dictionary<string, string>
+            configurationRoot.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"keya:keyb", "valueA"},
             });
-            configurationRoot.AddInMemoryCollection(new Dictionary<string, string>
+            configurationRoot.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"KEYA:KEYB", "valueB"},
             });
@@ -546,7 +546,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SettingValueUpdatesAllConfigurationProviders()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Key1", "Value1"},
                 {"Key2", "Value2"}
@@ -586,16 +586,16 @@ namespace Microsoft.Extensions.Configuration.Test
         public void CanGetConfigurationSection()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Data:DB1:Connection1", "MemVal1"},
                 {"Data:DB1:Connection2", "MemVal2"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"DataSource:DB2:Connection", "MemVal3"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"Data", "MemVal4"}
             };
@@ -635,12 +635,12 @@ namespace Microsoft.Extensions.Configuration.Test
         public void CanGetConnectionStrings()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"ConnectionStrings:DB1:Connection1", "MemVal1"},
                 {"ConnectionStrings:DB1:Connection2", "MemVal2"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"ConnectionStrings:DB2:Connection", "MemVal3"}
             };
@@ -668,16 +668,16 @@ namespace Microsoft.Extensions.Configuration.Test
         public void CanGetConfigurationChildren()
         {
             // Arrange
-            var dic1 = new Dictionary<string, string>()
+            var dic1 = new Dictionary<string, string?>()
             {
                 {"Data:DB1:Connection1", "MemVal1"},
                 {"Data:DB1:Connection2", "MemVal2"}
             };
-            var dic2 = new Dictionary<string, string>()
+            var dic2 = new Dictionary<string, string?>()
             {
                 {"Data:DB2Connection", "MemVal3"}
             };
-            var dic3 = new Dictionary<string, string>()
+            var dic3 = new Dictionary<string, string?>()
             {
                 {"DataSource:DB3:Connection", "MemVal4"}
             };
@@ -708,7 +708,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SourcesReturnsAddedConfigurationProviders()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem:KeyInMem", "MemVal"}
             };
@@ -857,7 +857,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void KeyStartingWithColonMeansFirstSectionHasEmptyName()
         {
             // Arrange
-            var dict = new Dictionary<string, string>
+            var dict = new Dictionary<string, string?>
             {
                 [":Key2"] = "value"
             };
@@ -878,7 +878,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void KeyWithDoubleColonHasSectionWithEmptyName()
         {
             // Arrange
-            var dict = new Dictionary<string, string>
+            var dict = new Dictionary<string, string?>
             {
                 ["Key1::Key3"] = "value"
             };
@@ -902,7 +902,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void KeyEndingWithColonMeansLastSectionHasEmptyName()
         {
             // Arrange
-            var dict = new Dictionary<string, string>
+            var dict = new Dictionary<string, string?>
             {
                 ["Key1:"] = "value"
             };
@@ -924,7 +924,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SectionWithValueExists()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:KeyInMem1", "ValueInMem1"},
@@ -949,7 +949,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SectionGetRequiredSectionSuccess()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:KeyInMem1", "ValueInMem1"},
@@ -972,7 +972,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SectionGetRequiredSectionMissingThrowException()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1", "Value1"},
                 {"Mem1:Deep1", "Value1"},
@@ -989,7 +989,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SectionWithChildrenExists()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1:KeyInMem1", "ValueInMem1"},
                 {"Mem1:KeyInMem1:Deep1", "ValueDeep1"},
@@ -1016,7 +1016,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void KeyWithValueAndWithoutChildrenExistsAsSection(string value)
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1", value}
             };
@@ -1035,7 +1035,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void KeyWithNullValueAndWithoutChildrenIsASectionButNotExists()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1", null}
             };
@@ -1058,7 +1058,7 @@ namespace Microsoft.Extensions.Configuration.Test
         public void SectionWithChildrenHasNullValue()
         {
             // Arrange
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string?>()
             {
                 {"Mem1:KeyInMem1", "ValueInMem1"},
             };
@@ -1141,13 +1141,13 @@ namespace Microsoft.Extensions.Configuration.Test
 
         private class TestChangeToken : IChangeToken
         {
-            public List<(Action<object>, object)> Callbacks { get; } = new List<(Action<object>, object)>();
+            public List<(Action<object?>, object?)> Callbacks { get; } = new List<(Action<object?>, object?)>();
 
             public bool HasChanged => false;
 
             public bool ActiveChangeCallbacks => true;
 
-            public IDisposable RegisterChangeCallback(Action<object> callback, object state)
+            public IDisposable RegisterChangeCallback(Action<object?> callback, object? state)
             {
                 var item = (callback, state);
                 Callbacks.Add(item);
@@ -1156,9 +1156,9 @@ namespace Microsoft.Extensions.Configuration.Test
 
             private class DisposableAction : IDisposable
             {
-                private Action _action;
+                private Action? _action;
 
-                public DisposableAction(Action action)
+                public DisposableAction(Action? action)
                 {
                     _action = action;
                 }
@@ -1177,7 +1177,7 @@ namespace Microsoft.Extensions.Configuration.Test
 
         private class TestMemorySourceProvider : MemoryConfigurationProvider, IConfigurationSource
         {
-            public TestMemorySourceProvider(Dictionary<string, string> initialData)
+            public TestMemorySourceProvider(Dictionary<string, string?> initialData)
                 : base(new MemoryConfigurationSource { InitialData = initialData })
             { }
 

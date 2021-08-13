@@ -68,7 +68,7 @@ CommonKey3:CommonKey4=IniValue6";
     }
   }
 }";
-        private static readonly Dictionary<string, string> _memConfigContent = new Dictionary<string, string>
+        private static readonly Dictionary<string, string?> _memConfigContent = new Dictionary<string, string?>
             {
                 { "MemKey1", "MemValue1" },
                 { "MemKey2:MemKey3", "MemValue2" },
@@ -137,9 +137,9 @@ CommonKey3:CommonKey4=IniValue6";
 
         private class NotVeryGoodFileProvider : IFileProvider
         {
-            public IDirectoryContents GetDirectoryContents(string subpath) => null;
-            public IFileInfo GetFileInfo(string subpath) => null;
-            public IChangeToken Watch(string filter) => null;
+            public IDirectoryContents GetDirectoryContents(string? subpath) => null;
+            public IFileInfo GetFileInfo(string? subpath) => null;
+            public IChangeToken Watch(string? filter) => null;
         }
 
         private class MissingFile : IFileInfo

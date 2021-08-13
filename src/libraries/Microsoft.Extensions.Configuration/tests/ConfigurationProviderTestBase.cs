@@ -340,7 +340,7 @@ Section3:
 
         protected static (IConfigurationProvider Provider, Action Initializer) LoadUsingMemoryProvider(TestSection testConfig)
         {
-            var values = new List<KeyValuePair<string, string>>();
+            var values = new List<KeyValuePair<string, string?>>();
             SectionToValues(testConfig, "", values);
 
             return (new MemoryConfigurationProvider(
@@ -354,11 +354,11 @@ Section3:
         protected static void SectionToValues(
             TestSection section,
             string sectionName,
-            IList<KeyValuePair<string, string>> values)
+            IList<KeyValuePair<string, string?>> values)
         {
             foreach (var tuple in section.Values.SelectMany(e => e.Value.Expand(e.Key)))
             {
-                values.Add(new KeyValuePair<string, string>(sectionName + tuple.Key, tuple.Value));
+                values.Add(new KeyValuePair<string, string?>(sectionName + tuple.Key, tuple.Value));
             }
 
             foreach (var tuple in section.Sections)
