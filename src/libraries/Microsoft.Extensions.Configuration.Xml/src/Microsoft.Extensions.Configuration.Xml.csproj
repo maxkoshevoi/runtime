@@ -18,4 +18,11 @@
     <Reference Include="System.Security" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Xml.ReaderWriter" />
+  </ItemGroup>
+
 </Project>

@@ -91,7 +91,7 @@ namespace Microsoft.Extensions.Configuration.Xml
             // Finally, return the new XmlReader from the updated XmlDocument.
             // Error messages based on this XmlReader won't show line numbers,
             // but that's fine since we transformed the document anyway.
-            return document.CreateNavigator().ReadSubtree();
+            return document.CreateNavigator()!.ReadSubtree();
         }
 
         private static EncryptedXml DefaultEncryptedXmlFactory(XmlDocument document)
