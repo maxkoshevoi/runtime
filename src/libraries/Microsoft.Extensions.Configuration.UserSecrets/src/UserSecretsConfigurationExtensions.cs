@@ -128,7 +128,7 @@ namespace Microsoft.Extensions.Configuration
                 throw new ArgumentNullException(nameof(assembly));
             }
 
-            UserSecretsIdAttribute attribute = assembly.GetCustomAttribute<UserSecretsIdAttribute>();
+            UserSecretsIdAttribute? attribute = assembly.GetCustomAttribute<UserSecretsIdAttribute>();
             if (attribute != null)
             {
                 return AddUserSecretsInternal(configuration, attribute.UserSecretsId, optional, reloadOnChange);
@@ -186,10 +186,10 @@ namespace Microsoft.Extensions.Configuration
             return AddSecretsFile(configuration, PathHelper.GetSecretsPathFromSecretsId(userSecretsId), optional, reloadOnChange);
         }
 
-        private static IConfigurationBuilder AddSecretsFile(IConfigurationBuilder configuration, string secretPath, bool optional, bool reloadOnChange)
+        private static IConfigurationBuilder AddSecretsFile(IConfigurationBuilder configuration, string? secretPath, bool optional, bool reloadOnChange)
         {
-            string directoryPath = Path.GetDirectoryName(secretPath);
-            PhysicalFileProvider fileProvider = Directory.Exists(directoryPath)
+            string? directoryPath = Path.GetDirectoryName(secretPath);
+            PhysicalFileProvider? fileProvider = Directory.Exists(directoryPath)
                 ? new PhysicalFileProvider(directoryPath)
                 : null;
             return configuration.AddJsonFile(fileProvider, PathHelper.SecretsFileName, optional, reloadOnChange);
