@@ -193,7 +193,7 @@ namespace Microsoft.Extensions.FileProviders.Physical
             sha256.AppendData(Separator, 0, Separator.Length);
         }
 
-        IDisposable? IChangeToken.RegisterChangeCallback(Action<object> callback, object state)
+        IDisposable? IChangeToken.RegisterChangeCallback(Action<object?> callback, object? state)
         {
             if (!ActiveChangeCallbacks)
             {

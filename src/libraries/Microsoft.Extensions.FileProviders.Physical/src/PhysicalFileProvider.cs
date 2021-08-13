@@ -260,7 +260,7 @@ namespace Microsoft.Extensions.FileProviders
         /// </summary>
         /// <param name="subpath">A path under the root directory</param>
         /// <returns>The file information. Caller must check <see cref="IFileInfo.Exists"/> property. </returns>
-        public IFileInfo GetFileInfo(string subpath)
+        public IFileInfo GetFileInfo(string? subpath)
         {
             if (string.IsNullOrEmpty(subpath) || PathUtils.HasInvalidPathChars(subpath))
             {
@@ -300,7 +300,7 @@ namespace Microsoft.Extensions.FileProviders
         /// <paramref name="subpath" /> is absolute, if the directory does not exist, or <paramref name="subpath" /> has invalid
         /// characters.
         /// </returns>
-        public IDirectoryContents GetDirectoryContents(string subpath)
+        public IDirectoryContents GetDirectoryContents(string? subpath)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace Microsoft.Extensions.FileProviders
         /// characters or if <paramref name="filter" /> is an absolute path or outside the root directory specified in the
         /// constructor <seealso cref="PhysicalFileProvider(string)" />.
         /// </returns>
-        public IChangeToken Watch(string filter)
+        public IChangeToken Watch(string? filter)
         {
             if (filter == null || PathUtils.HasInvalidFilterChars(filter))
             {
