@@ -11,4 +11,10 @@
     <ProjectReference Include="$(LibrariesProjectRoot)Microsoft.Extensions.Configuration.Abstractions\src\Microsoft.Extensions.Configuration.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Runtime" />
+  </ItemGroup>
+  
 </Project>
