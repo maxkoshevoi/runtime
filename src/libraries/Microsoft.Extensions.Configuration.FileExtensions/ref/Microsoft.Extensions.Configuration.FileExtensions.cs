@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.Configuration
     public abstract partial class FileConfigurationSource : Microsoft.Extensions.Configuration.IConfigurationSource
     {
         protected FileConfigurationSource() { }
-        public Microsoft.Extensions.FileProviders.IFileProvider FileProvider { get { throw null; } set { } }
+        public Microsoft.Extensions.FileProviders.IFileProvider? FileProvider { get { throw null; } set { } }
         public System.Action<Microsoft.Extensions.Configuration.FileLoadExceptionContext> OnLoadException { get { throw null; } set { } }
         public bool Optional { get { throw null; } set { } }
         public string Path { get { throw null; } set { } }

@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.Configuration
     /// </summary>
     public abstract class FileConfigurationProvider : ConfigurationProvider, IDisposable
     {
-        private readonly IDisposable _changeTokenRegistration;
+        private readonly IDisposable? _changeTokenRegistration;
 
         /// <summary>
         /// Initializes a new instance with the specified source.
@@ -49,16 +49,16 @@ namespace Microsoft.Extensions.Configuration
         /// </summary>
         /// <returns> The configuration name. </returns>
         public override string ToString()
-            => $"{GetType().Name} for '{Source.Path}' ({(Source.Optional ? "Optional" : "Required")})";
+            => $"{this.GetType().Name} for '{Source.Path}' ({(Source.Optional ? "Optional" : "Required")})";
 
         private void Load(bool reload)
         {
-            IFileInfo file = Source.FileProvider?.GetFileInfo(Source.Path);
+            IFileInfo? file = Source.FileProvider?.GetFileInfo(Source.Path);
             if (file == null || !file.Exists)
             {
                 if (Source.Optional || reload) // Always optional on reload
                 {
-                    Data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    Data = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace Microsoft.Extensions.Configuration
                 {
                     if (reload)
                     {
-                        Data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                        Data = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
                     }
                     var exception = new InvalidDataException(SR.Format(SR.Error_FailedToLoad, file.PhysicalPath), ex);
                     HandleException(ExceptionDispatchInfo.Capture(exception));
