@@ -25,11 +25,11 @@ namespace System.Configuration
         public ConfigurationPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -59,11 +59,11 @@ namespace System.Data.Common
         public override System.Security.IPermission Copy() { throw null; }
         protected virtual System.Data.Common.DBDataPermission CreateInstance() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -145,11 +145,11 @@ namespace System.Data.OracleClient
         public void Add(string connectionString, string restrictions, System.Data.KeyRestrictionBehavior behavior) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -244,9 +244,9 @@ namespace System.Diagnostics
         public int IndexOf(System.Diagnostics.EventLogPermissionEntry value) { throw null; }
         public void Insert(int index, System.Diagnostics.EventLogPermissionEntry value) { }
         protected override void OnClear() { }
-        protected override void OnInsert(int index, object? value) { }
-        protected override void OnRemove(int index, object? value) { }
-        protected override void OnSet(int index, object? oldValue, object? newValue) { }
+        protected override void OnInsert(int index, object value) { }
+        protected override void OnRemove(int index, object value) { }
+        protected override void OnSet(int index, object oldValue, object newValue) { }
         public void Remove(System.Diagnostics.EventLogPermissionEntry value) { }
     }
 #if NET5_0_OR_GREATER
@@ -301,9 +301,9 @@ namespace System.Diagnostics
         public int IndexOf(System.Diagnostics.PerformanceCounterPermissionEntry value) { throw null; }
         public void Insert(int index, System.Diagnostics.PerformanceCounterPermissionEntry value) { }
         protected override void OnClear() { }
-        protected override void OnInsert(int index, object? value) { }
-        protected override void OnRemove(int index, object? value) { }
-        protected override void OnSet(int index, object? oldValue, object? newValue) { }
+        protected override void OnInsert(int index, object value) { }
+        protected override void OnRemove(int index, object value) { }
+        protected override void OnSet(int index, object oldValue, object newValue) { }
         public void Remove(System.Diagnostics.PerformanceCounterPermissionEntry value) { }
     }
 }
@@ -319,11 +319,11 @@ namespace System.Drawing.Printing
         public System.Drawing.Printing.PrintingPermissionLevel Level { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement element) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -353,11 +353,11 @@ namespace System.Net
         public DnsPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -374,7 +374,7 @@ namespace System.Net
         public string Hostname { get { throw null; } }
         public int Port { get { throw null; } }
         public System.Net.TransportType Transport { get { throw null; } }
-        public override bool Equals(object? obj) { throw null; }
+        public override bool Equals(object obj) { throw null; }
         public override int GetHashCode() { throw null; }
     }
     [System.FlagsAttribute]
@@ -396,11 +396,11 @@ namespace System.Net
         public void AddPermission(System.Net.NetworkAccess access, System.Net.TransportType transport, string hostName, int portNumber) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -438,11 +438,11 @@ namespace System.Net
         public void AddPermission(System.Net.NetworkAccess access, System.Text.RegularExpressions.Regex uriRegex) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -478,11 +478,11 @@ namespace System.Net.Mail
         public void AddPermission(System.Net.Mail.SmtpAccess access) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -515,11 +515,11 @@ namespace System.Net.NetworkInformation
         public void AddPermission(System.Net.NetworkInformation.NetworkInformationAccess access) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -542,11 +542,11 @@ namespace System.Net.PeerToPeer
         public PnrpPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement e) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -575,11 +575,11 @@ namespace System.Net.PeerToPeer.Collaboration
         public PeerCollaborationPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement e) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -604,11 +604,11 @@ namespace System.Security
         public void Demand() { }
         [System.ObsoleteAttribute]
         public void Deny() { }
-        public override bool Equals(object? obj) { throw null; }
+        public override bool Equals(object obj) { throw null; }
         public abstract void FromXml(System.Security.SecurityElement elem);
         public override int GetHashCode() { throw null; }
-        public abstract System.Security.IPermission Intersect(System.Security.IPermission? target);
-        public abstract bool IsSubsetOf(System.Security.IPermission? target);
+        public abstract System.Security.IPermission Intersect(System.Security.IPermission target);
+        public abstract bool IsSubsetOf(System.Security.IPermission target);
         public void PermitOnly() { }
         public static void RevertAll() { }
         public static void RevertAssert() { }
@@ -617,7 +617,7 @@ namespace System.Security
         public static void RevertPermitOnly() { }
         public override string ToString() { throw null; }
         public abstract System.Security.SecurityElement ToXml();
-        public virtual System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public virtual System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -690,7 +690,7 @@ namespace System.Security
         public string Name { get { throw null; } set { } }
         public override System.Security.PermissionSet Copy() { throw null; }
         public System.Security.NamedPermissionSet Copy(string name) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override void FromXml(System.Security.SecurityElement et) { }
         public override int GetHashCode() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
@@ -834,11 +834,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.DataProtectionPermissionFlags Flags { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -878,12 +878,12 @@ namespace System.Security.Permissions
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
         public string GetPathList(System.Security.Permissions.EnvironmentPermissionAccess flag) { throw null; }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public void SetPathList(System.Security.Permissions.EnvironmentPermissionAccess flag, string pathList) { }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -918,11 +918,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.FileDialogPermissionAccess Access { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -961,17 +961,17 @@ namespace System.Security.Permissions
         public void AddPathList(System.Security.Permissions.FileIOPermissionAccess access, string path) { }
         public void AddPathList(System.Security.Permissions.FileIOPermissionAccess access, string[] pathList) { }
         public override System.Security.IPermission Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
         public override int GetHashCode() { throw null; }
         public string[] GetPathList(System.Security.Permissions.FileIOPermissionAccess access) { throw null; }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public void SetPathList(System.Security.Permissions.FileIOPermissionAccess access, string path) { }
         public void SetPathList(System.Security.Permissions.FileIOPermissionAccess access, string[] pathList) { }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1015,10 +1015,10 @@ namespace System.Security.Permissions
         public GacIdentityPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1092,10 +1092,10 @@ namespace System.Security.Permissions
     {
         public IsolatedStorageFilePermission(System.Security.Permissions.PermissionState state) : base (default(System.Security.Permissions.PermissionState)) { }
         public override System.Security.IPermission Copy() { throw null; }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1146,11 +1146,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.KeyContainerPermissionFlags Flags { get { throw null; } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1166,7 +1166,7 @@ namespace System.Security.Permissions
         public string KeyStore { get { throw null; } set { } }
         public string ProviderName { get { throw null; } set { } }
         public int ProviderType { get { throw null; } set { } }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
     }
 #if NET5_0_OR_GREATER
@@ -1247,11 +1247,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.MediaPermissionVideo Video { get { throw null; } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1327,15 +1327,15 @@ namespace System.Security.Permissions
         public PrincipalPermission(string name, string role, bool isAuthenticated) { }
         public System.Security.IPermission Copy() { throw null; }
         public void Demand() { }
-        public override bool Equals(object? obj) { throw null; }
+        public override bool Equals(object obj) { throw null; }
         public void FromXml(System.Security.SecurityElement elem) { }
         public override int GetHashCode() { throw null; }
-        public System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override string ToString() { throw null; }
         public System.Security.SecurityElement ToXml() { throw null; }
-        public System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1362,10 +1362,10 @@ namespace System.Security.Permissions
         public System.Security.Cryptography.X509Certificates.X509Certificate Certificate { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1389,11 +1389,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.ReflectionPermissionFlag Flags { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1440,12 +1440,12 @@ namespace System.Security.Permissions
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement elem) { }
         public string GetPathList(System.Security.Permissions.RegistryPermissionAccess access) { throw null; }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public void SetPathList(System.Security.Permissions.RegistryPermissionAccess access, string pathList) { }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? other) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission other) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1492,12 +1492,12 @@ namespace System.Security.Permissions
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
         protected System.Security.Permissions.ResourcePermissionBaseEntry[] GetPermissionEntries() { throw null; }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         protected void RemovePermissionAccess(System.Security.Permissions.ResourcePermissionBaseEntry entry) { }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1519,11 +1519,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.SecurityPermissionFlag Flags { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1535,10 +1535,10 @@ namespace System.Security.Permissions
         public string Site { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1560,11 +1560,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.StorePermissionFlags Flags { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1611,10 +1611,10 @@ namespace System.Security.Permissions
         public System.Version Version { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement e) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1634,7 +1634,7 @@ namespace System.Security.Permissions
     public sealed partial class StrongNamePublicKeyBlob
     {
         public StrongNamePublicKeyBlob(byte[] publicKey) { }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -1648,11 +1648,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.TypeDescriptorPermissionFlags Flags { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1687,11 +1687,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.UIPermissionWindow Window { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1733,10 +1733,10 @@ namespace System.Security.Permissions
         public string Url { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1759,11 +1759,11 @@ namespace System.Security.Permissions
         public System.Security.Permissions.WebBrowserPermissionLevel Level { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1794,10 +1794,10 @@ namespace System.Security.Permissions
         public System.Security.SecurityZone SecurityZone { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement esd) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -1817,7 +1817,7 @@ namespace System.Security.Policy
         public AllMembershipCondition() { }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -1830,7 +1830,7 @@ namespace System.Security.Policy
         public ApplicationDirectory(string name) { }
         public string Directory { get { throw null; } }
         public object Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -1839,7 +1839,7 @@ namespace System.Security.Policy
         public ApplicationDirectoryMembershipCondition() { }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -1913,7 +1913,7 @@ namespace System.Security.Policy
         public string Scheme { get { throw null; } }
         public static System.Security.Policy.CodeConnectAccess CreateAnySchemeAccess(int allowPort) { throw null; }
         public static System.Security.Policy.CodeConnectAccess CreateOriginSchemeAccess(int allowPort) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
     }
     public abstract partial class CodeGroup
@@ -1930,7 +1930,7 @@ namespace System.Security.Policy
         public void AddChild(System.Security.Policy.CodeGroup group) { }
         public abstract System.Security.Policy.CodeGroup Copy();
         protected virtual void CreateXml(System.Security.SecurityElement element, System.Security.Policy.PolicyLevel level) { }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public bool Equals(System.Security.Policy.CodeGroup cg, bool compareChildren) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
@@ -1953,7 +1953,7 @@ namespace System.Security.Policy
         public override string PermissionSetName { get { throw null; } }
         public override System.Security.Policy.CodeGroup Copy() { throw null; }
         protected override void CreateXml(System.Security.SecurityElement element, System.Security.Policy.PolicyLevel level) { }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         protected override void ParseXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override System.Security.Policy.PolicyStatement Resolve(System.Security.Policy.Evidence evidence) { throw null; }
@@ -1976,7 +1976,7 @@ namespace System.Security.Policy
         public GacInstalled() { }
         public object Copy() { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -1985,7 +1985,7 @@ namespace System.Security.Policy
         public GacMembershipCondition() { }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2013,11 +2013,11 @@ namespace System.Security.Policy
         public byte[] HashValue { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
-        void System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(object? sender) { }
+        void System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(object sender) { }
         void System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
         public override string ToString() { throw null; }
         public System.Security.SecurityElement ToXml() { throw null; }
@@ -2048,7 +2048,7 @@ namespace System.Security.Policy
         public void AddConnectAccess(string originScheme, System.Security.Policy.CodeConnectAccess connectAccess) { }
         public override System.Security.Policy.CodeGroup Copy() { throw null; }
         protected override void CreateXml(System.Security.SecurityElement element, System.Security.Policy.PolicyLevel level) { }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public System.Collections.DictionaryEntry[] GetConnectAccessRules() { throw null; }
         public override int GetHashCode() { throw null; }
         protected override void ParseXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
@@ -2137,7 +2137,7 @@ namespace System.Security.Policy
 #endif
         public System.Security.PermissionSet PermissionSet { get { throw null; } set { } }
         public System.Security.Policy.PolicyStatement Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement et) { }
         public void FromXml(System.Security.SecurityElement et, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2161,7 +2161,7 @@ namespace System.Security.Policy
         public System.Security.Cryptography.X509Certificates.X509Certificate Certificate { get { throw null; } }
         public object Copy() { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -2171,7 +2171,7 @@ namespace System.Security.Policy
         public System.Security.Cryptography.X509Certificates.X509Certificate Certificate { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2189,7 +2189,7 @@ namespace System.Security.Policy
         public object Copy() { throw null; }
         public static System.Security.Policy.Site CreateFromUrl(string url) { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -2199,7 +2199,7 @@ namespace System.Security.Policy
         public string Site { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2218,7 +2218,7 @@ namespace System.Security.Policy
         public System.Version Version { get { throw null; } }
         public object Copy() { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -2233,7 +2233,7 @@ namespace System.Security.Policy
         public System.Version Version { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2276,7 +2276,7 @@ namespace System.Security.Policy
         public string Value { get { throw null; } }
         public object Copy() { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -2286,7 +2286,7 @@ namespace System.Security.Policy
         public string Url { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? obj) { throw null; }
+        public override bool Equals(object obj) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2304,7 +2304,7 @@ namespace System.Security.Policy
         public object Copy() { throw null; }
         public static System.Security.Policy.Zone CreateFromUrl(string url) { throw null; }
         public System.Security.IPermission CreateIdentityPermission(System.Security.Policy.Evidence evidence) { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public override int GetHashCode() { throw null; }
         public override string ToString() { throw null; }
     }
@@ -2314,7 +2314,7 @@ namespace System.Security.Policy
         public System.Security.SecurityZone SecurityZone { get { throw null; } set { } }
         public bool Check(System.Security.Policy.Evidence evidence) { throw null; }
         public System.Security.Policy.IMembershipCondition Copy() { throw null; }
-        public override bool Equals(object? o) { throw null; }
+        public override bool Equals(object o) { throw null; }
         public void FromXml(System.Security.SecurityElement e) { }
         public void FromXml(System.Security.SecurityElement e, System.Security.Policy.PolicyLevel level) { }
         public override int GetHashCode() { throw null; }
@@ -2375,9 +2375,9 @@ namespace System.ServiceProcess
         public int IndexOf(System.ServiceProcess.ServiceControllerPermissionEntry value) { throw null; }
         public void Insert(int index, System.ServiceProcess.ServiceControllerPermissionEntry value) { }
         protected override void OnClear() { }
-        protected override void OnInsert(int index, object? value) { }
-        protected override void OnRemove(int index, object? value) { }
-        protected override void OnSet(int index, object? oldValue, object? newValue) { }
+        protected override void OnInsert(int index, object value) { }
+        protected override void OnRemove(int index, object value) { }
+        protected override void OnSet(int index, object oldValue, object newValue) { }
         public void Remove(System.ServiceProcess.ServiceControllerPermissionEntry value) { }
     }
 }
@@ -2391,11 +2391,11 @@ namespace System.Transactions
         public DistributedTransactionPermission(System.Security.Permissions.PermissionState state) { }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
@@ -2420,11 +2420,11 @@ namespace System.Web
         public System.Web.AspNetHostingPermissionLevel Level { get { throw null; } set { } }
         public override System.Security.IPermission Copy() { throw null; }
         public override void FromXml(System.Security.SecurityElement securityElement) { }
-        public override System.Security.IPermission Intersect(System.Security.IPermission? target) { throw null; }
-        public override bool IsSubsetOf(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Intersect(System.Security.IPermission target) { throw null; }
+        public override bool IsSubsetOf(System.Security.IPermission target) { throw null; }
         public bool IsUnrestricted() { throw null; }
         public override System.Security.SecurityElement ToXml() { throw null; }
-        public override System.Security.IPermission Union(System.Security.IPermission? target) { throw null; }
+        public override System.Security.IPermission Union(System.Security.IPermission target) { throw null; }
     }
 #if NET5_0_OR_GREATER
     [System.ObsoleteAttribute("Code Access Security is not supported or honored by the runtime.", DiagnosticId = "SYSLIB0003", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
