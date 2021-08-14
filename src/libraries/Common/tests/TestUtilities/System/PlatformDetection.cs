@@ -81,7 +81,7 @@ namespace System
             if (type != null)
             {
                 // The "Accept" method is under FEATURE_COMPILE conditional so it should not exist
-                MethodInfo methodInfo = type.GetMethod("Accept", BindingFlags.NonPublic | BindingFlags.Static);
+                MethodInfo? methodInfo = type.GetMethod("Accept", BindingFlags.NonPublic | BindingFlags.Static);
                 return methodInfo == null;
             }
 
@@ -142,7 +142,7 @@ namespace System
 
         public static bool IsNotIntMaxValueArrayIndexSupported => s_largeArrayIsNotSupported.Value;
 
-        private static volatile Tuple<bool> s_lazyNonZeroLowerBoundArraySupported;
+        private static volatile Tuple<bool>? s_lazyNonZeroLowerBoundArraySupported;
         public static bool IsNonZeroLowerBoundArraySupported
         {
             get
@@ -253,7 +253,7 @@ namespace System
         {
             if (Type.GetType(typeName)?.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Static)?.GetMethod is MethodInfo mi)
             {
-                return (bool)mi.Invoke(null, null);
+                return (bool)mi.Invoke(null, null)!;
             }
 
             return false;
@@ -272,13 +272,13 @@ namespace System
             int version = 0;
             try
             {
-                Type interopGlobalization = Type.GetType("Interop+Globalization, System.Private.CoreLib");
+                Type? interopGlobalization = Type.GetType("Interop+Globalization, System.Private.CoreLib");
                 if (interopGlobalization != null)
                 {
-                    MethodInfo methodInfo = interopGlobalization.GetMethod("GetICUVersion", BindingFlags.NonPublic | BindingFlags.Static);
+                    MethodInfo? methodInfo = interopGlobalization.GetMethod("GetICUVersion", BindingFlags.NonPublic | BindingFlags.Static);
                     if (methodInfo != null)
                     {
-                        version = (int)methodInfo.Invoke(null, null);
+                        version = (int)methodInfo.Invoke(null, null)!;
                     }
                 }
             }
@@ -318,7 +318,7 @@ namespace System
                 string clientKey = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Client";
                 string serverKey = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server";
 
-                object client, server;
+                object? client, server;
                 try
                 {
                     client = Registry.GetValue(clientKey, "Enabled", null);
@@ -404,7 +404,7 @@ namespace System
                 string clientKey = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Client";
                 string serverKey = @"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.3\Server";
 
-                object client, server;
+                object? client, server;
                 try
                 {
                     client = Registry.GetValue(clientKey, "Enabled", null);

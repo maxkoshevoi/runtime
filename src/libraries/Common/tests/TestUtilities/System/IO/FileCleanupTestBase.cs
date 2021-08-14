@@ -18,7 +18,7 @@ namespace System.IO
         protected static bool IsProcessElevated => s_isElevated.Value;
 
         /// <summary>Initialize the test class base.  This creates the associated test directory.</summary>
-        protected FileCleanupTestBase(string tempDirectory = null)
+        protected FileCleanupTestBase(string? tempDirectory = null)
         {
             tempDirectory ??= Path.GetTempPath();
 
@@ -31,6 +31,7 @@ namespace System.IO
             // Make 3 attempts since we have seen this on rare occasions fail with access denied, perhaps due to machine
             // configuration, and it doesn't make sense to fail arbitrary tests for this reason.
             string failure = string.Empty;
+            TestDirectory = string.Empty;
             for (int i = 0; i <= 2; i++)
             {
                 TestDirectory = Path.Combine(tempDirectory, GetType().Name + "_" + Path.GetRandomFileName());
@@ -81,14 +82,14 @@ namespace System.IO
         /// <param name="index">An optional index value to use as a suffix on the file name.  Typically a loop index.</param>
         /// <param name="memberName">The member name of the function calling this method.</param>
         /// <param name="lineNumber">The line number of the function calling this method.</param>
-        protected virtual string GetTestFilePath(int? index = null, [CallerMemberName] string memberName = null, [CallerLineNumber] int lineNumber = 0) =>
+        protected virtual string GetTestFilePath(int? index = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) =>
             Path.Combine(TestDirectory, GetTestFileName(index, memberName, lineNumber));
 
         /// <summary>Gets a test file name that is associated with the call site.</summary>
         /// <param name="index">An optional index value to use as a suffix on the file name.  Typically a loop index.</param>
         /// <param name="memberName">The member name of the function calling this method.</param>
         /// <param name="lineNumber">The line number of the function calling this method.</param>
-        protected string GetTestFileName(int? index = null, [CallerMemberName] string memberName = null, [CallerLineNumber] int lineNumber = 0)
+        protected string GetTestFileName(int? index = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0)
         {
             string testFileName = GenerateTestFileName(index, memberName, lineNumber);
             string testFilePath = Path.Combine(TestDirectory, testFileName);

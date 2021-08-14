@@ -13,7 +13,7 @@ namespace System
         {
             get
             {
-                string value = Environment.GetEnvironmentVariable("DOTNET_TEST_STRESS");
+                string? value = Environment.GetEnvironmentVariable("DOTNET_TEST_STRESS");
                 return value != null && (value == "1" || value.Equals("true", StringComparison.OrdinalIgnoreCase));
             }
         }

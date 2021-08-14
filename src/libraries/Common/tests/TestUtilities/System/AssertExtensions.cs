@@ -37,7 +37,7 @@ namespace System
                 return exception;
             }
 
-            string expectedParamName =
+            string? expectedParamName =
                 IsNetFramework ?
                 netFxParamName : netCoreParamName;
 
@@ -56,7 +56,7 @@ namespace System
                 return;
             }
 
-            string expectedParamName =
+            string? expectedParamName =
                 IsNetFramework ?
                 netFxParamName : netCoreParamName;
 
@@ -84,7 +84,7 @@ namespace System
         public static TException Throws<TException, TResult>(Func<TResult> func)
             where TException : Exception
         {
-            object result = null;
+            object? result = null;
             bool returned = false;
             try
             {
@@ -97,18 +97,12 @@ namespace System
             }
             catch (Exception ex) when (returned)
             {
-                string resultStr;
-                if (result == null)
+                string? resultStr = result?.ToString();
+                resultStr ??= "(null)";
+
+                if (typeof(TResult) == typeof(string))
                 {
-                    resultStr = "(null)";
-                }
-                else
-                {
-                    resultStr = result.ToString();
-                    if (typeof(TResult) == typeof(string))
-                    {
-                        resultStr = $"\"{resultStr}\"";
-                    }
+                    resultStr = $"\"{resultStr}\"";
                 }
 
                 throw new AggregateException($"Result: {resultStr}", ex);
@@ -243,7 +237,7 @@ namespace System
             }
         }
 
-        private static string AddOptionalUserMessage(string message, string userMessage)
+        private static string AddOptionalUserMessage(string message, string? userMessage)
         {
             if (userMessage == null)
                 return message;
@@ -274,7 +268,7 @@ namespace System
         /// </summary>
         /// <param name="actual">The value that should be greater than <paramref name="greaterThan"/>.</param>
         /// <param name="greaterThan">The value that <paramref name="actual"/> should be greater than.</param>
-        public static void GreaterThan<T>(T actual, T greaterThan, string userMessage = null) where T : IComparable
+        public static void GreaterThan<T>(T actual, T greaterThan, string? userMessage = null) where T : IComparable
         {
             if (actual == null)
                 throw new XunitException(
@@ -291,7 +285,7 @@ namespace System
         /// </summary>
         /// <param name="actual">The value that should be less than <paramref name="lessThan"/>.</param>
         /// <param name="lessThan">The value that <paramref name="actual"/> should be less than.</param>
-        public static void LessThan<T>(T actual, T lessThan, string userMessage = null) where T : IComparable
+        public static void LessThan<T>(T actual, T lessThan, string? userMessage = null) where T : IComparable
         {
             if (actual == null)
             {
@@ -315,7 +309,7 @@ namespace System
         /// </summary>
         /// <param name="actual">The value that should be less than or equal to <paramref name="lessThanOrEqualTo"/></param>
         /// <param name="lessThanOrEqualTo">The value that <paramref name="actual"/> should be less than or equal to.</param>
-        public static void LessThanOrEqualTo<T>(T actual, T lessThanOrEqualTo, string userMessage = null) where T : IComparable
+        public static void LessThanOrEqualTo<T>(T actual, T lessThanOrEqualTo, string? userMessage = null) where T : IComparable
         {
             // null, by definition is always less than or equal to
             if (actual == null)
@@ -330,7 +324,7 @@ namespace System
         /// </summary>
         /// <param name="actual">The value that should be greater than or equal to <paramref name="greaterThanOrEqualTo"/></param>
         /// <param name="greaterThanOrEqualTo">The value that <paramref name="actual"/> should be greater than or equal to.</param>
-        public static void GreaterThanOrEqualTo<T>(T actual, T greaterThanOrEqualTo, string userMessage = null) where T : IComparable
+        public static void GreaterThanOrEqualTo<T>(T actual, T greaterThanOrEqualTo, string? userMessage = null) where T : IComparable
         {
             // null, by definition is always less than or equal to
             if (actual == null)
@@ -388,13 +382,13 @@ namespace System
         /// <param name="expected">The collection that <paramref name="actual"/> should contain same items as</param>
         /// <param name="actual"></param>
         /// <param name="comparer">The comparer used to compare the items in two collections</param>
-        public static void CollectionEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer)
+        public static void CollectionEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual, IEqualityComparer<T> comparer) where T : notnull
         {
             var actualItemCountMapping = new Dictionary<T, ItemCount>(comparer);
             int actualCount = 0;
             foreach (T actualItem in actual)
             {
-                if (actualItemCountMapping.TryGetValue(actualItem, out ItemCount countInfo))
+                if (actualItemCountMapping.TryGetValue(actualItem, out ItemCount? countInfo))
                 {
                     countInfo.Original++;
                     countInfo.Remain++;
@@ -418,7 +412,7 @@ namespace System
             for (var i = 0; i < expectedCount; i++)
             {
                 T currentExpectedItem = expectedArray[i];
-                if (!actualItemCountMapping.TryGetValue(currentExpectedItem, out ItemCount countInfo))
+                if (!actualItemCountMapping.TryGetValue(currentExpectedItem, out ItemCount? countInfo))
                 {
                     throw new XunitException($"Expected: {currentExpectedItem} but not found");
                 }
@@ -506,7 +500,7 @@ namespace System
         // Cannot use standard Assert.Throws() when testing Span - Span and closures don't get along.
         public static E AssertThrows<E, T>(ReadOnlySpan<T> span, AssertThrowsActionReadOnly<T> action) where E : Exception
         {
-            Exception exception;
+            Exception? exception;
 
             try
             {
@@ -531,7 +525,7 @@ namespace System
 
         public static E AssertThrows<E, T>(Span<T> span, AssertThrowsAction<T> action) where E : Exception
         {
-            Exception exception;
+            Exception? exception;
 
             try
             {

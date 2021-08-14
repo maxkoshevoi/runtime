@@ -110,7 +110,7 @@ namespace System
 
             try
             {
-                value = (string)Registry.GetValue(key, "InstallationType", defaultValue: "");
+                value = (string)Registry.GetValue(key, "InstallationType", defaultValue: "")!;
             }
             catch (Exception e) when (e is SecurityException || e is InvalidCastException)
             {
@@ -148,7 +148,7 @@ namespace System
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
 
-        private static volatile Version s_windowsVersionObject;
+        private static volatile Version? s_windowsVersionObject;
         internal static Version GetWindowsVersionObject()
         {
             if (s_windowsVersionObject is null)
@@ -216,7 +216,7 @@ namespace System
                 {
                     // We could catch this here, being friendly with older portable surface area should we
                     // desire to use this method elsewhere.
-                    if (e.GetType().FullName.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
+                    if (e.GetType().FullName!.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
                     {
                         // API doesn't exist, likely pre Win8
                         s_isInAppContainer = 0;

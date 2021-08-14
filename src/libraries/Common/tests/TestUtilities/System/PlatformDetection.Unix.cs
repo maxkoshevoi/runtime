@@ -69,7 +69,7 @@ namespace System
 
                 try
                 {
-                    return Marshal.PtrToStringAnsi(libc.gnu_get_libc_release());
+                    return Marshal.PtrToStringAnsi(libc.gnu_get_libc_release())!;
                 }
                 catch (Exception e) when (e is DllNotFoundException || e is EntryPointNotFoundException)
                 {
@@ -93,7 +93,7 @@ namespace System
 
                 try
                 {
-                    return Marshal.PtrToStringAnsi(libc.gnu_get_libc_version());
+                    return Marshal.PtrToStringAnsi(libc.gnu_get_libc_version())!;
                 }
                 catch (Exception e) when (e is DllNotFoundException || e is EntryPointNotFoundException)
                 {
@@ -115,7 +115,7 @@ namespace System
             }
         }
 
-        private static Version s_opensslVersion;
+        private static Version? s_opensslVersion;
         private static Version GetOpenSslVersion()
         {
             if (s_opensslVersion == null)
