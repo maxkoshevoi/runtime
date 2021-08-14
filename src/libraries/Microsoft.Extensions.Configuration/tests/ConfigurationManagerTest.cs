@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.Primitives;
@@ -1189,11 +1190,11 @@ namespace Microsoft.Extensions.Configuration.Test
 
         private class NullReloadTokenConfigSource : IConfigurationSource, IConfigurationProvider
         {
-            public IEnumerable<string> GetChildKeys(IEnumerable<string> earlierKeys, string parentPath) => throw new NotImplementedException();
+            public IEnumerable<string> GetChildKeys(IEnumerable<string> earlierKeys, string? parentPath) => throw new NotImplementedException();
             public IChangeToken GetReloadToken() => null;
             public void Load() { }
-            public void Set(string key, string value) => throw new NotImplementedException();
-            public bool TryGet(string key, out string value) => throw new NotImplementedException();
+            public void Set(string key, string? value) => throw new NotImplementedException();
+            public bool TryGet(string key, [MaybeNullWhen(false)] out string value) => throw new NotImplementedException();
             public IConfigurationProvider Build(IConfigurationBuilder builder) => this;
         }
 
