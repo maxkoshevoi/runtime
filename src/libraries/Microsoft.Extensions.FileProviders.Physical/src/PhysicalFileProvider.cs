@@ -260,7 +260,7 @@ namespace Microsoft.Extensions.FileProviders
         /// </summary>
         /// <param name="subpath">A path under the root directory</param>
         /// <returns>The file information. Caller must check <see cref="IFileInfo.Exists"/> property. </returns>
-        public IFileInfo GetFileInfo(string? subpath)
+        public IFileInfo GetFileInfo(string subpath)
         {
             if (string.IsNullOrEmpty(subpath) || PathUtils.HasInvalidPathChars(subpath))
             {
