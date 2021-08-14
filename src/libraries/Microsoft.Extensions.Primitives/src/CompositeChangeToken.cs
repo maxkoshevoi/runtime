@@ -110,7 +110,7 @@ namespace Microsoft.Extensions.Primitives
 
         private static void OnChange(object? state)
         {
-            var compositeChangeTokenState = state as CompositeChangeToken;
+            var compositeChangeTokenState = (CompositeChangeToken?)state;
             if (compositeChangeTokenState?._cancellationTokenSource == null)
             {
                 return;
