@@ -193,14 +193,14 @@ namespace Microsoft.Extensions.FileProviders.Physical
             sha256.AppendData(Separator, 0, Separator.Length);
         }
 
-        IDisposable? IChangeToken.RegisterChangeCallback(Action<object?> callback, object? state)
+        IDisposable IChangeToken.RegisterChangeCallback(Action<object?> callback, object? state)
         {
-            if (!ActiveChangeCallbacks)
+            if (!ActiveChangeCallbacks || _changeToken == null)
             {
                 return EmptyDisposable.Instance;
             }
 
-            return _changeToken?.RegisterChangeCallback(callback, state);
+            return _changeToken.RegisterChangeCallback(callback, state);
         }
     }
 }

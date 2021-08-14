@@ -129,14 +129,14 @@ namespace Microsoft.Extensions.FileProviders.Physical
         /// <param name="callback">This parameter is ignored</param>
         /// <param name="state">This parameter is ignored</param>
         /// <returns>A disposable object that noops when disposed</returns>
-        public IDisposable? RegisterChangeCallback(Action<object?> callback, object? state)
+        public IDisposable RegisterChangeCallback(Action<object?> callback, object? state)
         {
-            if (!ActiveChangeCallbacks)
+            if (!ActiveChangeCallbacks || _changeToken == null)
             {
                 return EmptyDisposable.Instance;
             }
 
-            return _changeToken?.RegisterChangeCallback(callback, state);
+            return _changeToken.RegisterChangeCallback(callback, state);
         }
     }
 }
