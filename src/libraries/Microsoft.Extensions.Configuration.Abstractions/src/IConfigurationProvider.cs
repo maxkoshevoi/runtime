@@ -46,6 +46,6 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="earlierKeys">The child keys returned by the preceding providers for the same parent path.</param>
         /// <param name="parentPath">The parent path.</param>
         /// <returns>The child keys.</returns>
-        IEnumerable<string> GetChildKeys(IEnumerable<string> earlierKeys, string parentPath);
+        IEnumerable<string> GetChildKeys(IEnumerable<string> earlierKeys, string? parentPath);
     }
 }
