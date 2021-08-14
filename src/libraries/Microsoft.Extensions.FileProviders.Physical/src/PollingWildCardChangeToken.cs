@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.FileProviders.Physical
     public class PollingWildCardChangeToken : IPollingChangeToken
     {
         private static readonly byte[] Separator = Encoding.Unicode.GetBytes("|");
-        private readonly object _enumerationLock = new object();
+        private readonly object _enumerationLock = new();
         private readonly DirectoryInfoBase _directoryInfo;
         private readonly Matcher _matcher;
         private bool _changed;

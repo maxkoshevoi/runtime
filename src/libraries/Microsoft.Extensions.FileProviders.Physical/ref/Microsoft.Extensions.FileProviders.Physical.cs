@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.FileProviders
         protected virtual void Dispose(bool disposing) { }
         ~PhysicalFileProvider() { }
         public Microsoft.Extensions.FileProviders.IDirectoryContents GetDirectoryContents(string? subpath) { throw null; }
-        public Microsoft.Extensions.FileProviders.IFileInfo GetFileInfo(string? subpath) { throw null; }
+        public Microsoft.Extensions.FileProviders.IFileInfo GetFileInfo(string subpath) { throw null; }
         public Microsoft.Extensions.Primitives.IChangeToken Watch(string? filter) { throw null; }
     }
 }
@@ -67,8 +67,8 @@ namespace Microsoft.Extensions.FileProviders.Physical
     }
     public partial class PhysicalFilesWatcher : System.IDisposable
     {
-        public PhysicalFilesWatcher(string root, System.IO.FileSystemWatcher fileSystemWatcher, bool pollForChanges) { }
-        public PhysicalFilesWatcher(string root, System.IO.FileSystemWatcher fileSystemWatcher, bool pollForChanges, Microsoft.Extensions.FileProviders.Physical.ExclusionFilters filters) { }
+        public PhysicalFilesWatcher(string root, System.IO.FileSystemWatcher? fileSystemWatcher, bool pollForChanges) { }
+        public PhysicalFilesWatcher(string root, System.IO.FileSystemWatcher? fileSystemWatcher, bool pollForChanges, Microsoft.Extensions.FileProviders.Physical.ExclusionFilters filters) { }
         public Microsoft.Extensions.Primitives.IChangeToken CreateFileChangeToken(string filter) { throw null; }
         public void Dispose() { }
         protected virtual void Dispose(bool disposing) { }
