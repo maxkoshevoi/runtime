@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Microsoft.Extensions.FileProviders
@@ -53,6 +54,7 @@ namespace Microsoft.Extensions.FileProviders
         /// </summary>
         /// <exception cref="FileNotFoundException">Always thrown.</exception>
         /// <returns>Does not return</returns>
+        [DoesNotReturn]
         public Stream CreateReadStream()
         {
             throw new FileNotFoundException(SR.Format(SR.FileNotExists, Name));
