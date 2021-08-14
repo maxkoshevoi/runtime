@@ -27,53 +27,17 @@ namespace Microsoft.Extensions.Configuration.Test
                 _data = str;
             }
 
-            public bool Exists
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            public bool Exists => true;
 
-            public bool IsDirectory
-            {
-                get
-                {
-                    return false;
-                }
-            }
+            public bool IsDirectory => false;
 
-            public DateTimeOffset LastModified
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public DateTimeOffset LastModified => throw new NotImplementedException();
 
-            public long Length
-            {
-                get
-                {
-                    return 0;
-                }
-            }
+            public long Length => 0;
 
-            public string? Name
-            {
-                get
-                {
-                    return null;
-                }
-            }
+            public string Name => string.Empty;
 
-            public string? PhysicalPath
-            {
-                get
-                {
-                    return null;
-                }
-            }
+            public string? PhysicalPath =>  null;
 
             public Stream CreateReadStream()
             {
@@ -94,7 +58,7 @@ namespace Microsoft.Extensions.Configuration.Test
                 throw new NotImplementedException();
             }
 
-            public IFileInfo GetFileInfo(string? subpath)
+            public IFileInfo GetFileInfo(string subpath)
             {
                 return new TestFile(_data);
             }
