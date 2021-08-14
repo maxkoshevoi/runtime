@@ -4,8 +4,6 @@
 // Changes to this file must follow the https://aka.ms/api-review process.
 // ------------------------------------------------------------------------------
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Microsoft.Extensions.Configuration
 {
     public static partial class ChainedBuilderExtensions
@@ -21,12 +19,12 @@ namespace Microsoft.Extensions.Configuration
         public Microsoft.Extensions.Primitives.IChangeToken GetReloadToken() { throw null; }
         public void Load() { }
         public void Set(string key, string? value) { }
-        public bool TryGet(string key, [MaybeNullWhen(false)] out string value) { throw null; }
+        public bool TryGet(string key, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out string value) { throw null; }
     }
     public partial class ChainedConfigurationSource : Microsoft.Extensions.Configuration.IConfigurationSource
     {
         public ChainedConfigurationSource() { }
-        public Microsoft.Extensions.Configuration.IConfiguration Configuration { get { throw null; } set { } }
+        public Microsoft.Extensions.Configuration.IConfiguration? Configuration { get { throw null; } set { } }
         public bool ShouldDisposeConfiguration { get { throw null; } set { } }
         public Microsoft.Extensions.Configuration.IConfigurationProvider Build(Microsoft.Extensions.Configuration.IConfigurationBuilder builder) { throw null; }
     }
@@ -69,7 +67,7 @@ namespace Microsoft.Extensions.Configuration
         protected void OnReload() { }
         public virtual void Set(string key, string? value) { }
         public override string ToString() { throw null; }
-        public virtual bool TryGet(string key, [MaybeNullWhen(false)] out string value) { throw null; }
+        public virtual bool TryGet(string key, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out string value) { throw null; }
     }
     public partial class ConfigurationReloadToken : Microsoft.Extensions.Primitives.IChangeToken
     {
@@ -104,7 +102,7 @@ namespace Microsoft.Extensions.Configuration
     public static partial class MemoryConfigurationBuilderExtensions
     {
         public static Microsoft.Extensions.Configuration.IConfigurationBuilder AddInMemoryCollection(this Microsoft.Extensions.Configuration.IConfigurationBuilder configurationBuilder) { throw null; }
-        public static Microsoft.Extensions.Configuration.IConfigurationBuilder AddInMemoryCollection(this Microsoft.Extensions.Configuration.IConfigurationBuilder configurationBuilder, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string?>> initialData) { throw null; }
+        public static Microsoft.Extensions.Configuration.IConfigurationBuilder AddInMemoryCollection(this Microsoft.Extensions.Configuration.IConfigurationBuilder configurationBuilder, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string?>>? initialData) { throw null; }
     }
     public abstract partial class StreamConfigurationProvider : Microsoft.Extensions.Configuration.ConfigurationProvider
     {
@@ -132,7 +130,7 @@ namespace Microsoft.Extensions.Configuration.Memory
     public partial class MemoryConfigurationSource : Microsoft.Extensions.Configuration.IConfigurationSource
     {
         public MemoryConfigurationSource() { }
-        public System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string?>> InitialData { get { throw null; } set { } }
+        public System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, string?>>? InitialData { get { throw null; } set { } }
         public Microsoft.Extensions.Configuration.IConfigurationProvider Build(Microsoft.Extensions.Configuration.IConfigurationBuilder builder) { throw null; }
     }
 }

@@ -47,15 +47,8 @@ namespace Microsoft.Extensions.Configuration
         /// </summary>
         public string Key
         {
-            get
-            {
-                if (_key == null)
-                {
-                    // Key is calculated lazily as last portion of Path
-                    _key = ConfigurationPath.GetSectionKey(_path);
-                }
-                return _key;
-            }
+            // Key is calculated lazily as last portion of Path
+            get => _key ??= ConfigurationPath.GetSectionKey(_path);
         }
 
         /// <summary>
@@ -63,14 +56,8 @@ namespace Microsoft.Extensions.Configuration
         /// </summary>
         public string? Value
         {
-            get
-            {
-                return _root[Path];
-            }
-            set
-            {
-                _root[Path] = value;
-            }
+            get => _root[Path];
+            set => _root[Path] = value;
         }
 
         /// <summary>
@@ -80,15 +67,8 @@ namespace Microsoft.Extensions.Configuration
         /// <returns>The configuration value.</returns>
         public string? this[string key]
         {
-            get
-            {
-                return _root[ConfigurationPath.Combine(Path, key)];
-            }
-
-            set
-            {
-                _root[ConfigurationPath.Combine(Path, key)] = value;
-            }
+            get => _root[ConfigurationPath.Combine(Path, key)];
+            set => _root[ConfigurationPath.Combine(Path, key)] = value;
         }
 
         /// <summary>
