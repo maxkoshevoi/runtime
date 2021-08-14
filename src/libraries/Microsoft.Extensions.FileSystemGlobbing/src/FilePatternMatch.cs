@@ -56,11 +56,8 @@ namespace Microsoft.Extensions.FileSystemGlobbing
         /// </summary>
         /// <param name="obj">The object to be compared</param>
         /// <returns>True when <see cref="Equals(FilePatternMatch)" /></returns>
-        public override bool Equals(object? obj)
-        {
-            return obj is FilePatternMatch match &&
-                   Equals(match);
-        }
+        public override bool Equals(object? obj) =>
+            obj is FilePatternMatch match && Equals(match);
 
         /// <summary>
         /// Gets a hash for the file pattern match.

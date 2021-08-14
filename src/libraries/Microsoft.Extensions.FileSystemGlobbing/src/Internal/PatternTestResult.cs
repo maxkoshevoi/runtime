@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal
             Stem = stem;
         }
 
-        public static PatternTestResult Success(string stem)
+        public static PatternTestResult Success(string? stem)
         {
             return new PatternTestResult(isSuccessful: true, stem: stem);
         }
