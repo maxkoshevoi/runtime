@@ -25,9 +25,10 @@ namespace System
                 Arguments = commandLine
             };
 
-            using (Process process = Process.Start(startInfo))
+            using (Process? process = Process.Start(startInfo))
             {
-                Assert.True(process.WaitForExit(30000));
+                Assert.NotNull(process);
+                Assert.True(process!.WaitForExit(30000));
                 return process.ExitCode;
             }
         }
