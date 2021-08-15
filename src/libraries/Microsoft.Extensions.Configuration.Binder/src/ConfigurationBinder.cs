@@ -30,7 +30,7 @@ namespace Microsoft.Extensions.Configuration
         /// <returns>The new instance of T if successful, default(T) otherwise.</returns>
         [RequiresUnreferencedCode(TrimmingWarningMessage)]
         public static T? Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(this IConfiguration configuration)
-            => configuration.Get<T>(_ => { });
+            => configuration.Get<T>(null);
 
         /// <summary>
         /// Attempts to bind the configuration instance to a new instance of type T.
@@ -42,7 +42,7 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="configureOptions">Configures the binder options.</param>
         /// <returns>The new instance of T if successful, default(T) otherwise.</returns>
         [RequiresUnreferencedCode(TrimmingWarningMessage)]
-        public static T? Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(this IConfiguration configuration, Action<BinderOptions> configureOptions)
+        public static T? Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(this IConfiguration configuration, Action<BinderOptions>? configureOptions)
         {
             if (configuration == null)
             {
@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.Configuration
         /// <returns>The new instance if successful, null otherwise.</returns>
         [RequiresUnreferencedCode(TrimmingWarningMessage)]
         public static object? Get(this IConfiguration configuration, Type type)
-            => configuration.Get(type, _ => { });
+            => configuration.Get(type, null);
 
         /// <summary>
         /// Attempts to bind the configuration instance to a new instance of type T.
@@ -102,7 +102,7 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="key">The key of the configuration section to bind.</param>
         /// <param name="instance">The object to bind.</param>
         [RequiresUnreferencedCode(InstanceGetTypeTrimmingWarningMessage)]
-        public static void Bind(this IConfiguration configuration, string key, object instance)
+        public static void Bind(this IConfiguration configuration, string key, object? instance)
             => configuration.GetSection(key).Bind(instance);
 
         /// <summary>
@@ -111,8 +111,8 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="configuration">The configuration instance to bind.</param>
         /// <param name="instance">The object to bind.</param>
         [RequiresUnreferencedCode(InstanceGetTypeTrimmingWarningMessage)]
-        public static void Bind(this IConfiguration configuration, object instance)
-            => configuration.Bind(instance, o => { });
+        public static void Bind(this IConfiguration configuration, object? instance)
+            => configuration.Bind(instance, null);
 
         /// <summary>
         /// Attempts to bind the given object instance to configuration values by matching property names against configuration keys recursively.
@@ -121,7 +121,7 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="instance">The object to bind.</param>
         /// <param name="configureOptions">Configures the binder options.</param>
         [RequiresUnreferencedCode(InstanceGetTypeTrimmingWarningMessage)]
-        public static void Bind(this IConfiguration configuration, object instance, Action<BinderOptions> configureOptions)
+        public static void Bind(this IConfiguration configuration, object? instance, Action<BinderOptions>? configureOptions)
         {
             if (configuration == null)
             {
