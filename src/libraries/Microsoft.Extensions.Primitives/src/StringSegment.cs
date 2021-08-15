@@ -190,7 +190,7 @@ namespace Microsoft.Extensions.Primitives
         /// </summary>
         /// <param name="obj">An object to compare with this object.</param>
         /// <returns><see langword="true" /> if the current object is equal to the other parameter; otherwise, <see langword="false" />.</returns>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
             return obj is StringSegment segment && Equals(segment);
         }
@@ -241,7 +241,7 @@ namespace Microsoft.Extensions.Primitives
         /// </summary>
         /// <param name="text">The <see cref="string"/> to compare with the current <see cref="StringSegment"/>.</param>
         /// <returns><see langword="true" /> if the specified <see cref="string"/> is equal to the current <see cref="StringSegment"/>; otherwise, <see langword="false" />.</returns>
-        public bool Equals(string text)
+        public bool Equals([NotNullWhen(true)] string? text)
         {
             return Equals(text, StringComparison.Ordinal);
         }
@@ -256,11 +256,11 @@ namespace Microsoft.Extensions.Primitives
         /// <paramref name="text"/> is <see langword="null" />.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(string text, StringComparison comparisonType)
+        public bool Equals([NotNullWhen(true)] string? text, StringComparison comparisonType)
         {
             if (text == null)
             {
-                ThrowHelper.ThrowArgumentNullException(ExceptionArgument.text);
+                return false;
             }
 
             if (!HasValue)
