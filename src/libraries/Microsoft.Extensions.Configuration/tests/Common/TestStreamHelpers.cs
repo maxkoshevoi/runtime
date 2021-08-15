@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.Configuration.Test
 
             public string Name => string.Empty;
 
-            public string? PhysicalPath =>  null;
+            public string? PhysicalPath => null;
 
             public Stream CreateReadStream()
             {
