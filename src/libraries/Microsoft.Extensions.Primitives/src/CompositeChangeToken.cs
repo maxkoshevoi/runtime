@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Primitives
 
         [MemberNotNullWhen(true, nameof(_cancellationTokenSource))]
         [MemberNotNullWhen(true, nameof(_disposables))]
-        private bool _registeredCallbackProxy { get; set; }
+        private bool RegisteredCallbackProxy { get; set; }
 
         /// <summary>
         /// Creates a new instance of <see cref="CompositeChangeToken"/>.
@@ -82,14 +82,14 @@ namespace Microsoft.Extensions.Primitives
         [MemberNotNull(nameof(_disposables))]
         private void EnsureCallbacksInitialized()
         {
-            if (_registeredCallbackProxy)
+            if (RegisteredCallbackProxy)
             {
                 return;
             }
 
             lock (_callbackLock)
             {
-                if (_registeredCallbackProxy)
+                if (RegisteredCallbackProxy)
                 {
                     return;
                 }
@@ -104,14 +104,16 @@ namespace Microsoft.Extensions.Primitives
                         _disposables.Add(disposable);
                     }
                 }
-                _registeredCallbackProxy = true;
+                RegisteredCallbackProxy = true;
             }
         }
 
         private static void OnChange(object? state)
         {
-            var compositeChangeTokenState = (CompositeChangeToken?)state;
-            if (compositeChangeTokenState?._cancellationTokenSource == null)
+            Debug.Assert(state != null);
+
+            var compositeChangeTokenState = (CompositeChangeToken)state;
+            if (compositeChangeTokenState._cancellationTokenSource == null)
             {
                 return;
             }
