@@ -205,7 +205,7 @@ BOOL DacValidateMD(MethodDesc * pMD)
             retval = FALSE;
         }
 
-        if (retval && pMD->HasTemporaryEntryPoint())
+        if (retval)
         {
             MethodDesc *pMDCheck = MethodDesc::GetMethodDescFromStubAddr(pMD->GetTemporaryEntryPoint(), TRUE);
 
@@ -433,22 +433,10 @@ ClrDataAccess::GetJitManagerList(unsigned int count, struct DacpJitManagerInfo m
             EEJitManager *eeJitManager = PTR_EEJitManager(PTR_HOST_TO_TADDR(managerPtr));
             currentPtr->ptrHeapList = HOST_CDADDR(eeJitManager->m_pCodeHeap);
         }
-#ifdef FEATURE_PREJIT
-        if (count >= 2)
-        {
-            NativeImageJitManager * managerPtr = ExecutionManager::GetNativeImageJitManager();
-            DacpJitManagerInfo *currentPtr = &managers[1];
-            currentPtr->managerAddr = HOST_CDADDR(managerPtr);
-            currentPtr->codeType = managerPtr->GetCodeType();
-        }
-#endif
     }
     else if (pNeeded)
     {
         *pNeeded = 1;
-#ifdef FEATURE_PREJIT
-        (*pNeeded)++;
-#endif
     }
 
     SOSDacLeave();
@@ -930,7 +918,7 @@ HRESULT ClrDataAccess::GetMethodDescData(
             methodDescData->bHasNativeCode = FALSE;
             methodDescData->NativeCodeAddr = (CLRDATA_ADDRESS)-1;
         }
-        methodDescData->AddressOfNativeCodeSlot = pMD->HasNativeCodeSlot() ? TO_CDADDR(pMD->GetAddrOfNativeCodeSlot()) : NULL;
+        methodDescData->AddressOfNativeCodeSlot = pMD->HasNativeCodeSlot() ? TO_CDADDR(dac_cast<TADDR>(pMD->GetAddrOfNativeCodeSlot())) : NULL;
         methodDescData->MDToken = pMD->GetMemberDef();
         methodDescData->MethodDescPtr = methodDesc;
         methodDescData->MethodTablePtr = HOST_CDADDR(pMD->GetMethodTable());
@@ -3780,24 +3768,24 @@ ClrDataAccess::EnumWksGlobalMemoryRegions(CLRDataEnumMemoryFlags flags)
     Dereference(g_gcDacGlobals->finalize_queue).EnumMem();
 
     // Enumerate the entire generation table, which has variable size
-    size_t gen_table_size = g_gcDacGlobals->generation_size * (*g_gcDacGlobals->max_gen + 2);
-    DacEnumMemoryRegion(dac_cast<TADDR>(g_gcDacGlobals->generation_table), gen_table_size);
+    EnumGenerationTable(dac_cast<TADDR>(g_gcDacGlobals->generation_table));
 
     if (g_gcDacGlobals->generation_table.IsValid())
     {
-            // enumerating the generations from max (which is normally gen2) to max+1 gives you
-            // the segment list for all the normal segements plus the large heap segment (max+1)
-            // this is the convention in the GC so it is repeated here
-            for (ULONG i = *g_gcDacGlobals->max_gen; i <= *g_gcDacGlobals->max_gen +1; i++)
+        ULONG first = IsRegion() ? 0 : (*g_gcDacGlobals->max_gen);
+        // enumerating the first to max + 2 gives you
+        // the segment list for all the normal segments plus the pinned heap segment (max + 2)
+        // this is the convention in the GC so it is repeated here
+        for (ULONG i = first; i <= *g_gcDacGlobals->max_gen + 2; i++)
+        {
+            dac_generation gen = GenerationTableIndex(g_gcDacGlobals->generation_table, i);
+            __DPtr<dac_heap_segment> seg = dac_cast<TADDR>(gen.start_segment);
+            while (seg)
             {
-                dac_generation gen = GenerationTableIndex(g_gcDacGlobals->generation_table, i);
-                __DPtr<dac_heap_segment> seg = dac_cast<TADDR>(gen.start_segment);
-                while (seg)
-                {
-                    DacEnumMemoryRegion(dac_cast<TADDR>(seg), sizeof(dac_heap_segment));
-                    seg = seg->next;
-                }
+                DacEnumMemoryRegion(dac_cast<TADDR>(seg), sizeof(dac_heap_segment));
+                seg = seg->next;
             }
+        }
     }
 }
 
@@ -3842,11 +3830,11 @@ HRESULT ClrDataAccess::GetClrWatsonBucketsWorker(Thread * pThread, GenericModeBl
         if (oThrowable != NULL)
         {
             // Does the throwable have buckets?
-            if (((EXCEPTIONREF)oThrowable)->AreWatsonBucketsPresent())
+            U1ARRAYREF refWatsonBucketArray = ((EXCEPTIONREF)oThrowable)->GetWatsonBucketReference();
+            if (refWatsonBucketArray != NULL)
             {
                 // Get the watson buckets from the throwable for non-preallocated
                 // exceptions
-                U1ARRAYREF refWatsonBucketArray = ((EXCEPTIONREF)oThrowable)->GetWatsonBucketReference();
                 pBuckets = dac_cast<PTR_VOID>(refWatsonBucketArray->GetDataPtr());
             }
             else
