@@ -45,7 +45,6 @@ namespace Microsoft.Extensions.Primitives
         public StringSegment(string buffer, int offset, int length) { throw null; }
         public string? Buffer { get { throw null; } }
         [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, nameof(Buffer))]
-        [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, nameof(Buffer))]
         public bool HasValue { get { throw null; } }
         public char this[int index] { get { throw null; } }
         public int Length { get { throw null; } }
