@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing
         public InMemoryDirectoryInfo(string rootDir, System.Collections.Generic.IEnumerable<string>? files) { }
         public override string FullName { get { throw null; } }
         public override string Name { get { throw null; } }
-        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase ParentDirectory { get { throw null; } }
+        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? ParentDirectory { get { throw null; } }
         public override System.Collections.Generic.IEnumerable<Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileSystemInfoBase> EnumerateFileSystemInfos() { throw null; }
         public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase GetDirectory(string path) { throw null; }
         public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase? GetFile(string path) { throw null; }
@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Abstractions
         public DirectoryInfoWrapper(System.IO.DirectoryInfo directoryInfo) { }
         public override string FullName { get { throw null; } }
         public override string Name { get { throw null; } }
-        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase ParentDirectory { get { throw null; } }
+        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? ParentDirectory { get { throw null; } }
         public override System.Collections.Generic.IEnumerable<Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileSystemInfoBase> EnumerateFileSystemInfos() { throw null; }
         public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? GetDirectory(string name) { throw null; }
         public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase GetFile(string name) { throw null; }
@@ -81,14 +81,14 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Abstractions
         public FileInfoWrapper(System.IO.FileInfo fileInfo) { }
         public override string FullName { get { throw null; } }
         public override string Name { get { throw null; } }
-        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase ParentDirectory { get { throw null; } }
+        public override Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? ParentDirectory { get { throw null; } }
     }
     public abstract partial class FileSystemInfoBase
     {
         protected FileSystemInfoBase() { }
         public abstract string FullName { get; }
         public abstract string Name { get; }
-        public abstract Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase ParentDirectory { get; }
+        public abstract Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase? ParentDirectory { get; }
     }
 }
 namespace Microsoft.Extensions.FileSystemGlobbing.Internal
@@ -220,7 +220,7 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts
         public override void PopDirectory() { }
         public sealed override void PushDirectory(Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase directory) { }
         public override Microsoft.Extensions.FileSystemGlobbing.Internal.PatternTestResult Test(Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase file) { throw null; }
-        protected bool TestMatchingGroup(Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileSystemInfoBase? value) { throw null; }
+        protected bool TestMatchingGroup(Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileSystemInfoBase value) { throw null; }
         protected bool TestMatchingSegment(string value) { throw null; }
         public partial struct FrameData
         {
