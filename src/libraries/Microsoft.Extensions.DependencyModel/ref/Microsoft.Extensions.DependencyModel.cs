@@ -13,9 +13,9 @@ namespace Microsoft.DotNet.PlatformAbstractions
         private int _dummyPrimitive;
         public int CombinedHash { get { throw null; } }
         public void Add(int i) { }
-        public void Add(object o) { }
-        public void Add(string s) { }
-        public void Add<TValue>(TValue value, System.Collections.Generic.IEqualityComparer<TValue> comparer) { }
+        public void Add(object? o) { }
+        public void Add(string? s) { }
+        public void Add<TValue>(TValue? value, System.Collections.Generic.IEqualityComparer<TValue> comparer) { }
         public static Microsoft.DotNet.PlatformAbstractions.HashCodeCombiner Start() { throw null; }
     }
 }
@@ -139,11 +139,11 @@ namespace Microsoft.Extensions.DependencyModel
     }
     public partial class RuntimeAssetGroup
     {
-        public RuntimeAssetGroup(string runtime, System.Collections.Generic.IEnumerable<Microsoft.Extensions.DependencyModel.RuntimeFile> runtimeFiles) { }
-        public RuntimeAssetGroup(string runtime, System.Collections.Generic.IEnumerable<string> assetPaths) { }
-        public RuntimeAssetGroup(string runtime, params string[] assetPaths) { }
+        public RuntimeAssetGroup(string? runtime, System.Collections.Generic.IEnumerable<Microsoft.Extensions.DependencyModel.RuntimeFile> runtimeFiles) { }
+        public RuntimeAssetGroup(string? runtime, System.Collections.Generic.IEnumerable<string> assetPaths) { }
+        public RuntimeAssetGroup(string? runtime, params string[] assetPaths) { }
         public System.Collections.Generic.IReadOnlyList<string> AssetPaths { get { throw null; } }
-        public string Runtime { get { throw null; } }
+        public string? Runtime { get { throw null; } }
         public System.Collections.Generic.IReadOnlyList<Microsoft.Extensions.DependencyModel.RuntimeFile> RuntimeFiles { get { throw null; } }
     }
     public partial class RuntimeFallbacks
@@ -210,7 +210,7 @@ namespace Microsoft.Extensions.DependencyModel.Resolution
     public partial class ReferenceAssemblyPathResolver : Microsoft.Extensions.DependencyModel.Resolution.ICompilationAssemblyResolver
     {
         public ReferenceAssemblyPathResolver() { }
-        public ReferenceAssemblyPathResolver(string defaultReferenceAssembliesPath, string[] fallbackSearchPaths) { }
+        public ReferenceAssemblyPathResolver(string? defaultReferenceAssembliesPath, string[] fallbackSearchPaths) { }
         public bool TryResolveAssemblyPaths(Microsoft.Extensions.DependencyModel.CompilationLibrary library, System.Collections.Generic.List<string> assemblies) { throw null; }
     }
 }
