@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyModel.Resolution
             _resolvers = resolvers ?? throw new ArgumentNullException(nameof(resolvers));
         }
 
-        public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
+        public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string>? assemblies)
         {
             if (library is null)
             {
