@@ -28,14 +28,13 @@ namespace Microsoft.Extensions.FileSystemGlobbing.Tests
         [Fact]
         public void TestGetHashCodeWithNull()
         {
-            FilePatternMatch match = new FilePatternMatch(null, null);
-            Assert.Equal(0, match.GetHashCode());
+            const string nonNullString = "non null";
 
-            int hash1 = new FilePatternMatch("non null", null).GetHashCode();
-            int hash2 = new FilePatternMatch(null, "non null").GetHashCode();
-            Assert.NotEqual(0, hash1);
-            Assert.NotEqual(0, hash2);
-            Assert.NotEqual(hash1, hash2);
+            int match = new FilePatternMatch(nonNullString, null).GetHashCode();
+            Assert.Equal(nonNullString.GetHashCode(), match.GetHashCode());
+
+            int hash1 = new FilePatternMatch(nonNullString, nonNullString).GetHashCode();
+            Assert.NotEqual(nonNullString.GetHashCode(), hash1);
         }
     }
 }
