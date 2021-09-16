@@ -1,17 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;$(NetFrameworkMinimum)</TargetFrameworks>
-    <TargetFrameworks>$(NetCoreAppCurrent);netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>$(NetCoreAppCurrent);netstandard2.0;$(NetFrameworkMinimum)</TargetFrameworks>
     <EnableDefaultItems>true</EnableDefaultItems>
     <PackageDescription>Abstractions of key-value pair based configuration.
 
-Commonly Used Types:
-Microsoft.Extensions.Configuration.IConfiguration
-Microsoft.Extensions.Configuration.IConfigurationBuilder
-Microsoft.Extensions.Configuration.IConfigurationProvider
-Microsoft.Extensions.Configuration.IConfigurationRoot
-Microsoft.Extensions.Configuration.IConfigurationSection</PackageDescription>
+      Commonly Used Types:
+      Microsoft.Extensions.Configuration.IConfiguration
+      Microsoft.Extensions.Configuration.IConfigurationBuilder
+      Microsoft.Extensions.Configuration.IConfigurationProvider
+      Microsoft.Extensions.Configuration.IConfigurationRoot
+      Microsoft.Extensions.Configuration.IConfigurationSection</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
