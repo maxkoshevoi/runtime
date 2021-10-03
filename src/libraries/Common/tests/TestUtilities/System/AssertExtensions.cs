@@ -477,7 +477,7 @@ namespace System
             {
                 if (!comparer.Equals(expected, actual[i]))
                 {
-                    throw new XunitException($"Expected {expected?.ToString() ?? "null"} at position {i}");
+                    throw new XunitException($"Expected {expected?.ToString() ?? "null"} at position {i}; actual {actual[i]?.ToString() ?? "null"}");
                 }
             }
         }
