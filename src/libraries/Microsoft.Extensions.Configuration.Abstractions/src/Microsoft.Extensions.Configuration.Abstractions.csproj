@@ -8,12 +8,12 @@
     <DisableImplicitAssemblyReferences>false</DisableImplicitAssemblyReferences>
     <PackageDescription>Abstractions of key-value pair based configuration.
 
-      Commonly Used Types:
-      Microsoft.Extensions.Configuration.IConfiguration
-      Microsoft.Extensions.Configuration.IConfigurationBuilder
-      Microsoft.Extensions.Configuration.IConfigurationProvider
-      Microsoft.Extensions.Configuration.IConfigurationRoot
-      Microsoft.Extensions.Configuration.IConfigurationSection</PackageDescription>
+Commonly Used Types:
+Microsoft.Extensions.Configuration.IConfiguration
+Microsoft.Extensions.Configuration.IConfigurationBuilder
+Microsoft.Extensions.Configuration.IConfigurationProvider
+Microsoft.Extensions.Configuration.IConfigurationRoot
+Microsoft.Extensions.Configuration.IConfigurationSection</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
