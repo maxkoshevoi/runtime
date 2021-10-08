@@ -24,6 +24,7 @@ namespace Microsoft.Extensions.Configuration
     public partial class ChainedConfigurationSource : Microsoft.Extensions.Configuration.IConfigurationSource
     {
         public ChainedConfigurationSource() { }
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         public Microsoft.Extensions.Configuration.IConfiguration? Configuration { get { throw null; } set { } }
         public bool ShouldDisposeConfiguration { get { throw null; } set { } }
         public Microsoft.Extensions.Configuration.IConfigurationProvider Build(Microsoft.Extensions.Configuration.IConfigurationBuilder builder) { throw null; }
@@ -67,7 +68,7 @@ namespace Microsoft.Extensions.Configuration
         protected void OnReload() { }
         public virtual void Set(string key, string? value) { }
         public override string ToString() { throw null; }
-        public virtual bool TryGet(string key, out string? value) { throw null; }
+        public virtual bool TryGet(string key, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out string value) { throw null; }
     }
     public partial class ConfigurationReloadToken : Microsoft.Extensions.Primitives.IChangeToken
     {
@@ -114,7 +115,8 @@ namespace Microsoft.Extensions.Configuration
     public abstract partial class StreamConfigurationSource : Microsoft.Extensions.Configuration.IConfigurationSource
     {
         protected StreamConfigurationSource() { }
-        public System.IO.Stream Stream { get { throw null; } set { } }
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
+        public System.IO.Stream? Stream { get { throw null; } set { } }
         public abstract Microsoft.Extensions.Configuration.IConfigurationProvider Build(Microsoft.Extensions.Configuration.IConfigurationBuilder builder);
     }
 }
