@@ -694,11 +694,12 @@ static InterpMethod* // Inlining causes additional stack use in caller.
 get_virtual_method_fast (InterpMethod *imethod, MonoVTable *vtable, int offset)
 {
 	gpointer *table;
-	MonoMemoryManager *memory_manager = m_class_get_mem_manager (vtable->klass);
+	MonoMemoryManager *memory_manager = NULL;
 
 	table = get_method_table (vtable, offset);
 
-	if (!table) {
+	if (G_UNLIKELY (!table)) {
+		memory_manager = m_class_get_mem_manager (vtable->klass);
 		/* Lazily allocate method table */
 		mono_mem_manager_lock (memory_manager);
 		table = get_method_table (vtable, offset);
@@ -707,8 +708,10 @@ get_virtual_method_fast (InterpMethod *imethod, MonoVTable *vtable, int offset)
 		mono_mem_manager_unlock (memory_manager);
 	}
 
-	if (!table [offset]) {
+	if (G_UNLIKELY (!table [offset])) {
 		InterpMethod *target_imethod = get_virtual_method (imethod, vtable);
+		if (!memory_manager)
+			memory_manager = m_class_get_mem_manager (vtable->klass);
 		/* Lazily initialize the method table slot */
 		mono_mem_manager_lock (memory_manager);
 		if (!table [offset]) {
@@ -727,8 +730,10 @@ get_virtual_method_fast (InterpMethod *imethod, MonoVTable *vtable, int offset)
 		/* Virtual generic or interface call. Multiple methods in slot */
 		InterpMethod *target_imethod = get_target_imethod ((GSList*)table [offset], imethod);
 
-		if (!target_imethod) {
+		if (G_UNLIKELY (!target_imethod)) {
 			target_imethod = get_virtual_method (imethod, vtable);
+			if (!memory_manager)
+				memory_manager = m_class_get_mem_manager (vtable->klass);
 			mono_mem_manager_lock (memory_manager);
 			if (!get_target_imethod ((GSList*)table [offset], imethod))
 				table [offset] = append_imethod (memory_manager, (GSList*)table [offset], imethod, target_imethod);
@@ -6537,9 +6542,16 @@ MINT_IN_CASE(MINT_BRTRUE_I8_SP) ZEROP_SP(gint64, !=); MINT_IN_BREAK;
 
 			MonoMethod *cmethod = LOCAL_VAR (ip [2], MonoMethod*);
 
-			InterpMethod *m = mono_interp_get_imethod (cmethod, error);
-			mono_error_assert_ok (error);
-			LOCAL_VAR (ip [1], gpointer) = imethod_to_ftnptr (m, FALSE);
+			if (G_UNLIKELY (mono_method_has_unmanaged_callers_only_attribute (cmethod))) {
+				cmethod = mono_marshal_get_managed_wrapper  (cmethod, NULL, (MonoGCHandle)0, error);
+				mono_error_assert_ok (error);
+				gpointer addr = mini_get_interp_callbacks ()->create_method_pointer (cmethod, TRUE, error);
+				LOCAL_VAR (ip [1], gpointer) = addr;
+			} else {
+				InterpMethod *m = mono_interp_get_imethod (cmethod, error);
+				mono_error_assert_ok (error);
+				LOCAL_VAR (ip [1], gpointer) = imethod_to_ftnptr (m, FALSE);
+			}
 			ip += 3;
 			MINT_IN_BREAK;
 		}
