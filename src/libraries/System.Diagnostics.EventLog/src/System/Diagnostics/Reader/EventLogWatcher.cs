@@ -15,7 +15,7 @@ namespace System.Diagnostics.Eventing.Reader
         public event EventHandler<EventRecordWrittenEventArgs> EventRecordWritten;
 
         private readonly EventLogQuery _eventQuery;
-        private readonly EventBookmark _bookmark;
+        private readonly EventBookmark? _bookmark;
         private readonly bool _readExistingEvents;
 
         private EventLogHandle _handle;
@@ -44,12 +44,12 @@ namespace System.Diagnostics.Eventing.Reader
         {
         }
 
-        public EventLogWatcher(EventLogQuery eventQuery, EventBookmark bookmark)
+        public EventLogWatcher(EventLogQuery eventQuery, EventBookmark? bookmark)
             : this(eventQuery, bookmark, false)
         {
         }
 
-        public EventLogWatcher(EventLogQuery eventQuery!!, EventBookmark bookmark, bool readExistingEvents)
+        public EventLogWatcher(EventLogQuery eventQuery!!, EventBookmark? bookmark, bool readExistingEvents)
         {
             if (bookmark != null)
             {

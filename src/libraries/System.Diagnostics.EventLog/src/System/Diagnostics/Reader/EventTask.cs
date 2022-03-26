@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Diagnostics.Eventing.Reader
 {
@@ -11,12 +12,14 @@ namespace System.Diagnostics.Eventing.Reader
     /// </summary>
     public sealed class EventTask
     {
-        private string _name;
-        private string _displayName;
+        private string? _name;
+        private string? _displayName;
         private Guid _guid;
-        private bool _dataReady;
-        private readonly ProviderMetadata _pmReference;
+        private readonly ProviderMetadata? _pmReference;
         private readonly object _syncObject;
+
+        [MemberNotNullWhen(false, nameof(_pmReference))]
+        private bool _dataReady { get; set; }
 
         internal EventTask(int value, ProviderMetadata pmReference)
         {
@@ -25,7 +28,7 @@ namespace System.Diagnostics.Eventing.Reader
             _syncObject = new object();
         }
 
-        internal EventTask(string name, int value, string displayName, Guid guid)
+        internal EventTask(string? name, int value, string? displayName, Guid guid)
         {
             Value = value;
             _name = name;
@@ -63,7 +66,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public string Name
+        public string? Name
         {
             get
             {
@@ -74,7 +77,7 @@ namespace System.Diagnostics.Eventing.Reader
 
         public int Value { get; }
 
-        public string DisplayName
+        public string? DisplayName
         {
             get
             {
