@@ -12,9 +12,9 @@ namespace System.Diagnostics.Eventing.Reader
     /// </summary>
     public sealed class EventLogLink
     {
-        private string _channelName;
+        private string? _channelName;
         private bool _isImported;
-        private string _displayName;
+        private string? _displayName;
         private bool _dataReady;
         private readonly ProviderMetadata _pmReference;
         private readonly object _syncObject;
@@ -26,7 +26,7 @@ namespace System.Diagnostics.Eventing.Reader
             _syncObject = new object();
         }
 
-        internal EventLogLink(string channelName, bool isImported, string displayName, uint channelId)
+        internal EventLogLink(string? channelName, bool isImported, string? displayName, uint channelId)
         {
             _channelName = channelName;
             _isImported = isImported;
@@ -70,7 +70,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public string LogName
+        public string? LogName
         {
             get
             {
@@ -88,7 +88,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public string DisplayName
+        public string? DisplayName
         {
             get
             {

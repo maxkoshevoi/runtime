@@ -49,7 +49,7 @@ namespace System.Diagnostics.Eventing.Reader
 
         public EventLogConfiguration(string logName) : this(logName, null) { }
 
-        public EventLogConfiguration(string logName, EventLogSession session)
+        public EventLogConfiguration(string logName, EventLogSession? session)
         {
             if (session == null)
                 session = EventLogSession.GlobalSession;
@@ -66,7 +66,7 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                return (EventLogType)((uint)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigType));
+                return (EventLogType)((uint)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigType)!);
             }
         }
 
@@ -74,7 +74,7 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                return (EventLogIsolation)((uint)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigIsolation));
+                return (EventLogIsolation)((uint)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigIsolation)!);
             }
         }
 
@@ -82,7 +82,7 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                return (bool)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigEnabled);
+                return (bool)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigEnabled)!;
             }
             set
             {
@@ -94,7 +94,7 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                return (bool)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigClassicEventlog);
+                return (bool)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelConfigClassicEventlog)!;
             }
         }
 
@@ -126,7 +126,7 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                return (long)((ulong)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigMaxSize));
+                return (long)((ulong)NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigMaxSize)!);
             }
             set
             {
@@ -138,8 +138,8 @@ namespace System.Diagnostics.Eventing.Reader
         {
             get
             {
-                object nativeRetentionObject = NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigRetention);
-                object nativeAutoBackupObject = NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigAutoBackup);
+                object? nativeRetentionObject = NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigRetention);
+                object? nativeAutoBackupObject = NativeWrapper.EvtGetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelLoggingConfigAutoBackup);
 
                 bool nativeRetention = nativeRetentionObject == null ? false : (bool)nativeRetentionObject;
                 bool nativeAutoBackup = nativeAutoBackupObject == null ? false : (bool)nativeAutoBackupObject;
@@ -208,7 +208,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
             set
             {
-                NativeWrapper.EvtSetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelPublishingConfigKeywords, (object)value);
+                NativeWrapper.EvtSetChannelConfigProperty(_handle, UnsafeNativeMethods.EvtChannelConfigPropertyId.EvtChannelPublishingConfigKeywords, (object?)value);
             }
         }
 

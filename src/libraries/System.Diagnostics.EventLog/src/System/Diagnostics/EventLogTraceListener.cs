@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,7 +16,7 @@ namespace System.Diagnostics
         {
         }
 
-        public EventLogTraceListener(EventLog eventLog)
+        public EventLogTraceListener(EventLog? eventLog)
             : base(eventLog != null ? eventLog.Source : string.Empty)
         {
             EventLog = eventLog;
@@ -29,12 +30,13 @@ namespace System.Diagnostics
             };
         }
 
-        public EventLog EventLog
+        public EventLog? EventLog
         {
             get;
             set;
         }
 
+        [AllowNull]
         public override string Name
         {
             get
@@ -73,9 +75,9 @@ namespace System.Diagnostics
             }
         }
 
-        public override void Write(string message) => EventLog?.WriteEntry(message);
+        public override void Write(string? message) => EventLog?.WriteEntry(message);
 
-        public override void WriteLine(string message) => Write(message);
+        public override void WriteLine(string? message) => Write(message);
 
         [ComVisible(false)]
         public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType severity, int id, string format, params object[] args)

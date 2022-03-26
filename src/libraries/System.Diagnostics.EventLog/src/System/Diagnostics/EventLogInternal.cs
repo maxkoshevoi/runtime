@@ -1261,7 +1261,7 @@ namespace System.Diagnostics
                     else
                     {
                         string rightLogName = EventLog.LogNameFromSourceName(sourceName, currentMachineName);
-                        string currentLogName = GetLogName(currentMachineName);
+                        string? currentLogName = GetLogName(currentMachineName);
                         if (rightLogName != null && currentLogName != null && !string.Equals(rightLogName, currentLogName, StringComparison.OrdinalIgnoreCase))
                             throw new ArgumentException(SR.Format(SR.LogSourceMismatch, Source, currentLogName, rightLogName));
                     }
@@ -1278,14 +1278,14 @@ namespace System.Diagnostics
             else
             {
                 string rightLogName = EventLog._InternalLogNameFromSourceName(sourceName, currentMachineName);
-                string currentLogName = GetLogName(currentMachineName);
+                string? currentLogName = GetLogName(currentMachineName);
                 if (rightLogName != null && currentLogName != null && !string.Equals(rightLogName, currentLogName, StringComparison.OrdinalIgnoreCase))
                     throw new ArgumentException(SR.Format(SR.LogSourceMismatch, Source, currentLogName, rightLogName));
             }
             boolFlags[Flag_sourceVerified] = true;
         }
 
-        public void WriteEntry(string message, EventLogEntryType type, int eventID, short category,
+        public void WriteEntry(string? message, EventLogEntryType type, int eventID, short category,
                                byte[]? rawData)
         {
             if (eventID < 0 || eventID > ushort.MaxValue)
@@ -1308,7 +1308,7 @@ namespace System.Diagnostics
             // (message-file driven) logging techniques.
             // Our DLL has 64K different entries; all of them just display the first
             // insertion string.
-            InternalWriteEvent((uint)eventID, (ushort)category, type, new string[] { message }, rawData, currentMachineName);
+            InternalWriteEvent((uint)eventID, (ushort)category, type, new string?[] { message }, rawData, currentMachineName);
         }
 
         public void WriteEvent(EventInstance instance!!, byte[]? data, params object[] values)
@@ -1324,11 +1324,11 @@ namespace System.Diagnostics
 
             VerifyAndCreateSource(Source, currentMachineName);
 
-            string[]? strings = null;
+            string?[]? strings = null;
 
             if (values != null)
             {
-                strings = new string[values.Length];
+                strings = new string?[values.Length];
                 for (int i = 0; i < values.Length; i++)
                 {
                     if (values[i] != null)
@@ -1341,7 +1341,7 @@ namespace System.Diagnostics
             InternalWriteEvent((uint)instance.InstanceId, (ushort)instance.CategoryId, instance.EntryType, strings, data, currentMachineName);
         }
 
-        private void InternalWriteEvent(uint eventID, ushort category, EventLogEntryType type, string[]? strings,
+        private void InternalWriteEvent(uint eventID, ushort category, EventLogEntryType type, string?[]? strings,
                                 byte[]? rawData, string currentMachineName)
         {
             // check arguments
@@ -1357,7 +1357,7 @@ namespace System.Diagnostics
 
                 // make sure the strings aren't too long.  MSDN says each string has a limit of 32k (32768) characters, but
                 // experimentation shows that it doesn't like anything larger than 32766
-                if (strings[i].Length > 32766)
+                if (strings[i]!.Length > 32766) // TODO: Improve nullablity analysis
                     throw new ArgumentException(SR.LogEntryTooLong);
             }
             if (rawData == null)

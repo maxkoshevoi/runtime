@@ -297,7 +297,7 @@ namespace System.Diagnostics.Eventing.Reader
             return handle;
         }
 
-        public static EventLogHandle EvtCreateBookmark(string bookmarkXml)
+        public static EventLogHandle EvtCreateBookmark(string? bookmarkXml)
         {
             EventLogHandle handle = UnsafeNativeMethods.EvtCreateBookmark(bookmarkXml);
             int win32Error = Marshal.GetLastWin32Error();
@@ -582,7 +582,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public static void EvtSetChannelConfigProperty(EventLogHandle handle, UnsafeNativeMethods.EvtChannelConfigPropertyId enumType, object val)
+        public static void EvtSetChannelConfigProperty(EventLogHandle handle, UnsafeNativeMethods.EvtChannelConfigPropertyId enumType, object? val)
         {
             UnsafeNativeMethods.EvtVariant varVal = default;
 

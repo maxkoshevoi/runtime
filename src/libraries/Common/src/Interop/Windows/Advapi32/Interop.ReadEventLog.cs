@@ -15,7 +15,7 @@ internal static partial class Interop
         [LibraryImport(Libraries.Advapi32, EntryPoint = "ReadEventLogW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool ReadEventLog(
-            SafeEventLogReadHandle hEventLog,
+            SafeEventLogReadHandle? hEventLog,
             int dwReadFlags,
             int dwRecordOffset,
             byte[] lpBuffer,

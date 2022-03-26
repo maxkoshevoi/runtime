@@ -21,7 +21,7 @@ namespace System.Diagnostics.Eventing.Reader
 
         // Cached DisplayNames for each instance
         private string _levelName;
-        private string _taskName;
+        private string? _taskName;
         private string _opcodeName;
         private IEnumerable<string> _keywordsNames;
 
@@ -255,7 +255,7 @@ namespace System.Diagnostics.Eventing.Reader
                 {
                     if (_matchedQueryIds == null)
                     {
-                        _matchedQueryIds = (int[])NativeWrapper.EvtGetEventInfo(this.Handle, UnsafeNativeMethods.EvtEventPropertyId.EvtEventQueryIDs);
+                        _matchedQueryIds = (int[])NativeWrapper.EvtGetEventInfo(this.Handle, UnsafeNativeMethods.EvtEventPropertyId.EvtEventQueryIDs)!;
                     }
                     return _matchedQueryIds;
                 }
@@ -379,9 +379,9 @@ namespace System.Diagnostics.Eventing.Reader
             get
             {
                 _session.SetupUserContext();
-                IList<object> properties = NativeWrapper.EvtRenderBufferWithContextUserOrValues(_session.renderContextHandleUser, Handle);
+                IList<object?> properties = NativeWrapper.EvtRenderBufferWithContextUserOrValues(_session.renderContextHandleUser, Handle);
                 List<EventProperty> list = new List<EventProperty>();
-                foreach (object value in properties)
+                foreach (object? value in properties)
                 {
                     list.Add(new EventProperty(value));
                 }
@@ -389,7 +389,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public IList<object> GetPropertyValues(EventLogPropertySelector propertySelector!!)
+        public IList<object?> GetPropertyValues(EventLogPropertySelector propertySelector!!)
         {
             return NativeWrapper.EvtRenderBufferWithContextUserOrValues(propertySelector.Handle, Handle);
         }

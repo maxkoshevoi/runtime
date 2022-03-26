@@ -326,6 +326,7 @@ namespace System.Diagnostics
                         SetSpecialSourceRegValues(sourceLogKey, sourceData);
                     }
 
+                    Debug.Assert(logKey != null);
                     if (logName != source)
                     {
                         if (!createLogKey)
@@ -970,7 +971,7 @@ namespace System.Diagnostics
             return true;
         }
 
-        public void WriteEntry(string message)
+        public void WriteEntry(string? message)
         {
             WriteEntry(message, EventLogEntryType.Information, (short)0, 0, null);
         }
@@ -1018,7 +1019,7 @@ namespace System.Diagnostics
             }
         }
 
-        public void WriteEntry(string message, EventLogEntryType type, int eventID, short category, byte[]? rawData)
+        public void WriteEntry(string? message, EventLogEntryType type, int eventID, short category, byte[]? rawData)
         {
             _underlyingEventLog.WriteEntry(message, type, eventID, category, rawData);
         }

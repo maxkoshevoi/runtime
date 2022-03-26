@@ -9,18 +9,18 @@ namespace System.Diagnostics
 
         private EventSourceCreationData() { }
 
-        public EventSourceCreationData(string source, string logName)
+        public EventSourceCreationData(string source, string? logName)
         {
             Source = source;
             LogName = logName;
         }
 
-        internal EventSourceCreationData(string source, string logName, string machineName) : this(source, logName)
+        internal EventSourceCreationData(string source, string? logName, string machineName) : this(source, logName)
         {
             MachineName = machineName;
         }
 
-        public string LogName { get; set; } = "Application";
+        public string? LogName { get; set; } = "Application";
 
         public string MachineName { get; set; } = ".";
 

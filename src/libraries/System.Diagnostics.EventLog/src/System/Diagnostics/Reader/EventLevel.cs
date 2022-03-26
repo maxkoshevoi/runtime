@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Diagnostics.Eventing.Reader
 {
@@ -11,11 +12,13 @@ namespace System.Diagnostics.Eventing.Reader
     /// </summary>
     public sealed class EventLevel
     {
-        private string _name;
-        private string _displayName;
-        private bool _dataReady;
-        private readonly ProviderMetadata _pmReference;
+        private string? _name;
+        private string? _displayName;
+        private readonly ProviderMetadata? _pmReference;
         private readonly object _syncObject;
+
+        [MemberNotNullWhen(false, nameof(_pmReference))]
+        private bool _dataReady { get; set; }
 
         internal EventLevel(int value, ProviderMetadata pmReference)
         {
@@ -24,7 +27,7 @@ namespace System.Diagnostics.Eventing.Reader
             _syncObject = new object();
         }
 
-        internal EventLevel(string name, int value, string displayName)
+        internal EventLevel(string? name, int value, string displayName)
         {
             Value = value;
             _name = name;
@@ -59,7 +62,7 @@ namespace System.Diagnostics.Eventing.Reader
             }
         }
 
-        public string Name
+        public string? Name
         {
             get
             {
@@ -70,7 +73,7 @@ namespace System.Diagnostics.Eventing.Reader
 
         public int Value { get; }
 
-        public string DisplayName
+        public string? DisplayName
         {
             get
             {
